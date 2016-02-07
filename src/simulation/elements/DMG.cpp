@@ -59,7 +59,7 @@ int Element_DMG::update(UPDATE_FUNC_ARGS)
 				r = pmap[y+ry][x+rx];
 				if (!r)
 					continue;
-				if ((r&0xFF)!=PT_DMG && (r&0xFF)!=PT_EMBR && (r&0xFF)!=PT_DMND && (r&0xFF)!=PT_CLNE && (r&0xFF)!=PT_PCLN && (r&0xFF)!=PT_BCLN)
+				if ((r&0xFF)!=PT_DMG && (r&0xFF)!=PT_EMBR && (r&0xFF)!=PT_DMND && (r&0xFF)!=PT_CLNE && (r&0xFF)!=PT_PCLN && (r&0xFF)!=PT_BCLN && (r&0xFF)!=PT_ADMN && ((r&0xFF)!=PT_SPRK || parts[r>>8].ctype!=PT_ADMN))
 				{
 					sim->kill_part(i);
 					for (nxj=-rad; nxj<=rad; nxj++)

@@ -61,7 +61,8 @@ int Element_GBMB::update(UPDATE_FUNC_ARGS)
 						continue;
 					if((r&0xFF)!=PT_BOMB && (r&0xFF)!=PT_GBMB &&
 					   (r&0xFF)!=PT_CLNE && (r&0xFF)!=PT_PCLN &&
-					   (r&0xFF)!=PT_DMND)
+					   (r&0xFF)!=PT_DMND && (r&0xFF)!=PT_ADMN &&
+						((r&0xFF)!=PT_SPRK || parts[r>>8].ctype!=PT_ADMN))
 					{
 						parts[i].life=60;
 						break;

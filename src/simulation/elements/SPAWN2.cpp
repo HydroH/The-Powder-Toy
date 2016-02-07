@@ -3,10 +3,10 @@
 Element_SPAWN2::Element_SPAWN2()
 {
 	Identifier = "DEFAULT_PT_SPAWN2";
-	Name = "SPWN2";
+	Name = "SPN2";
 	Colour = PIXPACK(0xAAAAAA);
-	MenuVisible = 0;
-	MenuSection = SC_SOLIDS;
+	MenuVisible = 1;
+	MenuSection = SC_CRACKER2;
 	Enabled = 1;
 
 	Advection = 0.0f;

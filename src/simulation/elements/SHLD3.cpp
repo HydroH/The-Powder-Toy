@@ -5,7 +5,7 @@ Element_SHLD3::Element_SHLD3()
 	Identifier = "DEFAULT_PT_SHLD3";
 	Name = "SHD3";
 	Colour = PIXPACK(0x444444);
-	MenuVisible = 0;
+	MenuVisible = 1;
 	MenuSection = SC_CRACKER2;
 	Enabled = 1;
 

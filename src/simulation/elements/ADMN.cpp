@@ -1,17 +1,17 @@
 #include "simulation/Elements.h"
-//#TPT-Directive ElementClass Element_SPAWN PT_SPAWN 118
-Element_SPAWN::Element_SPAWN()
+//#TPT-Directive ElementClass Element_ADMN PT_ADMN 180
+Element_ADMN::Element_ADMN()
 {
-	Identifier = "DEFAULT_PT_SPAWN";
-	Name = "SPWN";
-	Colour = PIXPACK(0xAAAAAA);
+	Identifier = "DEFAULT_PT_ADMN";
+	Name = "ADMN";
+	Colour = PIXPACK(0x8BA8C4);
 	MenuVisible = 1;
-	MenuSection = SC_CRACKER2;
+	MenuSection = SC_ELEC;
 	Enabled = 1;
 
 	Advection = 0.0f;
 	AirDrag = 0.00f * CFDS;
-	AirLoss = 1.00f;
+	AirLoss = 0.90f;
 	Loss = 0.00f;
 	Collision = 0.0f;
 	Gravity = 0.0f;
@@ -21,16 +21,16 @@ Element_SPAWN::Element_SPAWN()
 
 	Flammable = 0;
 	Explosive = 0;
-	Meltable = 0;
+	Meltable = 1;
 	Hardness = 1;
 
 	Weight = 100;
 
-	Temperature = R_TEMP+273.15f;
-	HeatConduct = 0;
-	Description = "STKM spawn point.";
+	Temperature = R_TEMP+0.0f	+273.15f;
+	HeatConduct = 251;
+	Description = "Adamantium. Indestructable metal.";
 
-	Properties = TYPE_SOLID;
+	Properties = TYPE_SOLID|PROP_CONDUCTS|PROP_LIFE_DEC|PROP_HOT_GLOW;
 
 	LowPressure = IPL;
 	LowPressureTransition = NT;
@@ -44,4 +44,4 @@ Element_SPAWN::Element_SPAWN()
 	Update = NULL;
 }
 
-Element_SPAWN::~Element_SPAWN() {}
+Element_ADMN::~Element_ADMN() {}

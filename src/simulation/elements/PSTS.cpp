@@ -5,8 +5,8 @@ Element_PSTS::Element_PSTS()
 	Identifier = "DEFAULT_PT_PSTS";
 	Name = "PSTS";
 	Colour = PIXPACK(0x776677);
-	MenuVisible = 0;
-	MenuSection = SC_CRACKER;
+	MenuVisible = 1;
+	MenuSection = SC_CRACKER2;
 	Enabled = 1;
 
 	Advection = 0.0f;

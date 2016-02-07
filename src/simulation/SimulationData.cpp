@@ -156,10 +156,9 @@ menu_section * LoadMenus(int & menuCount)
 		{"\xC6", "Radioactive", 0, 1},
 		{"\xCC", "Special", 0, 1},
 		{"\xD2", "Game Of Life", 0, 1},
+		{ "\xC8", "Cracker!", 0, 0 },
 		{"\xD7", "Tools", 0, 1},
 		{"\xE4", "Decoration tools", 0, 1},
-		{"\xC8", "Cracker", 0, 0},
-		{"\xC8", "Cracker!", 0, 0},
 	};
 	menuCount = SC_TOTAL;
 	menu_section * msectionsT = (menu_section*)malloc(SC_TOTAL*sizeof(menu_section));

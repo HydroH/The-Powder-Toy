@@ -5,8 +5,8 @@ Element_VRSS::Element_VRSS()
 	Identifier = "DEFAULT_PT_VRSS";
 	Name = "VRSS";
 	Colour = PIXPACK(0xD408CD);
-	MenuVisible = 0;
-	MenuSection = SC_SOLIDS;
+	MenuVisible = 1;
+	MenuSection = SC_CRACKER2;
 	Enabled = 1;
 
 	Advection = 0.0f;

@@ -5,8 +5,8 @@ Element_BRAY::Element_BRAY()
 	Identifier = "DEFAULT_PT_BRAY";
 	Name = "BRAY";
 	Colour = PIXPACK(0xFFFFFF);
-	MenuVisible = 0;
-	MenuSection = SC_ELEC;
+	MenuVisible = 1;
+	MenuSection = SC_CRACKER2;
 	Enabled = 1;
 
 	Advection = 0.0f;

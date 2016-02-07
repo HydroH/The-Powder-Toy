@@ -113,7 +113,7 @@ int Element_CRAY::update(UPDATE_FUNC_ARGS)
 								parts[r>>8].life = 4;
 							} else if ((r&0xFF) == PT_CRAY || nostop) {
 								docontinue = 1;
-							} else if(destroy && r && ((r&0xFF) != PT_DMND)) {
+							} else if(destroy && r && ((r&0xFF)!=PT_DMND) && ((r&0xFF)!=PT_ADMN) && ((r&0xFF)!=PT_SPRK || parts[r>>8].ctype!=PT_ADMN)) {
 								sim->kill_part(r>>8);
 								if(!--partsRemaining)
 									docontinue = 0;

@@ -9,7 +9,7 @@ Element_LIFE::Element_LIFE()
 	Identifier = "DEFAULT_PT_LIFE";
 	Name = "LIFE";
 	Colour = PIXPACK(0x0CAC00);
-	MenuVisible = 0;
+	MenuVisible = 1;
 	MenuSection = SC_LIFE;
 	Enabled = 1;
 

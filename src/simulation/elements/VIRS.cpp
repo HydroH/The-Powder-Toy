@@ -108,7 +108,7 @@ int Element_VIRS::update(UPDATE_FUNC_ARGS)
 					}
 				}
 				//transforms things into virus here
-				else if ((r&0xFF) != PT_VIRS && (r&0xFF) != PT_VRSS && (r&0xFF) != PT_VRSG && (r&0xFF) != PT_DMND)
+				else if ((r&0xFF) != PT_VIRS && (r&0xFF) != PT_VRSS && (r&0xFF) != PT_VRSG && (r&0xFF) != PT_DMND && (r&0xFF)!=PT_ADMN && ((r&0xFF)!=PT_SPRK || parts[r>>8].ctype!=PT_ADMN))
 				{
 					if (!(rndstore & 0x7))
 					{

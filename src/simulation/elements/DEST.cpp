@@ -51,7 +51,7 @@ int Element_DEST::update(UPDATE_FUNC_ARGS)
 	int rx = rand()%5-2;
 	int ry = rand()%5-2;
 	int r = pmap[y+ry][x+rx];
-	if (!r || !BOUNDS_CHECK || (r&0xFF)==PT_DEST || (r&0xFF)==PT_DMND || (r&0xFF)==PT_BCLN  || (r&0xFF)==PT_CLNE  || (r&0xFF)==PT_PCLN  || (r&0xFF)==PT_PBCN)
+	if (!r || !BOUNDS_CHECK || (r&0xFF)==PT_DEST || (r&0xFF)==PT_DMND || (r&0xFF)==PT_BCLN  || (r&0xFF)==PT_CLNE  || (r&0xFF)==PT_PCLN  || (r&0xFF)==PT_PBCN || (r&0xFF)==PT_ADMN || ((r&0xFF)==PT_SPRK && parts[r>>8].ctype==PT_ADMN))
 		return 0;
 
 	if (parts[i].life<=0 || parts[i].life>37)

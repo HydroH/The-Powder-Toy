@@ -5,7 +5,7 @@ Element_VRSG::Element_VRSG()
 	Identifier = "DEFAULT_PT_VRSG";
 	Name = "VRSG";
 	Colour = PIXPACK(0xFE68FE);
-	MenuVisible = 0;
+	MenuVisible = 1;
 	MenuSection = SC_GAS;
 	Enabled = 1;
 

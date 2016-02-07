@@ -5,7 +5,7 @@ Element_DYST::Element_DYST()
 	Identifier = "DEFAULT_PT_DYST";
 	Name = "DYST";
 	Colour = PIXPACK(0xBBB0A0);
-	MenuVisible = 0;
+	MenuVisible = 1;
 	MenuSection = SC_POWDERS;
 	Enabled = 1;
 

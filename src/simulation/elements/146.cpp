@@ -5,7 +5,7 @@ Element_146::Element_146()
 	Identifier = "DEFAULT_PT_146";
 	Name = "BRAN";
 	Colour = PIXPACK(0xCCCC00);
-	MenuVisible = 0;
+	MenuVisible = 1;
 	MenuSection = SC_LIFE;
 	Enabled = 0;
 
