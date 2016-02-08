@@ -109,16 +109,6 @@ int Element_LIGH::update(UPDATE_FUNC_ARGS)
 				case PT_FIRE:
 					parts[r>>8].temp = restrict_flt(parts[r>>8].temp+powderful/10, MIN_TEMP, MAX_TEMP);
 					continue;
-				case PT_SPRK:
-					if (parts[r >> 8].ctype = PT_ADMN) 						
-					{
-						parts[r>>8].temp = restrict_flt(parts[r>>8].temp+powderful/10, MIN_TEMP, MAX_TEMP);
-						continue;
-					}
-					else
-					{
-						break;
-					}
 				case PT_DEUT:
 				case PT_PLUT:
 					parts[r>>8].temp = restrict_flt(parts[r>>8].temp+powderful, MIN_TEMP, MAX_TEMP);
