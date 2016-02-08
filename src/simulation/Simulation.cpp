@@ -2024,6 +2024,8 @@ void Simulation::init_can_move()
 		can_move[movingType][PT_FIGH] = 0;
 		//INVS behaviour varies with pressure
 		can_move[movingType][PT_INVIS] = 3;
+		//DOOR behaviour varies with powered state
+		can_move[movingType][PT_DOOR] = 3;
 		//stop CNCT from being displaced by other particles
 		can_move[movingType][PT_CNCT] = 0;
 		//VOID and PVOD behaviour varies with powered state and ctype
@@ -2129,6 +2131,17 @@ int Simulation::eval_move(int pt, int nx, int ny, unsigned *rr)
 				result = 2;
 			else
 				result = 0;
+		}
+		else if ((r&0xFF) == PT_DOOR)
+		{
+			if (parts[r>>8].life == 10)
+			{
+				if (!parts[r>>8].ctype || (parts[r>>8].ctype==pt)!=(parts[r>>8].tmp&1))
+					result = 2;
+				else
+					result = 0;
+			}
+			else result = 0;
 		}
 		else if ((r&0xFF) == PT_PVOD)
 		{
@@ -4849,7 +4862,7 @@ void Simulation::BeforeSim()
 				{
 					// Particles are sometimes allowed to go inside INVS and FILT
 					// To make particles collide correctly when inside these elements, these elements must not overwrite an existing pmap entry from particles inside them
-					if (!pmap[y][x] || (t!=PT_INVIS && t!= PT_FILT))
+					if (!pmap[y][x] || (t!=PT_INVIS && t!= PT_FILT && t!= PT_DOOR))
 						pmap[y][x] = t|(i<<8);
 					// (there are a few exceptions, including energy particles - currently no limit on stacking those)
 					if (t!=PT_THDR && t!=PT_EMBR && t!=PT_FIGH && t!=PT_PLSM)
