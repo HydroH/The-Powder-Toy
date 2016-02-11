@@ -24,12 +24,8 @@ Makefile.me
 .DS_Store
 *.plist
 *.lproj
-*.vcxproj*
 *.opensdf
 *.sdf
-*.user
-*.filter
-*.sln
 *.suo
 *.manifest
 *.manifest.res
