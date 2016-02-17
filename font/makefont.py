@@ -15,7 +15,7 @@ def open_file(filename, mode='r'):
 
 
 # Remain only Chinese characters with regex
-lang_str = open_file('../data/Lang_CN.h', 'r').read().decode("UTF-8")
+lang_str = open_file('../data/Lang.h', 'r').read().decode("UTF-8")
 lang_str = re.sub(ur"[^\u4e00-\u9fa5]", "", lang_str)
 
 # Deduplication
