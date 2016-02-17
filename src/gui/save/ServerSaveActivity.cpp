@@ -282,48 +282,16 @@ void ServerSaveActivity::Exit()
 	WindowActivity::Exit();
 }
 
-void ServerSaveActivity::ShowPublishingInfo() //TODO: Chinese!
+void ServerSaveActivity::ShowPublishingInfo() 
 {
-	const wchar_t *info =
-		L"In The Powder Toy, one can save simulations to their account in two privacy levels: Published and unpublished. You can choose which one by checking or unchecking the 'publish' checkbox. Saves are unpublished by default, so if you do not check publish nobody will be able to see your saves.\n"
-		"\n"
-		"\btPublished saves\bw will appear on the 'By Date' feed and will be seen by many people. These saves also contribute to your Average Score, which is displayed publicly on your profile page on the website. Publish saves that you want people to see so they can comment and vote on.\n"
-		"\btUnpublished saves\bw will not be shown on the 'By Date' feed. These will not contribute to your Average Score. They are not completely private though, as anyone who knows the save id will be able to view it. You can give the save id out to show specific people the save but not allow just everyone to see it.\n"
-		"\n"
-		"To quickly resave a save, open it and click the left side of the split resave button to \bt'Reupload the current simulation'\bw. If you want to change the description or change the published status, you can click the right side to \bt'Modify simulation properties'\bw. Note that you can't change the name of saves; this will create an entirely new save with no comments, votes, or tags; separate from the original.\n"
-		"You may want to publish an unpublished save after it is finished, or to unpublish some currently published ones. You can do this by opening the save, selecting the 'Modify simulation properties' button, and changing the published status there. You can also \btunpublish or delete saves\bw by selecting them in the 'my own' section of the browser and clicking either one of the buttons that appear on bottom.\n"
-		"If a save is under a week old and gains popularity fast, it will be automatically placed on the \btfront page\bw. Only published saves will be able to get here. Moderators can also choose to promote any save onto the front page, but this happens rarely. They can also demote any save from the front page that breaks a rule or they feel doesn't belong.\n"
-		"Once you make a save, you can resave it as many times as you want. A short previous \btsave history\bw is saved, just right click any save in the save browser and select 'View History' to view it. This is useful for when you accidentally save something you didn't mean to and want to go back to the old version.\n"
-		;
+	const wchar_t *info = TEXT_BLOCK_PUBLISH_INFO;
 
 	new InformationMessage(TEXT_GUI_SAVE_WIN_PUBLISH_INFO_TITLE, info, true);
 }
 
 void ServerSaveActivity::ShowRules()
 {
-	const wchar_t *rules =
-		L"These are the rules you should follow when uploading saves to avoid having them deleted or otherwise hidden from public view. If you fail to follow them, don't be surprised if your saves get lousy votes, unpublished, or removed from the front page should they make it there. These rules may change at any time as new problems arise, and how each rule is handled changes depending on the situation.\n"
-		"\n"
-		"\bt1. No image plotting.\bw If you use a program to draw out pixels from an image outside of TPT without drawing it by hand, don't be surprised when the save gets deleted and you get banned.\n"
-		"\bt2. No self voting.\bw This means making more than one account, and then using that account to vote on any save multiple times. We can see this stuff, and people get banned for doing it. Don't do it.\n"
-		"\bt3. No hate saves.\bw This means things like shooting Jews or killing Bieber; these are not allowed.\n"
-		"\bt4. No penis drawings.\bw Or any other explicit or non-explicit sex please. We like to think this is a game that people can play with their family around. Don't post anything too inappropriate.\n"
-		"\bt5. Don't ask people to vote.\bw If your stuff is awesome, you shouldn't have to beg for popularity to get votes. Do not have anything relating to or mentioning votes inside the actual save.\n"
-		   "- This includes vote signs in the game, drawings of vote arrows, or almost any mention of voting in the save. If you want to thank people for the votes they have given, that can be a small note in the description or comments, but don't make it excessive either. Testing this rule to see how far you can go is a bad idea and may get your save unpublished.\n"
-		   "- Gimmicks for getting votes like \"100 votes and I'll make a better version\" are similarly frowned upon.\n"
-		"\bt6. Keep the number of logos and signs to a minimum.\bw They not only slow the game down, but can also make saves unappealing for people to use. \n"
-		   "- If you link to more then 3 unrelated saves using link signs, this is just too much advertising, and the save will probably be removed from the front page if it gets there.\n"
-		   "- Please do not make fake update signs or similar fake notification signs either.\n"
-		"\bt7. Please don't swear excessively.\bw Saves containing excessive swearing or rude language will be unpublished. Don't make rude or offensive comments either.\n"
-		"\bt8. Don't make text-only saves.\bw Saves are much better when they actually use some of the features in the game. Text-only saves will be removed from the front page should they ever get there.\n"
-		   "- Also, element suggestion saves will be removed from the front page. It's recommended that you make a thread on the forum instead so you can get actual criticism from developers and other users.\n"
-		   "- This is also related to art on the front page. Art saves that only rely on the deco layer are generally removed. Art using elements may stay longer if it's more impressive.\n"
-		"\bt9. Don't claim others' work as your own.\bw If you didn't make it, don't resave it for yourself. You can favorite a save instead of publishing a copy if you want to see it later.\n"
-		   "- This doesn't mean you can't modify or improve saves; building on the works of others is encouraged. If you give credit to the original author, it is usually OK to resave unless the author specifically prohibits it.\n"
-		"\bt10. Don't make laggy saves.\bw If a save is so laggy that it crashes the game for some people, it's just really annoying. Saves that do make it to the front page that purposely lag the game will be demoted.\n"
-		"\n"
-		"You can report a save breaking any one of these rules, as the moderators are busy in real life too and don't always have the time to search through all saves for these kinds of things. If reporting a copied save, put the save ID of the save it was stolen from in the report.";
-
+	const wchar_t *rules = TEXT_BLOCK_SAVE_RULES;
 	new InformationMessage(TEXT_GUI_SAVE_WIN_UPLOAD_RULE_TITLE, rules, true);
 }
 
