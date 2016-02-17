@@ -75,7 +75,7 @@ AddSconsOption('lua52', False, False, "Compile using lua 5.2")
 AddSconsOption('nofft', False, False, "Disable FFT.")
 AddSconsOption("output", False, True, "Executable output name.")
 
-AddSconsOption("zhcn", False, False, "Essential flags for Chinese version.")
+AddSconsOption("global", False, False, "Essential flags for Chinese version.")
 
 
 #detect platform automatically, but it can be overrided
@@ -182,7 +182,7 @@ if GetOption("msvc"):
 		env.Append(LIBPATH=['Libraries/'])
 	env.Append(CPPPATH=['includes/'])
 	
-if GetOption("zhcn"):
+if GetOption("global"):
 	env.Append(CPPPATH = "C:/Boost/boost_1_60_0/")
 	env.Append(CCFLAGS=['-finput-charset=UTF-8'])
 	
@@ -544,14 +544,14 @@ if GetOption('output'):
 	programName = GetOption('output')
 else:
 	programName = GetOption('renderer') and "render" or "powder"
-	if GetOption('zhcn'):
-		programName = "TPT-cn"
+	if GetOption('global'):
+		programName = "TPT-Global"
 	if "BIT" in env and env["BIT"] == 64:
 		programName += "64"
 	if isX86 and GetOption('no-sse'):
 		programName += "-legacy"
 	if platform == "Windows":
-		if not GetOption('zhcn'):
+		if not GetOption('global'):
 			programName = programName.capitalize()
 		programName += ".exe"
 	elif platform == "Darwin":
