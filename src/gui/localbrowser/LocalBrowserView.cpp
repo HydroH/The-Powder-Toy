@@ -43,7 +43,7 @@ LocalBrowserView::LocalBrowserView():
 	pageTextbox = new ui::Textbox(ui::Point(283, WINDOWH-18), ui::Point(41, 16), "");
 	pageTextbox->SetActionCallback(new PageNumAction(this));
 	pageTextbox->SetInputType(ui::Textbox::Number);
-	pageLabel = new ui::Label(ui::Point(0, WINDOWH-18), ui::Point(30, 16), TEXT_GUI_LOCAL_BROWSE_LABEL_PAGE); //page [TEXTBOX] of y
+	pageLabel = new ui::Label(ui::Point(0, WINDOWH-18), ui::Point(30, 16), TEXT_GUI_LOCAL_BROWSE_LABEL_PAGE1); //page [TEXTBOX] of y
 	pageLabel->Appearance.HorizontalAlign = ui::Appearance::AlignRight;
 	pageCountLabel = new ui::Label(ui::Point(WINDOWW/2+6, WINDOWH-18), ui::Point(50, 16), "");
 	pageCountLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
@@ -142,8 +142,8 @@ void LocalBrowserView::NotifyPageChanged(LocalBrowserModel * sender)
 	}
 	else
 	{
-		std::stringstream pageInfo;
-		pageInfo << "of " << pageCount;
+		std::wstringstream pageInfo;
+		pageInfo << TEXT_GUI_LOCAL_BROWSE_LABEL_PAGE2 << pageCount << TEXT_GUI_LOCAL_BROWSE_LABEL_PAGE3;
 		pageCountLabel->SetText(pageInfo.str());
 		int width = Graphics::textwidth(pageInfo.str().c_str());
 
@@ -153,7 +153,7 @@ void LocalBrowserView::NotifyPageChanged(LocalBrowserModel * sender)
 		//pageCountLabel->Position.X = WINDOWW/2+6;
 		pageLabel->Visible = pageCountLabel->Visible = pageTextbox->Visible = true;
 
-		pageInfo.str("");
+		pageInfo.str(L"");
 		pageInfo << sender->GetPageNum();
 		pageTextbox->SetText(pageInfo.str());
 	}

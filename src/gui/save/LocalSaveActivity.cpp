@@ -10,6 +10,8 @@
 #include "client/GameSave.h"
 #include "gui/Style.h"
 #include "images.h"
+#include "Format.h"
+#include "Lang.h"
 
 class LocalSaveActivity::CancelAction: public ui::ButtonAction
 {
@@ -39,19 +41,19 @@ LocalSaveActivity::LocalSaveActivity(SaveFile save, FileSavedCallback * callback
 	thumbnail(NULL),
 	callback(callback)
 {
-	ui::Label * titleLabel = new ui::Label(ui::Point(4, 5), ui::Point(Size.X-8, 16), "Save to computer:");
+	ui::Label * titleLabel = new ui::Label(ui::Point(4, 5), ui::Point(Size.X-8, 16), TEXT_GUI_SAVE_LOCAL_TITLE);
 	titleLabel->SetTextColour(style::Colour::InformationTitle);
 	titleLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	titleLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(titleLabel);
 
-	filenameField = new ui::Textbox(ui::Point(8, 25), ui::Point(Size.X-16, 16), save.GetDisplayName(), "[filename]");
+	filenameField = new ui::Textbox(ui::Point(8, 25), ui::Point(Size.X-16, 16), format::StringToWString(save.GetDisplayName()), TEXT_GUI_SAVE_LOCAL_NAME_TBOX_HOLDER);
 	filenameField->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	filenameField->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	AddComponent(filenameField);
 	FocusComponent(filenameField);
 
-	ui::Button * cancelButton = new ui::Button(ui::Point(0, Size.Y-16), ui::Point(Size.X-75, 16), "Cancel");
+	ui::Button * cancelButton = new ui::Button(ui::Point(0, Size.Y-16), ui::Point(Size.X-75, 16), TEXT_GUI_SAVE_LOCAL_BTN_CANCEL);
 	cancelButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	cancelButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	cancelButton->Appearance.BorderInactive = ui::Colour(200, 200, 200);
@@ -59,7 +61,7 @@ LocalSaveActivity::LocalSaveActivity(SaveFile save, FileSavedCallback * callback
 	AddComponent(cancelButton);
 	SetCancelButton(cancelButton);
 
-	ui::Button * okayButton = new ui::Button(ui::Point(Size.X-76, Size.Y-16), ui::Point(76, 16), "Save");
+	ui::Button * okayButton = new ui::Button(ui::Point(Size.X-76, Size.Y-16), ui::Point(76, 16), TEXT_GUI_SAVE_LOCAL_BTN_SAVE);
 	okayButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	okayButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	okayButton->Appearance.TextInactive = style::Colour::InformationTitle;
@@ -94,7 +96,7 @@ void LocalSaveActivity::Save()
 		save.SetFileName(finalFilename);
 		if(Client::Ref().FileExists(finalFilename))
 		{
-			new ConfirmPrompt("Overwrite file", "Are you sure you wish to overwrite\n"+finalFilename, new FileOverwriteConfirmation(this, finalFilename));
+			new ConfirmPrompt(TEXT_GUI_SAVE_LOCAL_WRITE_CONF_TITLE, TEXT_GUI_SAVE_LOCAL_WRITE_CONF_MSG+format::StringToWString(finalFilename), new FileOverwriteConfirmation(this, finalFilename));
 		}
 		else
 		{
@@ -103,7 +105,7 @@ void LocalSaveActivity::Save()
 	}
 	else
 	{
-		new ErrorMessage("Error", "You must specify a filename.");
+		new ErrorMessage(TEXT_GUI_SAVE_LOCAL_NAME_ERR_TITLE, TEXT_GUI_SAVE_LOCAL_NAME_ERR_MSG);
 	}
 }
 
@@ -111,7 +113,7 @@ void LocalSaveActivity::saveWrite(std::string finalFilename)
 {
 	Client::Ref().MakeDirectory(LOCAL_SAVE_DIR);
 	if (Client::Ref().WriteFile(save.GetGameSave()->Serialise(), finalFilename))
-		new ErrorMessage("Error", "Unable to write save file.");
+		new ErrorMessage(TEXT_GUI_SAVE_LOCAL_WRITE_ERR_TITLE, TEXT_GUI_SAVE_LOCAL_WRITE_ERR_MSG);
 	else
 	{
 		callback->FileSaved(&save);

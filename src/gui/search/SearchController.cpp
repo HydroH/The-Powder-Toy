@@ -11,6 +11,7 @@
 #include "Platform.h"
 #include "tasks/Task.h"
 #include "tasks/TaskWindow.h"
+#include "Lang.h"
 
 class SearchController::OpenCallback: public ControllerCallback
 {
@@ -281,7 +282,7 @@ void SearchController::removeSelectedC()
 	};
 
 	std::vector<int> selected = searchModel->GetSelected();
-	new TaskWindow("Removing saves", new RemoveSavesTask(selected, this));
+	new TaskWindow(TEXT_GUI_SEARCH_REMOVE_WIN_TITLE, new RemoveSavesTask(selected, this));
 	ClearSelection();
 	searchModel->UpdateSaveList(searchModel->GetPageNum(), searchModel->GetLastQuery());
 }
@@ -300,12 +301,12 @@ void SearchController::UnpublishSelected(bool publish)
 		virtual ~UnpublishSelectedConfirmation() { }
 	};
 
-	std::stringstream desc;
-	desc << "Are you sure you want to " << (publish ? "publish " : "unpublish ") << searchModel->GetSelected().size() << " save";
+	std::wstringstream desc;
+	desc << TEXT_GUI_SEARCH_PUB_UNPUB_CONF_MSG1 << (publish ? TEXT_GUI_SEARCH_PUB_CONF_MSG2 : TEXT_GUI_SEARCH_UNPUB_CONF_MSG2) << searchModel->GetSelected().size() << TEXT_GUI_SEARCH_PUB_UNPUB_CONF_MSG3;
 	if (searchModel->GetSelected().size() > 1)
-		desc << "s";
-	desc << "?";
-	new ConfirmPrompt((publish ? "Publish Saves" : "Unpublish Saves"), desc.str(), new UnpublishSelectedConfirmation(this, publish));
+		desc << TEXT_GUI_SEARCH_PUB_UNPUB_CONF_MSG_MULTI;
+	desc << L"?";
+	new ConfirmPrompt((publish ? TEXT_GUI_SEARCH_PUB_CONF_TITLE : TEXT_GUI_SEARCH_UNPUB_CONF_TITLE), desc.str(), new UnpublishSelectedConfirmation(this, publish));
 }
 
 void SearchController::unpublishSelectedC(bool publish)
@@ -321,7 +322,7 @@ void SearchController::unpublishSelectedC(bool publish)
 		bool PublishSave(int saveID)
 		{
 			std::stringstream message;
-			message << "Publishing save [" << saveID << "]";
+			message << "Publishing save [" << saveID << "]"; //TODO: Chinese?
 			notifyStatus(message.str());
 			if (Client::Ref().PublishSave(saveID) != RequestOkay)
 				return false;
@@ -366,7 +367,7 @@ void SearchController::unpublishSelectedC(bool publish)
 	};
 
 	std::vector<int> selected = searchModel->GetSelected();
-	new TaskWindow((publish ? "Publishing Saves" : "Unpublishing Saves"), new UnpublishSavesTask(selected, this, publish));
+	new TaskWindow((publish ? TEXT_GUI_SEARCH_PUB_WIN_TITLE : TEXT_GUI_SEARCH_UNPUB_WIN_TITLE), new UnpublishSavesTask(selected, this, publish));
 }
 
 void SearchController::FavouriteSelected()
@@ -423,8 +424,8 @@ void SearchController::FavouriteSelected()
 
 	std::vector<int> selected = searchModel->GetSelected();
 	if (!searchModel->GetShowFavourite())
-		new TaskWindow("Favouring saves", new FavouriteSavesTask(selected));
+		new TaskWindow(TEXT_GUI_SEARCH_FAV_WIN_TITLE, new FavouriteSavesTask(selected));
 	else
-		new TaskWindow("Unfavouring saves", new UnfavouriteSavesTask(selected));
+		new TaskWindow(TEXT_GUI_SEARCH_UNFAV_WIN_TITLE, new UnfavouriteSavesTask(selected));
 	ClearSelection();
 }

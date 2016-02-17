@@ -13,6 +13,8 @@
 #include "gui/Style.h"
 #include "client/GameSave.h"
 #include "images.h"
+#include "Format.h"
+#include "Lang.h"
 
 class ServerSaveActivity::CancelAction: public ui::ButtonAction
 {
@@ -115,27 +117,27 @@ ServerSaveActivity::ServerSaveActivity(SaveInfo save, ServerSaveActivity::SaveUp
 	AddComponent(titleLabel);
 	CheckName(save.GetName()); //set titleLabel text
 
-	ui::Label * previewLabel = new ui::Label(ui::Point((Size.X/2)+4, 5), ui::Point((Size.X/2)-8, 16), "Preview:");
+	ui::Label * previewLabel = new ui::Label(ui::Point((Size.X/2)+4, 5), ui::Point((Size.X/2)-8, 16), TEXT_GUI_SAVE_WIN_PREVIEW_LABEL);
 	previewLabel->SetTextColour(style::Colour::InformationTitle);
 	previewLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	previewLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(previewLabel);
 
-	nameField = new ui::Textbox(ui::Point(8, 25), ui::Point((Size.X/2)-16, 16), save.GetName(), "[save name]");
+	nameField = new ui::Textbox(ui::Point(8, 25), ui::Point((Size.X/2)-16, 16), format::StringToWString(save.GetName()), TEXT_GUI_SAVE_WIN_NAME_TBOX_HOLDER);
 	nameField->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	nameField->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	nameField->SetActionCallback(new NameChangedAction(this));
 	AddComponent(nameField);
 	FocusComponent(nameField);
 
-	descriptionField = new ui::Textbox(ui::Point(8, 65), ui::Point((Size.X/2)-16, Size.Y-(65+16+4)), save.GetDescription(), "[save description]");
+	descriptionField = new ui::Textbox(ui::Point(8, 65), ui::Point((Size.X/2)-16, Size.Y-(65+16+4)), format::StringToWString(save.GetDescription()), TEXT_GUI_SAVE_WIN_DESC_TBOX_HOLDER);
 	descriptionField->SetMultiline(true);
 	descriptionField->SetLimit(254);
 	descriptionField->Appearance.VerticalAlign = ui::Appearance::AlignTop;
 	descriptionField->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	AddComponent(descriptionField);
 
-	publishedCheckbox = new ui::Checkbox(ui::Point(8, 45), ui::Point((Size.X/2)-80, 16), "Publish", L"");
+	publishedCheckbox = new ui::Checkbox(ui::Point(8, 45), ui::Point((Size.X/2)-80, 16), TEXT_GUI_SAVE_WIN_PUBLISH_CHECK, L"");
 	if(Client::Ref().GetAuthUser().Username != save.GetUserName())
 	{
 		//Save is not owned by the user, disable by default
@@ -148,11 +150,11 @@ ServerSaveActivity::ServerSaveActivity(SaveInfo save, ServerSaveActivity::SaveUp
 	}
 	AddComponent(publishedCheckbox);
 
-	pausedCheckbox = new ui::Checkbox(ui::Point(160, 45), ui::Point(55, 16), "Paused", L"");
+	pausedCheckbox = new ui::Checkbox(ui::Point(160, 45), ui::Point(55, 16), TEXT_GUI_SAVE_WIN_PAUSE_CHECK, L"");
 	pausedCheckbox->SetChecked(save.GetGameSave()->paused);
 	AddComponent(pausedCheckbox);
 
-	ui::Button * cancelButton = new ui::Button(ui::Point(0, Size.Y-16), ui::Point((Size.X/2)-75, 16), "Cancel");
+	ui::Button * cancelButton = new ui::Button(ui::Point(0, Size.Y-16), ui::Point((Size.X/2)-75, 16), TEXT_GUI_SAVE_WIN_BTN_CANCEL);
 	cancelButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	cancelButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	cancelButton->Appearance.BorderInactive = ui::Colour(200, 200, 200);
@@ -160,7 +162,7 @@ ServerSaveActivity::ServerSaveActivity(SaveInfo save, ServerSaveActivity::SaveUp
 	AddComponent(cancelButton);
 	SetCancelButton(cancelButton);
 
-	ui::Button * okayButton = new ui::Button(ui::Point((Size.X/2)-76, Size.Y-16), ui::Point(76, 16), "Save");
+	ui::Button * okayButton = new ui::Button(ui::Point((Size.X/2)-76, Size.Y-16), ui::Point(76, 16), TEXT_GUI_SAVE_WIN_BTN_SAVE);
 	okayButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	okayButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	okayButton->Appearance.TextInactive = style::Colour::InformationTitle;
@@ -168,14 +170,14 @@ ServerSaveActivity::ServerSaveActivity(SaveInfo save, ServerSaveActivity::SaveUp
 	AddComponent(okayButton);
 	SetOkayButton(okayButton);
 
-	ui::Button * PublishingInfoButton = new ui::Button(ui::Point((Size.X*3/4)-75, Size.Y-42), ui::Point(150, 16), "Publishing Info");
+	ui::Button * PublishingInfoButton = new ui::Button(ui::Point((Size.X*3/4)-75, Size.Y-42), ui::Point(150, 16), TEXT_GUI_SAVE_WIN_BTN_INFO);
 	PublishingInfoButton->Appearance.HorizontalAlign = ui::Appearance::AlignCentre;
 	PublishingInfoButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	PublishingInfoButton->Appearance.TextInactive = style::Colour::InformationTitle;
 	PublishingInfoButton->SetActionCallback(new PublishingAction(this));
 	AddComponent(PublishingInfoButton);
 
-	ui::Button * RulesButton = new ui::Button(ui::Point((Size.X*3/4)-75, Size.Y-22), ui::Point(150, 16), "Save Uploading Rules");
+	ui::Button * RulesButton = new ui::Button(ui::Point((Size.X*3/4)-75, Size.Y-22), ui::Point(150, 16), TEXT_GUI_SAVE_WIN_BTN_RULE);
 	RulesButton->Appearance.HorizontalAlign = ui::Appearance::AlignCentre;
 	RulesButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	RulesButton->Appearance.TextInactive = style::Colour::InformationTitle;
@@ -193,7 +195,7 @@ ServerSaveActivity::ServerSaveActivity(SaveInfo save, bool saveNow, ServerSaveAc
 	callback(callback),
 	saveUploadTask(NULL)
 {
-	ui::Label * titleLabel = new ui::Label(ui::Point(0, 0), Size, "Saving to server...");
+	ui::Label * titleLabel = new ui::Label(ui::Point(0, 0), Size, TEXT_GUI_SAVE_WIN_SAVING_INFO);
 	titleLabel->SetTextColour(style::Colour::InformationTitle);
 	titleLabel->Appearance.HorizontalAlign = ui::Appearance::AlignCentre;
 	titleLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
@@ -241,7 +243,7 @@ void ServerSaveActivity::Save()
 	{
 		if(Client::Ref().GetAuthUser().Username != save.GetUserName() && publishedCheckbox->GetChecked())
 		{
-			new ConfirmPrompt("Publish", "This save was created by " + save.GetUserName() + ", you're about to publish this under your own name; If you haven't been given permission by the author to do so, please uncheck the publish box, otherwise continue", new PublishConfirmation(this));
+			new ConfirmPrompt(TEXT_GUI_SAVE_WIN_PUB_CONF_TITLE, TEXT_GUI_SAVE_WIN_PUB_CONF_MSG1 + format::StringToWString(save.GetUserName()) + TEXT_GUI_SAVE_WIN_PUB_CONF_MSG2, new PublishConfirmation(this));
 		}
 		else
 		{
@@ -251,7 +253,7 @@ void ServerSaveActivity::Save()
 	}
 	else
 	{
-		new ErrorMessage("Error", "You must specify a save name.");
+		new ErrorMessage(TEXT_GUI_SAVE_WIN_NAME_ERR_TITLE, TEXT_GUI_SAVE_WIN_NAME_ERR_MSG);
 	}
 }
 
@@ -266,7 +268,7 @@ void ServerSaveActivity::saveUpload()
 
 	if(Client::Ref().UploadSave(save) != RequestOkay)
 	{
-		new ErrorMessage("Error", "Upload failed with error:\n"+Client::Ref().GetLastError());
+		new ErrorMessage(TEXT_GUI_SAVE_WIN_UPLOAD_ERR_TITLE, TEXT_GUI_SAVE_WIN_UPLOAD_ERR_MSG+format::StringToWString(Client::Ref().GetLastError())); //TODO: Chinese?
 	}
 	else if(callback)
 	{
@@ -280,10 +282,10 @@ void ServerSaveActivity::Exit()
 	WindowActivity::Exit();
 }
 
-void ServerSaveActivity::ShowPublishingInfo()
+void ServerSaveActivity::ShowPublishingInfo() //TODO: Chinese!
 {
-	const char *info =
-		"In The Powder Toy, one can save simulations to their account in two privacy levels: Published and unpublished. You can choose which one by checking or unchecking the 'publish' checkbox. Saves are unpublished by default, so if you do not check publish nobody will be able to see your saves.\n"
+	const wchar_t *info =
+		L"In The Powder Toy, one can save simulations to their account in two privacy levels: Published and unpublished. You can choose which one by checking or unchecking the 'publish' checkbox. Saves are unpublished by default, so if you do not check publish nobody will be able to see your saves.\n"
 		"\n"
 		"\btPublished saves\bw will appear on the 'By Date' feed and will be seen by many people. These saves also contribute to your Average Score, which is displayed publicly on your profile page on the website. Publish saves that you want people to see so they can comment and vote on.\n"
 		"\btUnpublished saves\bw will not be shown on the 'By Date' feed. These will not contribute to your Average Score. They are not completely private though, as anyone who knows the save id will be able to view it. You can give the save id out to show specific people the save but not allow just everyone to see it.\n"
@@ -294,13 +296,13 @@ void ServerSaveActivity::ShowPublishingInfo()
 		"Once you make a save, you can resave it as many times as you want. A short previous \btsave history\bw is saved, just right click any save in the save browser and select 'View History' to view it. This is useful for when you accidentally save something you didn't mean to and want to go back to the old version.\n"
 		;
 
-	new InformationMessage("Publishing Info", info, true);
+	new InformationMessage(TEXT_GUI_SAVE_WIN_PUBLISH_INFO_TITLE, info, true);
 }
 
 void ServerSaveActivity::ShowRules()
 {
-	const char *rules =
-		"These are the rules you should follow when uploading saves to avoid having them deleted or otherwise hidden from public view. If you fail to follow them, don't be surprised if your saves get lousy votes, unpublished, or removed from the front page should they make it there. These rules may change at any time as new problems arise, and how each rule is handled changes depending on the situation.\n"
+	const wchar_t *rules =
+		L"These are the rules you should follow when uploading saves to avoid having them deleted or otherwise hidden from public view. If you fail to follow them, don't be surprised if your saves get lousy votes, unpublished, or removed from the front page should they make it there. These rules may change at any time as new problems arise, and how each rule is handled changes depending on the situation.\n"
 		"\n"
 		"\bt1. No image plotting.\bw If you use a program to draw out pixels from an image outside of TPT without drawing it by hand, don't be surprised when the save gets deleted and you get banned.\n"
 		"\bt2. No self voting.\bw This means making more than one account, and then using that account to vote on any save multiple times. We can see this stuff, and people get banned for doing it. Don't do it.\n"
@@ -322,15 +324,15 @@ void ServerSaveActivity::ShowRules()
 		"\n"
 		"You can report a save breaking any one of these rules, as the moderators are busy in real life too and don't always have the time to search through all saves for these kinds of things. If reporting a copied save, put the save ID of the save it was stolen from in the report.";
 
-	new InformationMessage("Save Uploading Rules", rules, true);
+	new InformationMessage(TEXT_GUI_SAVE_WIN_UPLOAD_RULE_TITLE, rules, true);
 }
 
 void ServerSaveActivity::CheckName(std::string newname)
 {
 	if (newname.length() && newname == save.GetName() && save.GetUserName() == Client::Ref().GetAuthUser().Username)
-		titleLabel->SetText("Modify simulation properties:");
+		titleLabel->SetText(TEXT_GUI_SAVE_WIN_MODIFY_SAVE_TITLE);
 	else
-		titleLabel->SetText("Upload new simulation:");
+		titleLabel->SetText(TEXT_GUI_SAVE_WIN_NEW_SAVE_TITLE);
 }
 
 void ServerSaveActivity::OnTick(float dt)
