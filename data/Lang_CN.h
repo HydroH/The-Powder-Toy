@@ -780,7 +780,7 @@
 	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powder\n" \
 	"\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\n" \
 	"\n" \
-	"\bg\bgCtrl+C/V/X 复制，粘贴，剪切\n" \
+	"\bg\bgCtrl+C/V/X 复制,粘贴,剪切\n" \
 	"\bg鼠标移至右侧元素栏中某一个类别可以显示该类下的所有元素\n" \
 	"\bg利用鼠标左/右键点选你需要的元素\n" \
 	"使用鼠标左/右键绘制\n" \
@@ -790,18 +790,18 @@
 	"利用鼠标滚轮或'['、']'键调整笔刷大小\n" \
 	"点击鼠标中键或按住Alt键以使用吸管工具\n" \
 	"Ctrl+Z 撤销\n" \
-	"\n\bo按住‘Z’键打开放大镜工具，利用鼠标滚轮调整放大倍数，鼠标左键单击可以固定放大区域，你可以直接在放大镜上绘制。\n" \
-	"按下空格键以暂停，按下‘F’可以帧进\n" \
-	"按下S键选择区域保存到剪贴板。按下L键加载最近保存的对象。按下K键浏览你的剪贴板\n" \
-	"按下P键截图，截图将被保存到游戏根目录下\n" \
-	"按下H键打开/关闭HUD显示。按下D键打开/关闭调试模式\n" \
+	"\n\bo按住‘Z’键打开放大镜工具,利用鼠标滚轮调整放大倍数,鼠标左键单击可以固定放大区域,你可以直接在放大镜上绘制.\n" \
+	"按下空格键以暂停,按下‘F’可以帧进\n" \
+	"按下S键选择区域保存到剪贴板.按下L键加载最近保存的对象.按下K键浏览你的剪贴板\n" \
+	"按下P键截图,截图将被保存到游戏根目录下\n" \
+	"按下H键打开/关闭HUD显示.按下D键打开/关闭调试模式\n" \
 	"\n" \
-	"原作者： \bgStanislaw K Skowronek (Designed the original Powder Toy),\n" \
+	"原作者: \bgStanislaw K Skowronek (Designed the original Powder Toy),\n" \
 	"\bgSimon Robertshaw, Skresanov Savely, cracker64, Catelite, Bryan Hoyle, Nathan Cousins, jacksonmj,\n" \
 	"\bgFelix Wallin, Lieuwe Mosch, Anthony Boot, Matthew \"me4502\", MaksProg, jacob1, mniip\n" \
 	"\n" 
-#define TEXT_BLOCK_INTRO_STABLE "\bg某些联网功能需要注册账号，转到： \brhttp://powdertoy.co.uk/Register.html了解更多\n"
-#define TEXT_BLOCK_INTRO_BETA "\br当前使用的是测试版本，如果你需要上传存档，请使用正式版本\n"
+#define TEXT_BLOCK_INTRO_STABLE "\bg某些联网功能需要注册账号,转到: \brhttp://powdertoy.co.uk/Register.html了解更多\n"
+#define TEXT_BLOCK_INTRO_BETA "\br当前使用的是测试版本,如果你需要上传存档,请使用正式版本\n"
 #define TEXT_BLOCK_INTRO_SNAPSHOT "快照 "
 #define TEXT_BLOCK_INTRO_LUACONSOLE "LUACONSOLE "
 #define TEXT_BLOCK_INTRO_GRAVFFT "GRAVFFT "
@@ -809,36 +809,36 @@
 
 //Publishing info.
 #define TEXT_BLOCK_PUBLISH_INFO \
-		L"In The Powder Toy, one can save simulations to their account in two privacy levels: Published and unpublished. You can choose which one by checking or unchecking the 'publish' checkbox. Saves are unpublished by default, so if you do not check publish nobody will be able to see your saves.\n" \
+		L"在TPT中, 你可以使用两种方式上传存档: 公开和私人. 你可以通过选择是否公开来设置.  该选项默认是关闭的, 私人的存档只能由你一个人看到.\n" \
 		"\n" \
-		"\btPublished saves\bw will appear on the 'By Date' feed and will be seen by many people. These saves also contribute to your Average Score, which is displayed publicly on your profile page on the website. Publish saves that you want people to see so they can comment and vote on.\n" \
-		"\btUnpublished saves\bw will not be shown on the 'By Date' feed. These will not contribute to your Average Score. They are not completely private though, as anyone who knows the save id will be able to view it. You can give the save id out to show specific people the save but not allow just everyone to see it.\n" \
+		"\bt公开的存档\bw 会立即被使用按日期排布存档的人看到. 这些存档的评分将影响你的个人平均评分(显示在你的个人档案上). 公开的存档能被所有人评论和评分.\n" \
+		"\bt私人的存档\bw 不会出现在云沙盘更新中. 这些存档也不会影响你的平均评分. 尽管设置为私人. 但别人仍然可以通过存档ID来访问他们. 因此, 你可以通过存档ID来向你的朋友分享存档.\n" \
 		"\n" \
-		"To quickly resave a save, open it and click the left side of the split resave button to \bt'Reupload the current simulation'\bw. If you want to change the description or change the published status, you can click the right side to \bt'Modify simulation properties'\bw. Note that you can't change the name of saves; this will create an entirely new save with no comments, votes, or tags; separate from the original.\n" \
-		"You may want to publish an unpublished save after it is finished, or to unpublish some currently published ones. You can do this by opening the save, selecting the 'Modify simulation properties' button, and changing the published status there. You can also \btunpublish or delete saves\bw by selecting them in the 'my own' section of the browser and clicking either one of the buttons that appear on bottom.\n" \
-		"If a save is under a week old and gains popularity fast, it will be automatically placed on the \btfront page\bw. Only published saves will be able to get here. Moderators can also choose to promote any save onto the front page, but this happens rarely. They can also demote any save from the front page that breaks a rule or they feel doesn't belong.\n" \
-		"Once you make a save, you can resave it as many times as you want. A short previous \btsave history\bw is saved, just right click any save in the save browser and select 'View History' to view it. This is useful for when you accidentally save something you didn't mean to and want to go back to the old version.\n"
+		"打开存档并点击存档名左侧的按钮 \bt'重新上传当前存档'\bw, 可以快速更改已经上传的存档. 如果你希望更改存档描述或存档属性, 你可以点击右侧按钮 \bt'修改存档属性'\bw. 注意你不能更改存档名称; 这会重新创建一个全新的存档.\n" \
+		"你可能希望发布一个设置为私人的存档, 或将以前发布过的存档设置为私人. 打开存档, 选择 '修改存档属性' 按钮, 在弹出的对话框中修改属性. 你也可以在'个人存档'页面中选择你所需要的存档来 \bt删除存档或转为私人\bw.\n" \
+		"如果存档已经发布了一个礼拜并拥有较高人气, 它会自动出现在 \bt首页\bw上. 只有设置为公开的存档才有机会登上首页. 版主同样有权限使某个存档在首页上显示, 但这种情况非常少见. 如果某存档被认为触犯了条例或不适合放在首页, 他们同样有权限撤下它.\n" \
+		"当一个存档上传后, 你可以不限次数的修改它. 服务器会保存一个简短的 \bt存档历史\bw, 在存档浏览器中右键你的存档并选择 '查看历史' 就能找到它. 这一功能可以帮助你找回以前的版本并修复错误.\n"
 
 //Saving rules.
 #define TEXT_BLOCK_SAVE_RULES \
-		L"These are the rules you should follow when uploading saves to avoid having them deleted or otherwise hidden from public view. If you fail to follow them, don't be surprised if your saves get lousy votes, unpublished, or removed from the front page should they make it there. These rules may change at any time as new problems arise, and how each rule is handled changes depending on the situation.\n" \
+		L"为了避免你的存档遭到删除或封禁, 以下条例是你所需要遵守的. 这些条例会根据情况更新.\n" \
 		"\n" \
-		"\bt1. No image plotting.\bw If you use a program to draw out pixels from an image outside of TPT without drawing it by hand, don't be surprised when the save gets deleted and you get banned.\n" \
-		"\bt2. No self voting.\bw This means making more than one account, and then using that account to vote on any save multiple times. We can see this stuff, and people get banned for doing it. Don't do it.\n" \
-		"\bt3. No hate saves.\bw This means things like shooting Jews or killing Bieber; these are not allowed.\n" \
-		"\bt4. No penis drawings.\bw Or any other explicit or non-explicit sex please. We like to think this is a game that people can play with their family around. Don't post anything too inappropriate.\n" \
-		"\bt5. Don't ask people to vote.\bw If your stuff is awesome, you shouldn't have to beg for popularity to get votes. Do not have anything relating to or mentioning votes inside the actual save.\n" \
-		   "- This includes vote signs in the game, drawings of vote arrows, or almost any mention of voting in the save. If you want to thank people for the votes they have given, that can be a small note in the description or comments, but don't make it excessive either. Testing this rule to see how far you can go is a bad idea and may get your save unpublished.\n" \
-		   "- Gimmicks for getting votes like \"100 votes and I'll make a better version\" are similarly frowned upon.\n" \
-		"\bt6. Keep the number of logos and signs to a minimum.\bw They not only slow the game down, but can also make saves unappealing for people to use. \n" \
-		   "- If you link to more then 3 unrelated saves using link signs, this is just too much advertising, and the save will probably be removed from the front page if it gets there.\n" \
-		   "- Please do not make fake update signs or similar fake notification signs either.\n" \
-		"\bt7. Please don't swear excessively.\bw Saves containing excessive swearing or rude language will be unpublished. Don't make rude or offensive comments either.\n" \
-		"\bt8. Don't make text-only saves.\bw Saves are much better when they actually use some of the features in the game. Text-only saves will be removed from the front page should they ever get there.\n" \
-		   "- Also, element suggestion saves will be removed from the front page. It's recommended that you make a thread on the forum instead so you can get actual criticism from developers and other users.\n" \
-		   "- This is also related to art on the front page. Art saves that only rely on the deco layer are generally removed. Art using elements may stay longer if it's more impressive.\n" \
-		"\bt9. Don't claim others' work as your own.\bw If you didn't make it, don't resave it for yourself. You can favorite a save instead of publishing a copy if you want to see it later.\n" \
-		   "- This doesn't mean you can't modify or improve saves; building on the works of others is encouraged. If you give credit to the original author, it is usually OK to resave unless the author specifically prohibits it.\n" \
-		"\bt10. Don't make laggy saves.\bw If a save is so laggy that it crashes the game for some people, it's just really annoying. Saves that do make it to the front page that purposely lag the game will be demoted.\n" \
+		"\bt1. 禁止复制图像.\bw 如果你使用软件将其他图象直接复制到TPT中, 你将受到删除存档或封禁的惩罚.\n" \
+		"\bt2. 禁止刷票.\bw 禁止注册小号刷票. 一旦发现将立即封禁.\n" \
+		"\bt3. 禁止侮辱性的存档.\bw 例如枪杀上帝的绘画等.\n" \
+		"\bt4. 禁止任何不宜向儿童展示的内容.\bw 本游戏是面向全年龄的, 禁止一切不合适的内容.\n" \
+		"\bt5. 禁止拉票.\bw 酒香不怕巷子深. 禁止在存档中以任何形式拉票.\n" \
+		   "- 包括在存档中的求赞标志, 赞的箭头, 以及其他形式的求赞. 允许用极小篇幅来感谢为你点赞的人. 请不要以身试法.\n" \
+		   "- 其他例如: 过100赞就解锁更多内容也视为拉票行为.\n" \
+		"\bt6. logo占用的空间应尽可能少.\bw 这不仅会拖慢游戏的运行速度, 也会让你的存档失去吸引力. \n" \
+		   "- 最多链接3个其他存档, 超过这一数目可能会使你失去在首页的位置.\n" \
+		   "- 请不要发布假的更新许诺以及其他的虚假信息.\n" \
+		"\bt7. 注意言辞.\bw 包含过于激烈言辞的存档将会被设为私有. 同样地, 也不要发布言辞过于激烈的评论.\n" \
+		"\bt8. 禁止过于简单的存档.\bw 你的存档应该运用一些游戏中的特性. 只有文字的存档将失去在首页的机会.\n" \
+		   "- 同样地, 元素介绍类存档也不能出现在首页. 你可以在论坛中与其他人讨论元素性质方面的问题.\n" \
+		   "- 这也同样适用于在首页的绘画类存档. 完全依赖于装饰图层的绘画类作品不能出现在首页. 使用元素原本颜色的绘画类存档可以酌情延长在首页的时间.\n" \
+		"\bt9.禁止抄袭.\bw 不允许将他人的作品占为己有. 如果你希望下次再看这个存档, 你可以星标它而不是以个人名义再次发布一遍.\n" \
+		   "- 这不意味着你不能借鉴或者改进别人的存档; 我们鼓励借鉴和改进. 除非作者有特殊说明, 否则在注明出处的情况下适当的借鉴是允许的.\n" \
+		"\bt10. 禁止效率低下的存档.\bw 如果某个存档故意制作成运行缓慢以至于导致游戏崩溃, 那么它将被移出首页.\n" \
 		"\n" \
-		"You can report a save breaking any one of these rules, as the moderators are busy in real life too and don't always have the time to search through all saves for these kinds of things. If reporting a copied save, put the save ID of the save it was stolen from in the report."
+		"如果你发现有存档违反了以上条例, 可以通过举报功能向版主举报. 举报时请务必附上存档的存档ID以帮助版主快速定位到相应存档."
