@@ -766,6 +766,18 @@
 #define TEXT_GAME_CONTROL_UPDATE_BETA_NOTIFY L"发现新版本, 点击此处更新"
 #define TEXT_GAME_CONTROL_UPDATE_STABLE_NOTIFY L"发现新版本, 点击此处更新"
 
+//System messages.
+#define TEXT_SYSTEM_DOUBLE_SCALE_TITLE L"Large screen detected"
+#define TEXT_SYSTEM_DOUBLE_SCALE_MSG1 L"Switching to double size mode since your screen was determined to be large enough: "
+#define TEXT_SYSTEM_DOUBLE_SCALE_MSG2 L" detected, "
+#define TEXT_SYSTEM_DOUBLE_SCALE_MSG3 L" required"
+#define TEXT_SYSTEM_DOUBLE_SCALE_MSG4 L"\nTo undo this, hit Cancel. You can toggle double size mode in settings at any time."
+#define TEXT_SYSTEM_BLUESCR_TITLE L"ERROR"
+#define TEXT_SYSTEM_BLUESCR_DETAIL L"Details: "
+#define TEXT_SYSTEM_BLUESCR_HELP L"An unrecoverable fault has occurred, please report the error by visiting the website below\n" \
+		"http://"
+#define TEXT_SYSTEM_BLUESCR_TITLE L"ERROR"
+
 //Lua prompts.
 #define TEXT_LUA_NORESPOND_TITLE L"脚本无响应"
 #define TEXT_LUA_NORESPOND_MSG L"当前脚本无响应, 是否强制关闭?"
