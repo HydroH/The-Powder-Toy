@@ -184,7 +184,7 @@ if GetOption("msvc"):
 	
 if GetOption("zhcn"):
 	env.Append(CPPPATH = "C:/Boost/boost_1_60_0/")
-	env.Append(CCFLAGS=['-finput-charset=GBK'])
+	env.Append(CCFLAGS=['-finput-charset=UTF-8'])
 	
 #Check 32/64 bit
 def CheckBit(context):
