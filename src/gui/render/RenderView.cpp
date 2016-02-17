@@ -383,7 +383,7 @@ void RenderView::OnDraw()
 	g->draw_line(XRES, 0, XRES, WINDOWH, 255, 255, 255, 255);
 	if(toolTipPresence && toolTip.length())
 	{
-		g->drawtext(6, Size.Y-MENUSIZE-12, (char*)toolTip.c_str(), 255, 255, 255, toolTipPresence>51?255:toolTipPresence*5);
+		g->drawtext(6, Size.Y-MENUSIZE-12, (wchar_t*)toolTip.c_str(), 255, 255, 255, toolTipPresence>51?255:toolTipPresence*5);
 	}
 }
 
