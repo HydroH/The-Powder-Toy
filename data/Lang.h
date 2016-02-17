@@ -517,6 +517,16 @@
 #define TEXT_GUI_SEARCH_FAV_WIN_TITLE L"Favouring saves"
 #define TEXT_GUI_SEARCH_UNFAV_WIN_TITLE L"Unfavouring saves"
 
+//Tags window.
+#define TEXT_GUI_TAG_BTN_CLOSE L"Close"
+#define TEXT_GUI_TAG_TBOX_HOLDER L"[new tag]"
+#define TEXT_GUI_TAG_BTN_ADD L"Add"
+#define TEXT_GUI_TAG_LABEL L"Manage tags:    \bgTags are only to \nbe used to improve search results"
+#define TEXT_GUI_TAG_REMOVE_ERR_TITLE L"Could not remove tag"
+#define TEXT_GUI_TAG_LENGTH_ERR_TITLE L"Tag not long enough"
+#define TEXT_GUI_TAG_LENGTH_ERR_MSG L"Must be at least 4 letters"
+#define TEXT_GUI_TAG_ADD_ERR_TITLE L"Could not add tag"
+
 //Login window.
 #define TEXT_GUI_LOGIN_BTN_LOGIN L"Sign in"
 #define TEXT_GUI_LOGIN_BTN_CANCEL L"Sign Out"
@@ -614,6 +624,12 @@
 #define TEXT_GUI_SAVE_PRE_REPORT_INFO_MSG L"Report submitted"
 #define TEXT_GUI_SAVE_PRE_REPORT_ERR_TITLE L"Error"
 #define TEXT_GUI_SAVE_PRE_REPORT_ERR_MSG L"Unable file report: "
+
+//Update window.
+#define TEXT_GUI_UPDATE_WIN_TITLE L"Downloading update..."
+#define TEXT_GUI_UPDATE_FAIL_CONF_TITLE L"Autoupdate failed"
+#define TEXT_GUI_UPDATE_FAIL_CONF_SERVER_MSG L"Please go online to manually download a newer version.\nError: "
+#define TEXT_GUI_UPDATE_FAIL_CONF_DEFAULT_MSG L"Please visit the website to download a newer version.\nError: "
 
 //Element search window.
 #define TEXT_GUI_ELEM_SEARCH_TITLE L"Element Search"

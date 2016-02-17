@@ -3,7 +3,7 @@
 
 #include "Format.h"
 
-class ConsoleCommand
+class ConsoleCommand //TODO: Chinese! Problem with entering commands.
 {
 public:
 	ConsoleCommand(std::string command, int returnStatus, std::string returnValue):

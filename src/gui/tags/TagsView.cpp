@@ -11,6 +11,9 @@
 #include "gui/interface/Label.h"
 #include "gui/interface/Keys.h"
 
+#include "Format.h"
+#include "Lang.h"
+
 TagsView::TagsView():
 	ui::Window(ui::Point(-1, -1), ui::Point(195, 250))
 {
@@ -25,7 +28,7 @@ TagsView::TagsView():
 			v->c->Exit();
 		}
 	};
-	closeButton = new ui::Button(ui::Point(0, Size.Y-16), ui::Point(195, 16), "Close");
+	closeButton = new ui::Button(ui::Point(0, Size.Y-16), ui::Point(195, 16), TEXT_GUI_TAG_BTN_CLOSE);
 	closeButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	closeButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	closeButton->SetActionCallback(new CloseAction(this));
@@ -33,7 +36,7 @@ TagsView::TagsView():
 	SetCancelButton(closeButton);
 
 
-	tagInput = new ui::Textbox(ui::Point(8, Size.Y-40), ui::Point(Size.X-60, 16), "", "[new tag]");
+	tagInput = new ui::Textbox(ui::Point(8, Size.Y-40), ui::Point(Size.X-60, 16), L"", TEXT_GUI_TAG_TBOX_HOLDER);
 	tagInput->Appearance.icon = IconTag;
 	tagInput->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	tagInput->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
@@ -49,7 +52,7 @@ TagsView::TagsView():
 			v->addTag();
 		}
 	};
-	addButton = new ui::Button(ui::Point(tagInput->Position.X+tagInput->Size.X+4, tagInput->Position.Y), ui::Point(40, 16), "Add");
+	addButton = new ui::Button(ui::Point(tagInput->Position.X+tagInput->Size.X+4, tagInput->Position.Y), ui::Point(40, 16), TEXT_GUI_TAG_BTN_ADD);
 	addButton->Appearance.icon = IconAdd;
 	addButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	addButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
@@ -59,7 +62,7 @@ TagsView::TagsView():
 	if (!Client::Ref().GetAuthUser().ID)
 		addButton->Enabled = false;
 
-	title = new ui::Label(ui::Point(5, 5), ui::Point(185, 28), "Manage tags:    \bgTags are only to \nbe used to improve search results");
+	title = new ui::Label(ui::Point(5, 5), ui::Point(185, 28), TEXT_GUI_TAG_LABEL);
 	title->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	title->Appearance.VerticalAlign = ui::Appearance::AlignTop;
 	title->SetMultiline(true);
@@ -97,7 +100,7 @@ void TagsView::NotifyTagsChanged(TagsModel * sender)
 			}
 			catch(TagsModelException & ex)
 			{
-				new ErrorMessage("Could not remove tag", ex.what());
+				new ErrorMessage(TEXT_GUI_TAG_REMOVE_ERR_TITLE, format::StringToWString(ex.what()));
 			}
 		}
 	};
@@ -148,7 +151,7 @@ void TagsView::addTag()
 {
 	if (tagInput->GetText().length() < 4)
 	{
-		new ErrorMessage("Tag not long enough", "Must be at least 4 letters");
+		new ErrorMessage(TEXT_GUI_TAG_LENGTH_ERR_TITLE, TEXT_GUI_TAG_LENGTH_ERR_MSG);
 		return;
 	}
 	try
@@ -157,7 +160,7 @@ void TagsView::addTag()
 	}
 	catch(TagsModelException & ex)
 	{
-		new ErrorMessage("Could not add tag", ex.what());
+		new ErrorMessage(TEXT_GUI_TAG_ADD_ERR_TITLE, format::StringToWString(ex.what()));
 	}
 	tagInput->SetText("");
 }
