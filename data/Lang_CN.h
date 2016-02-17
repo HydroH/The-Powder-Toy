@@ -377,6 +377,7 @@
 #define TEXT_GUI_MAIN_BTN_SAVE_REUPL_TIP L"重新加载当前存档"
 #define TEXT_GUI_MAIN_BTN_SAVE_EDIT_TIP L"修改存档设置"
 #define TEXT_GUI_MAIN_BTN_SAVE_NEW_TIP L"上传一个新的存档,按住Ctrl以保存到本地"
+#define TEXT_GUI_MAIN_BTN_LIKE_TEXT L"Vote"
 #define TEXT_GUI_MAIN_BTN_LIKE_TIP L"赞"
 #define TEXT_GUI_MAIN_BTN_DISLIKE_TIP L"踩"
 #define TEXT_GUI_MAIN_BTN_TAG_TEXT L"[无标签]"
@@ -517,6 +518,16 @@
 #define TEXT_GUI_SEARCH_FAV_WIN_TITLE L"星标存档中..."
 #define TEXT_GUI_SEARCH_UNFAV_WIN_TITLE L"取消星标存档中..."
 
+//Tags window.
+#define TEXT_GUI_TAG_BTN_CLOSE L"Close"
+#define TEXT_GUI_TAG_TBOX_HOLDER L"[new tag]"
+#define TEXT_GUI_TAG_BTN_ADD L"Add"
+#define TEXT_GUI_TAG_LABEL L"Manage tags:    \bgTags are only to \nbe used to improve search results"
+#define TEXT_GUI_TAG_REMOVE_ERR_TITLE L"Could not remove tag"
+#define TEXT_GUI_TAG_LENGTH_ERR_TITLE L"Tag not long enough"
+#define TEXT_GUI_TAG_LENGTH_ERR_MSG L"Must be at least 4 letters"
+#define TEXT_GUI_TAG_ADD_ERR_TITLE L"Could not add tag"
+
 //Login window.
 #define TEXT_GUI_LOGIN_BTN_LOGIN L"登录"
 #define TEXT_GUI_LOGIN_BTN_CANCEL L"注销"
@@ -614,6 +625,12 @@
 #define TEXT_GUI_SAVE_PRE_REPORT_INFO_MSG L"举报已提交"
 #define TEXT_GUI_SAVE_PRE_REPORT_ERR_TITLE L"错误"
 #define TEXT_GUI_SAVE_PRE_REPORT_ERR_MSG L"无法举报: "
+
+//Update window.
+#define TEXT_GUI_UPDATE_WIN_TITLE L"Downloading update..."
+#define TEXT_GUI_UPDATE_FAIL_CONF_TITLE L"Autoupdate failed"
+#define TEXT_GUI_UPDATE_FAIL_CONF_SERVER_MSG L"Please go online to manually download a newer version.\nError: "
+#define TEXT_GUI_UPDATE_FAIL_CONF_DEFAULT_MSG L"Please visit the website to download a newer version.\nError: "
 
 //Element search window.
 #define TEXT_GUI_ELEM_SEARCH_TITLE L"搜索元素"
