@@ -5,6 +5,7 @@
 #include "Config.h"
 #include "Misc.h"
 #include "Graphics.h"
+#include "Lang.h"
 #define INCLUDE_FONTDATA
 #include "font.h"
 #ifdef HIGH_QUALITY_RESAMPLE
@@ -1151,12 +1152,12 @@ void Graphics::draw_icon(int x, int y, Icon icon, unsigned char alpha, bool inve
 		if(invert)
 		{
 			drawchar(x-11, y+1, 0xCB, 0, 100, 0, alpha);
-			drawtext(x+2, y+1, L"ͶƱ", 0, 100, 0, alpha);
+			drawtext(x+2, y+1, TEXT_GUI_MAIN_BTN_LIKE_TEXT, 0, 100, 0, alpha);
 		}
 		else
 		{
 			drawchar(x-11, y+1, 0xCB, 0, 187, 18, alpha);
-			drawtext(x+2, y+1, L"ͶƱ", 0, 187, 18, alpha);
+			drawtext(x+2, y+1, TEXT_GUI_MAIN_BTN_LIKE_TEXT, 0, 187, 18, alpha);
 		}
 		break;
 	case IconVoteDown:

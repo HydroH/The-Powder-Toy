@@ -377,6 +377,7 @@
 #define TEXT_GUI_MAIN_BTN_SAVE_REUPL_TIP L"Re-upload the current simulation"
 #define TEXT_GUI_MAIN_BTN_SAVE_EDIT_TIP L"Modify simulation properties"
 #define TEXT_GUI_MAIN_BTN_SAVE_NEW_TIP L"Upload a new simulation. Hold Ctrl to save offline."
+#define TEXT_GUI_MAIN_BTN_LIKE_TEXT L"Vote"
 #define TEXT_GUI_MAIN_BTN_LIKE_TIP L"Like this save"
 #define TEXT_GUI_MAIN_BTN_DISLIKE_TIP L"Dislike this save"
 #define TEXT_GUI_MAIN_BTN_TAG_TEXT L"[no tags set]"
