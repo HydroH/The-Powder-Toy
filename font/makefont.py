@@ -6,8 +6,18 @@ import sys, codecs, os, re
 reload(sys)
 sys.setdefaultencoding('UTF-8')
 
-fontchar = codecs.open('fontchar.txt', 'r', 'UTF-8')
+# Remain only Chinese characters with regex
+lang_str = open('../data/Lang_CN.h', 'r').read().decode("UTF-8")
+lang_str = re.sub(ur"[^\u4e00-\u9fa5]", "", lang_str)
 
+# Deduplication
+lang_str = "".join(set(lang_str))
+
+# Sorting
+char_list = list(lang_str)
+char_list.sort()
+
+# Exporting character figure with imagemagick
 charindex = 0
 ptrcount = 256
 ptrindex = 4615
@@ -17,7 +27,7 @@ fontfile = open('fontsample.h', 'r')
 contents = fontfile.readlines()
 fontfile.close()
 
-for char in fontchar.read():
+for char in char_list:
     charindex += 1
     cmd = "convert -size 10x10 xc:none +antialias -gravity center -pointsize 10 "
     cmd += "-font \"C:\\\\Windows\\\\Fonts\\\\ZpixEX2_EX.ttf\" label:\""
@@ -29,6 +39,7 @@ for char in fontchar.read():
     else:
         print('IM process success.')
 
+    # xbm file to TPT font encoding
     charmap = open('result-1.xbm', 'r').read()
     bit = []
     i = 0
@@ -42,6 +53,7 @@ for char in fontchar.read():
         for k in range(rowcount):
             bit.append(byte >> k & 1)
 
+    # Insert font data into Font.h
     i = 0
     line = "    0x0A, "
     while i < 100:
@@ -53,6 +65,7 @@ for char in fontchar.read():
         i += 4
     contents.insert(charindex + 260, line + "\n")
 
+    # Insert font pointer data into Font.h, 0x0000 for unused characters
     currchar = int(repr(char)[4:8], 16)
     for i in range(lastchar + 1, currchar):
         if not ptrcount % 8:
@@ -71,8 +84,10 @@ for char in fontchar.read():
         contents.insert(charindex + 262 + ((ptrcount + 1) / 8), ptrline + "\n")
     ptrcount += 1
 
-fontfile = open('font.h', 'w')
+fontfile = open('../data/font.h', 'w')
 fontfile.writelines(contents)
 fontfile.close()
 
-fontchar.close()
+# Delete useless files
+os.remove('result-0.xbm')
+os.remove('result-1.xbm')
