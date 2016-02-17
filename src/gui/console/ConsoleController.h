@@ -19,6 +19,7 @@ public:
 	bool HasDone;
 	ConsoleController(ControllerCallback * callback, CommandInterface * commandInterface);
 	std::string FormatCommand(std::string command);
+	std::wstring FormatWCommand(std::wstring command);
 	void EvaluateCommand(std::string command);
 	void NextCommand();
 	void PreviousCommand();

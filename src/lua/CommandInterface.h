@@ -32,6 +32,7 @@ public:
 	virtual void OnTick() { }
 	virtual int Command(std::string command);
 	virtual std::string FormatCommand(std::string command);
+	virtual std::wstring FormatWCommand(std::wstring command);
 	std::string GetLastError();
 	virtual ~CommandInterface();
 };

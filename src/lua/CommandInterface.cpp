@@ -29,6 +29,11 @@ std::string CommandInterface::FormatCommand(std::string command)
 	return command;
 }
 
+std::wstring CommandInterface::FormatWCommand(std::wstring command)
+{
+	return command;
+}
+
 void CommandInterface::Log(LogType type, std::string message)
 {
 	m->Log(message, type == LogError || type == LogNotice);

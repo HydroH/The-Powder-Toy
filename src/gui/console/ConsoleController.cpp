@@ -37,6 +37,12 @@ std::string ConsoleController::FormatCommand(std::string command)
 	return commandInterface->FormatCommand(command);
 }
 
+std::wstring ConsoleController::FormatWCommand(std::wstring command)
+{
+	return commandInterface->FormatWCommand(command);
+}
+
+
 void ConsoleController::NextCommand()
 {
 	size_t cIndex = consoleModel->GetCurrentCommandIndex();
