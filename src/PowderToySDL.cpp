@@ -579,11 +579,11 @@ void EventProcess(SDL_Event event)
 
 void DoubleScreenDialog()
 {
-	std::stringstream message;
-	message << "Switching to double size mode since your screen was determined to be large enough: ";
-	message << desktopWidth << "x" << desktopHeight << " detected, " << WINDOWW*2 << "x" << WINDOWH*2 << " required";
-	message << "\nTo undo this, hit Cancel. You can toggle double size mode in settings at any time.";
-	if (!ConfirmPrompt::Blocking("Large screen detected", message.str()))
+	std::wstringstream message;
+	message << TEXT_SYSTEM_DOUBLE_SCALE_MSG1;
+	message << desktopWidth << "x" << desktopHeight << TEXT_SYSTEM_DOUBLE_SCALE_MSG2 << WINDOWW*2 << "x" << WINDOWH*2 << TEXT_SYSTEM_DOUBLE_SCALE_MSG3;
+	message << TEXT_SYSTEM_DOUBLE_SCALE_MSG4;
+	if (!ConfirmPrompt::Blocking(TEXT_SYSTEM_DOUBLE_SCALE_TITLE, message.str()))
 	{
 		Client::Ref().SetPref("Scale", 1);
 		engine->SetScale(1);
@@ -746,10 +746,9 @@ void BlueScreen(const char * detailMessage){
 	ui::Engine * engine = &ui::Engine::Ref();
 	engine->g->fillrect(0, 0, engine->GetWidth(), engine->GetHeight(), 17, 114, 169, 210);
 
-	std::string errorTitle = "ERROR";
-	std::string errorDetails = "Details: " + std::string(detailMessage);
-	std::string errorHelp = "An unrecoverable fault has occurred, please report the error by visiting the website below\n"
-		"http://" SERVER;
+	std::wstring errorTitle = TEXT_SYSTEM_BLUESCR_TITLE;
+	std::wstring errorDetails = TEXT_SYSTEM_BLUESCR_DETAIL + format::StringToWString(detailMessage);
+	std::wstring errorHelp = TEXT_SYSTEM_BLUESCR_HELP SERVER;
 	int currentY = 0, width, height;
 	int errorWidth = 0;
 	Graphics::textsize(errorHelp.c_str(), errorWidth, height);
@@ -788,7 +787,7 @@ void SigHandler(int signal)
 {
 	switch(signal){
 	case SIGSEGV:
-		BlueScreen("Memory read/write error");
+		BlueScreen("Memory read/write error"); //TODO: Globalize!
 		break;
 	case SIGFPE:
 		BlueScreen("Floating point exception");
