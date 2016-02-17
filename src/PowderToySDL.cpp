@@ -52,6 +52,8 @@ extern "C" {
 
 #include "client/HTTP.h"
 
+#include "Lang.h"
+
 using namespace std;
 
 #if defined(WIN) || defined(LIN)
@@ -957,7 +959,7 @@ int main(int argc, char * argv[])
 		{
 			engine->g->fillrect((engine->GetWidth()/2)-101, (engine->GetHeight()/2)-26, 202, 52, 0, 0, 0, 210);
 			engine->g->drawrect((engine->GetWidth()/2)-100, (engine->GetHeight()/2)-25, 200, 50, 255, 255, 255, 180);
-			engine->g->drawtext((engine->GetWidth()/2)-(Graphics::textwidth(L"载入存档中...")/2), (engine->GetHeight()/2)-5, L"载入存档中...", style::Colour::InformationTitle.Red, style::Colour::InformationTitle.Green, style::Colour::InformationTitle.Blue, 255);
+			engine->g->drawtext((engine->GetWidth()/2)-(Graphics::textwidth(TEXT_GUI_SAVE_PRE_LOAD_INFO)/2), (engine->GetHeight()/2)-5, TEXT_GUI_SAVE_PRE_LOAD_INFO, style::Colour::InformationTitle.Red, style::Colour::InformationTitle.Green, style::Colour::InformationTitle.Blue, 255);
 
 #ifdef OGLI
 			blit();
