@@ -1,13 +1,21 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import sys, codecs, os, re
+import sys, os, re
 
 reload(sys)
 sys.setdefaultencoding('UTF-8')
 
+
+# Get absolute path from relative path to ensure running in batch
+def open_file(filename, mode='r'):
+    path, fl = os.path.split(os.path.realpath(__file__))
+    full_path = os.path.join(path, filename)
+    return open(full_path, mode)
+
+
 # Remain only Chinese characters with regex
-lang_str = open('../data/Lang_CN.h', 'r').read().decode("UTF-8")
+lang_str = open_file('../data/Lang_CN.h', 'r').read().decode("UTF-8")
 lang_str = re.sub(ur"[^\u4e00-\u9fa5]", "", lang_str)
 
 # Deduplication
@@ -23,7 +31,7 @@ ptrcount = 256
 ptrindex = 4615
 lastchar = 255
 ptrline = ""
-fontfile = open('fontsample.h', 'r')
+fontfile = open_file('fontsample.h', 'r')
 contents = fontfile.readlines()
 fontfile.close()
 
@@ -63,9 +71,7 @@ for char in char_list:
             byte = byte << 2 | (bitslice[k] << 1) | bitslice[k]
         line += "0x" + format(byte, '02X') + ", "
         i += 4
-    contents.insert(charindex + 260, line + "\n")
-
-    # Insert font pointer data into Font.h, 0x0000 for unused characters
+    contents.insert(charindex + 260, line + "\n")  # Insert font pointer data into Font.h, 0x0000 for unused characters
     currchar = int(repr(char)[4:8], 16)
     for i in range(lastchar + 1, currchar):
         if not ptrcount % 8:
@@ -84,7 +90,7 @@ for char in char_list:
         contents.insert(charindex + 262 + ((ptrcount + 1) / 8), ptrline + "\n")
     ptrcount += 1
 
-fontfile = open('../data/font.h', 'w')
+fontfile = open_file('../data/font.h', 'w')
 fontfile.writelines(contents)
 fontfile.close()
 
