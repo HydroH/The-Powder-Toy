@@ -94,7 +94,7 @@ OptionsView::OptionsView():
 		OptionsView * v;
 	public:
 		AirModeChanged(OptionsView * v): v(v) { }
-		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::string, int> option) { v->c->SetAirMode(option.second); }
+		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::wstring, int> option) { v->c->SetAirMode(option.second); }
 	};
 	airMode = new ui::DropDown(ui::Point(Size.X-88, 146), ui::Point(80, 16));
 	AddComponent(airMode);
@@ -114,7 +114,7 @@ OptionsView::OptionsView():
 		OptionsView * v;
 	public:
 		GravityModeChanged(OptionsView * v): v(v) { }
-		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::string, int> option) { v->c->SetGravityMode(option.second); }
+		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::wstring, int> option) { v->c->SetGravityMode(option.second); }
 	};	
 		
 	gravityMode = new ui::DropDown(ui::Point(Size.X-88, 166), ui::Point(80, 16));
@@ -133,7 +133,7 @@ OptionsView::OptionsView():
 		OptionsView * v;
 	public:
 		EdgeModeChanged(OptionsView * v): v(v) { }
-		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::string, int> option) { v->c->SetEdgeMode(option.second); }
+		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::wstring, int> option) { v->c->SetEdgeMode(option.second); }
 	};	
 
 	edgeMode = new ui::DropDown(ui::Point(Size.X-88, 186), ui::Point(80, 16));
