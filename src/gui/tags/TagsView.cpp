@@ -36,7 +36,7 @@ TagsView::TagsView():
 	SetCancelButton(closeButton);
 
 
-	tagInput = new ui::Textbox(ui::Point(8, Size.Y-40), ui::Point(Size.X-60, 16), L"", TEXT_GUI_TAG_TBOX_HOLDER);
+	tagInput = new ui::Textbox(ui::Point(8, Size.Y-40), ui::Point(Size.X-64, 16), L"", TEXT_GUI_TAG_TBOX_HOLDER);
 	tagInput->Appearance.icon = IconTag;
 	tagInput->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	tagInput->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
@@ -52,7 +52,7 @@ TagsView::TagsView():
 			v->addTag();
 		}
 	};
-	addButton = new ui::Button(ui::Point(tagInput->Position.X+tagInput->Size.X+4, tagInput->Position.Y), ui::Point(40, 16), TEXT_GUI_TAG_BTN_ADD);
+	addButton = new ui::Button(ui::Point(tagInput->Position.X+tagInput->Size.X+4, tagInput->Position.Y), ui::Point(44, 16), TEXT_GUI_TAG_BTN_ADD);
 	addButton->Appearance.icon = IconAdd;
 	addButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	addButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;

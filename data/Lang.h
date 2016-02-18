@@ -522,7 +522,7 @@
 #define TEXT_GUI_TAG_BTN_CLOSE L"关闭"
 #define TEXT_GUI_TAG_TBOX_HOLDER L"[新标签]"
 #define TEXT_GUI_TAG_BTN_ADD L"添加"
-#define TEXT_GUI_TAG_LABEL L"管理标签:    \bg标签只 \n用于提升搜索效率"
+#define TEXT_GUI_TAG_LABEL L"管理标签: \bg标签仅用于提升搜索效率"
 #define TEXT_GUI_TAG_REMOVE_ERR_TITLE L"无法删除标签"
 #define TEXT_GUI_TAG_LENGTH_ERR_TITLE L"标签长度不够"
 #define TEXT_GUI_TAG_LENGTH_ERR_MSG L"标签长度至少为4字节"
@@ -595,7 +595,7 @@
 
  //Save preview window.
 #define TEXT_GUI_SAVE_PRE_FAV_BTN L"收藏"
-#define TEXT_GUI_SAVE_PRE_UNFAV_BTN L"取消收藏"
+#define TEXT_GUI_SAVE_PRE_UNFAV_BTN L"取消"
 #define TEXT_GUI_SAVE_PRE_REPORT_BTN L"举报"
 #define TEXT_GUI_SAVE_PRE_REPORT_PROM_TITLE L"举报存档"
 #define TEXT_GUI_SAVE_PRE_REPORT_PROM_MSG L"注意:\n\bw1)\bg 举报抄袭行为时请附上被抄袭的存档ID.\n\bw2)\bg  请不要发布虚假举报, 这可能会导致你的账号被封禁."
@@ -798,14 +798,14 @@
 	"按住Shift键以绘制直线\n" \
 	"按住Ctrl键以绘制矩形\n" \
 	"按住Ctrl+Shift以填充\n" \
-	"利用鼠标滚轮或'['、']'键调整笔刷大小\n" \
+	"利用鼠标滚轮或'[',']'键调整笔刷大小\n" \
 	"点击鼠标中键或按住Alt键以使用吸管工具\n" \
 	"Ctrl+Z 撤销\n" \
-	"\n\bo按住‘Z’键打开放大镜工具,利用鼠标滚轮调整放大倍数,鼠标左键单击可以固定放大区域,你可以直接在放大镜上绘制.\n" \
-	"按下空格键以暂停,按下‘F’可以帧进\n" \
-	"按下S键选择区域保存到剪贴板.按下L键加载最近保存的对象.按下K键浏览你的剪贴板\n" \
-	"按下P键截图,截图将被保存到游戏根目录下\n" \
-	"按下H键打开/关闭HUD显示.按下D键打开/关闭调试模式\n" \
+	"\n\bo按住'Z'键打开放大镜工具,利用鼠标滚轮调整放大倍数,鼠标左键单击可以固定放大区域,你可以直接在放大镜上绘制.\n" \
+	"按下空格键以暂停,按下'F'可以帧进\n" \
+	"按下'S'键选择区域保存到剪贴板.按下'L'键加载最近保存的对象.按下'K'键浏览你的剪贴板\n" \
+	"按下'P'键截图,截图将被保存到游戏根目录下\n" \
+	"按下'H'键打开/关闭HUD显示.按下'D'键打开/关闭调试模式\n" \
 	"\n" \
 	"原作者: \bgStanislaw K Skowronek (Designed the original Powder Toy),\n" \
 	"\bgSimon Robertshaw, Skresanov Savely, cracker64, Catelite, Bryan Hoyle, Nathan Cousins, jacksonmj,\n" \

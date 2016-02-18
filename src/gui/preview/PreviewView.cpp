@@ -151,7 +151,7 @@ PreviewView::PreviewView():
 		}
 	};
 
-	browserOpenButton = new ui::Button(ui::Point((XRES/2)-107, Size.Y-19), ui::Point(108, 19), TEXT_GUI_SAVE_PRE_OPEN_WEB_BTN);
+	browserOpenButton = new ui::Button(ui::Point((XRES/2)-97, Size.Y-19), ui::Point(98, 19), TEXT_GUI_SAVE_PRE_OPEN_WEB_BTN);
 	browserOpenButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	browserOpenButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	browserOpenButton->SetIcon(IconOpen);
 	browserOpenButton->SetActionCallback(new BrowserOpenAction(this));
