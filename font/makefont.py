@@ -23,9 +23,9 @@ def bit_reduce(x):
     if x == 0: return 3
 
 
-# Remain only Chinese characters with regex
+# Remain only foreign characters thats not inside ASCII with regex
 lang_str = open_file('../data/Lang.h', 'r').read().decode("UTF-8")
-lang_str = re.sub(ur"[^\u4e00-\u9fa5]", "", lang_str)
+lang_str = re.sub(ur"[^\u0100-\uFFFF]", "", lang_str)
 
 # Deduplication
 lang_str = "".join(set(lang_str))
@@ -49,7 +49,7 @@ for char in char_list:
 
     # New converting method with anti-aliasing
     cmd = "convert -size 10x10 -gravity center -pointsize 10 -depth 2 "
-    cmd += "-font \"C:\\\\Windows\\\\Fonts\\\\ZpixEX2_EX.ttf\" label:\""
+    cmd += "-font \"C:\\\\Windows\\\\Fonts\\\\ZpixEX2_EX.ttf\" label:\""  # Replace the path with your .ttf file
     cmd += char
     cmd += "\" result.png"
     print cmd
