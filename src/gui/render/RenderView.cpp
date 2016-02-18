@@ -2,6 +2,8 @@
 #include "graphics/Graphics.h"
 #include "graphics/Renderer.h"
 #include "RenderView.h"
+#include "Format.h"
+#include "Lang.h"
 
 class RenderView::RenderModeAction: public ui::CheckboxAction
 {
@@ -79,7 +81,7 @@ public:
 RenderView::RenderView():
 	ui::Window(ui::Point(0, 0), ui::Point(XRES, WINDOWH)),
 	ren(NULL),
-	toolTip(""),
+	toolTip(L""),
 	toolTipPresence(0),
 	isToolTipFadingIn(false)
 {
@@ -89,70 +91,70 @@ RenderView::RenderView():
 	int cSpace = 32;
 	int sSpace = 38;
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+200, YRES+6), ui::Point(30, 13), "", "Velocity display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+200, YRES+6), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_VELO_TIP);
 	presetButton->SetIcon(IconVelocity);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 1));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+200, YRES+6+18), ui::Point(30, 13), "", "Pressure display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+200, YRES+6+18), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_PRESS_TIP);
 	presetButton->SetIcon(IconPressure);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 2));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+161, YRES+6), ui::Point(30, 13), "", "Persistent display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+161, YRES+6), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_PERSIST_TIP);
 	presetButton->SetIcon(IconPersistant);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 3));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+161, YRES+6+18), ui::Point(30, 13), "", "Fire display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+161, YRES+6+18), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_FIRE_TIP);
 	presetButton->SetIcon(IconFire);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 4));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+122, YRES+6), ui::Point(30, 13), "", "Blob display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+122, YRES+6), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_BLOB_TIP);
 	presetButton->SetIcon(IconBlob);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 5));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+122, YRES+6+18), ui::Point(30, 13), "", "Heat display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+122, YRES+6+18), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_HEAT_TIP);
 	presetButton->SetIcon(IconHeat);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 6));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+83, YRES+6), ui::Point(30, 13), "", "Fancy display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+83, YRES+6), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_FANCY_TIP);
 	presetButton->SetIcon(IconBlur);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 7));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+83, YRES+6+18), ui::Point(30, 13), "", "Nothing display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+83, YRES+6+18), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_NONE_TIP);
 	presetButton->SetIcon(IconBasic);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 8));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+44, YRES+6), ui::Point(30, 13), "", "Heat gradient display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+44, YRES+6), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_HGRAD_TIP);
 	presetButton->SetIcon(IconGradient);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 9));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+44, YRES+6+18), ui::Point(30, 13), "", "Alternative Velocity display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+44, YRES+6+18), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_ALTV_TIP);
 	presetButton->SetIcon(IconAltAir);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 0));
 	AddComponent(presetButton);
 
-	presetButton = new ui::Button(ui::Point(presetButtonOffset+5, YRES+6), ui::Point(30, 13), "", "Life display mode preset");
+	presetButton = new ui::Button(ui::Point(presetButtonOffset+5, YRES+6), ui::Point(30, 13), "", TEXT_GUI_RENDER_PRESET_BTN_LIFE_TIP);
 	presetButton->SetIcon(IconLife);
 	presetButton->SetActionCallback(new RenderPresetAction(this, 10));
 	AddComponent(presetButton);
 
 	ui::Checkbox * tCheckbox;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Effects", "Adds Special flare effects to some elements");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_EFFECT_TEXT, TEXT_GUI_RENDER_OPT_EFFECT_TIP);
 	renderModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconEffect);
 	tCheckbox->SetActionCallback(new RenderModeAction(this, RENDER_EFFE));
 	AddComponent(tCheckbox);
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), "Fire", "Fire effect for gasses");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_FIRE_TEXT, TEXT_GUI_RENDER_OPT_FIRE_TIP);
 	renderModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconFire);
 	tCheckbox->SetActionCallback(new RenderModeAction(this, RENDER_FIRE));
@@ -160,13 +162,13 @@ RenderView::RenderView():
 
 	checkboxOffset += cSpace;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Glow", "Glow effect on some elements");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_GLOW_TEXT, TEXT_GUI_RENDER_OPT_GLOW_TIP);
 	renderModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconGlow);
 	tCheckbox->SetActionCallback(new RenderModeAction(this, RENDER_GLOW));
 	AddComponent(tCheckbox);
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), "Blur", "Blur effect for liquids");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_BLUR_TEXT, TEXT_GUI_RENDER_OPT_BLUR_TIP);
 	renderModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconBlur);
 	tCheckbox->SetActionCallback(new RenderModeAction(this, RENDER_BLUR));
@@ -174,13 +176,13 @@ RenderView::RenderView():
 
 	checkboxOffset += cSpace;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Blob", "Makes everything be drawn like a blob");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_BLOB_TEXT, TEXT_GUI_RENDER_OPT_BLOB_TIP);
 	renderModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconBlob);
 	tCheckbox->SetActionCallback(new RenderModeAction(this, RENDER_BLOB));
 	AddComponent(tCheckbox);
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), "Point", "Basic rendering, without this, most things will be invisible");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_POINT_TEXT, TEXT_GUI_RENDER_OPT_POINT_TIP);
 	renderModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconBasic);
 	tCheckbox->SetActionCallback(new RenderModeAction(this, RENDER_BASC));
@@ -188,7 +190,7 @@ RenderView::RenderView():
 
 	checkboxOffset += cSpace;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Spark", "Glow effect on sparks");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_SPARK_TEXT, TEXT_GUI_RENDER_OPT_SPARK_TIP);
 	renderModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconEffect);
 	tCheckbox->SetActionCallback(new RenderModeAction(this, RENDER_SPRK));
@@ -197,13 +199,13 @@ RenderView::RenderView():
 	checkboxOffset += sSpace;
 	line1 = checkboxOffset-5;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Alt. Air", "Displays pressure as red and blue, and velocity as white");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_ALTAIR_TEXT, TEXT_GUI_RENDER_OPT_ALTAIR_TIP);
 	displayModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconAltAir);
 	tCheckbox->SetActionCallback(new DisplayModeAction(this, DISPLAY_AIRC));
 	AddComponent(tCheckbox);
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), "Pressure", "Displays pressure, red is positive and blue is negative");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_PRESS_TEXT, TEXT_GUI_RENDER_OPT_PRESS_TIP);
 	displayModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconPressure);
 	tCheckbox->SetActionCallback(new DisplayModeAction(this, DISPLAY_AIRP));
@@ -211,13 +213,13 @@ RenderView::RenderView():
 
 	checkboxOffset += cSpace;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Velocity", "Displays velocity and positive pressure: up/down adds blue, right/left adds red, still pressure adds green");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_VELO_TEXT, TEXT_GUI_RENDER_OPT_VELO_TIP);
 	displayModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconVelocity);
 	tCheckbox->SetActionCallback(new DisplayModeAction(this, DISPLAY_AIRV));
 	AddComponent(tCheckbox);
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), "Air-heat", "Displays the temperature of the air like heat display does");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_AHEAT_TEXT, TEXT_GUI_RENDER_OPT_AHEAT_TIP);
 	displayModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconHeat);
 	tCheckbox->SetActionCallback(new DisplayModeAction(this, DISPLAY_AIRH));
@@ -232,16 +234,16 @@ RenderView::RenderView():
 	checkboxOffset += sSpace;
 	line2 = checkboxOffset-5;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), "Warp", "Gravity lensing, Newtonian Gravity bends light with this on");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_WARP_TEXT, TEXT_GUI_RENDER_OPT_WARP_TIP);
 	displayModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconWarp);
 	tCheckbox->SetActionCallback(new DisplayModeAction(this, DISPLAY_WARP));
 	AddComponent(tCheckbox);
 
 #ifdef OGLR
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Effect", "Some type of OpenGL effect ... maybe"); //I would remove the whole checkbox, but then there's a large empty space
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_OPENGL_TEXT, TEXT_GUI_RENDER_OPT_OPENGL_TIP); //I would remove the whole checkbox, but then there's a large empty space
 #else
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Effect", "Enables moving solids, stickmen guns, and premium(tm) graphics");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_HOLDER_TEXT, TEXT_GUI_RENDER_OPT_HOLDER_TIP);
 #endif
 	displayModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconEffect);
@@ -250,7 +252,7 @@ RenderView::RenderView():
 
 	checkboxOffset += cSpace;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Persistent", "Element paths persist on the screen for a while");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_PERSIST_TEXT, TEXT_GUI_RENDER_OPT_PERSIST_TIP);
 	displayModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconPersistant);
 	tCheckbox->SetActionCallback(new DisplayModeAction(this, DISPLAY_PERS));
@@ -259,13 +261,13 @@ RenderView::RenderView():
 	checkboxOffset += sSpace;
 	line3 = checkboxOffset-5;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Heat", "Displays temperatures of the elements, dark blue is coldest, pink is hottest");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_HEAT_TEXT, TEXT_GUI_RENDER_OPT_HEAT_TIP);
 	colourModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconHeat);
 	tCheckbox->SetActionCallback(new ColourModeAction(this, COLOUR_HEAT));
 	AddComponent(tCheckbox);
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), "Life", "Displays the life value of elements in greyscale gradients");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_LIFE_TEXT, TEXT_GUI_RENDER_OPT_LIFE_TIP);
 	colourModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconLife);
 	tCheckbox->SetActionCallback(new ColourModeAction(this, COLOUR_LIFE));
@@ -273,13 +275,13 @@ RenderView::RenderView():
 
 	checkboxOffset += cSpace;
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), "H-Gradient", "Changes colors of elements slightly to show heat diffusing through them");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4+18), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_HGRAD_TEXT, TEXT_GUI_RENDER_OPT_HGRAD_TIP);
 	colourModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconGradient);
 	tCheckbox->SetActionCallback(new ColourModeAction(this, COLOUR_GRAD));
 	AddComponent(tCheckbox);
 
-	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), "Basic", "No special effects at all for anything, overrides all other options and deco");
+	tCheckbox = new ui::Checkbox(ui::Point(checkboxOffset, YRES+4), ui::Point(30, 16), TEXT_GUI_RENDER_OPT_BASIC_TEXT, TEXT_GUI_RENDER_OPT_BASIC_TIP);
 	colourModes.push_back(tCheckbox);
 	tCheckbox->SetIcon(IconBasic);
 	tCheckbox->SetActionCallback(new ColourModeAction(this, COLOUR_BASC));
@@ -381,7 +383,7 @@ void RenderView::OnDraw()
 	g->draw_line(XRES, 0, XRES, WINDOWH, 255, 255, 255, 255);
 	if(toolTipPresence && toolTip.length())
 	{
-		g->drawtext(6, Size.Y-MENUSIZE-12, (char*)toolTip.c_str(), 255, 255, 255, toolTipPresence>51?255:toolTipPresence*5);
+		g->drawtext(6, Size.Y-MENUSIZE-12, (wchar_t*)toolTip.c_str(), 255, 255, 255, toolTipPresence>51?255:toolTipPresence*5);
 	}
 }
 
@@ -416,6 +418,12 @@ void RenderView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bo
 }
 
 void RenderView::ToolTip(ui::Point senderPosition, std::string toolTip)
+{
+	this->toolTip = format::StringToWString(toolTip);
+	this->isToolTipFadingIn = true;
+}
+
+void RenderView::ToolTip(ui::Point senderPosition, std::wstring toolTip)
 {
 	this->toolTip = toolTip;
 	this->isToolTipFadingIn = true;

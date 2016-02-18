@@ -3427,6 +3427,25 @@ int strlcmp(const char* a, const char* b, int len)
 	return -1;
 }
 
+int wcslcmp(const wchar_t* a, const wchar_t* b, int len)
+{
+	while(len)
+	{
+		if(!*b)
+			return 1;
+		if(*a>*b)
+			return -1;
+		if(*a<*b)
+			return 1;
+		a++;
+		b++;
+		len--;
+	}
+	if(!*b)
+		return 0;
+	return -1;
+}
+
 std::string highlight(std::string command)
 {
 #define CMP(X) (!strlcmp(wstart, X, len))
@@ -3626,6 +3645,205 @@ std::string highlight(std::string command)
 	return result.str();
 }
 
+std::wstring whighlight(std::wstring command)
+{
+#define WCMP(X) (!wcslcmp(wstart, X, len))
+	std::wstringstream result;
+	int pos = 0;
+	const wchar_t *raw = command.c_str();
+	wchar_t c;
+	while ((c = raw[pos]))
+	{
+		if((c >= L'A' && c <= L'Z') || (c >= L'a' && c <= L'z') || c == L'_')
+		{
+			int len = 0;
+			wchar_t w;
+			const wchar_t* wstart = raw+pos;
+			while((w = wstart[len]) && ((w >= L'A' && w <= L'Z') || (w >= L'a' && w <= L'z') || (w >= L'0' && w <= L'9') || w == L'_'))
+				len++;
+			if(WCMP(L"and") || WCMP(L"break") || WCMP(L"do") || WCMP(L"else") || WCMP(L"elseif") || WCMP(L"end") || WCMP(L"for") || WCMP(L"function") || WCMP(L"if") || WCMP(L"in") || WCMP(L"local") || WCMP(L"not") || WCMP(L"or") || WCMP(L"repeat") || WCMP(L"return") || WCMP(L"then") || WCMP(L"until") || WCMP(L"while"))
+			{
+				result << L"\x0F\xB5\x89\x01";
+				result.write(wstart, len);
+				result << L"\bw";
+			}
+			else if(WCMP(L"false") || WCMP(L"nil") || WCMP(L"true"))
+			{
+				result << L"\x0F\xCB\x4B\x16";
+				result.write(wstart, len);
+				result << L"\bw";
+			}
+			else
+			{
+				result << L"\x0F\x2A\xA1\x98";
+				result.write(wstart, len);
+				result << L"\bw";
+			}
+			pos += len;
+		}
+		else if((c >= L'0' && c <= L'9') || (c == L'.' && raw[pos + 1] >= L'0' && raw[pos + 1] <= L'9'))
+		{
+			if(c == L'0' && raw[pos + 1] == L'x')
+			{
+				int len = 2;
+				wchar_t w;
+				const wchar_t *wstart = raw + pos;
+				while((w = wstart[len]) && ((w >= L'0' && w <= L'9') || (w >= L'A' && w <= L'F') || (w >= L'a' && w <= L'f')))
+					len++;
+				result << L"\x0F\xD3\x36\x82";
+				result.write(wstart, len);
+				result << L"\bw";
+				pos += len;
+			}
+			else
+			{
+				int len = 0;
+				wchar_t w;
+				const wchar_t *wstart = raw+pos;
+				bool seendot = false;
+				while((w = wstart[len]) && ((w >= L'0' && w <= L'9') || w == L'.'))
+				{
+					if(w == L'.')
+					{
+						if(seendot)
+							break;
+						else
+							seendot = true;
+					}
+					len++;
+				}
+				if(w == L'e')
+				{
+					len++;
+					w = wstart[len];
+					if(w == L'+' || w == L'-')
+						len++;
+					while((w = wstart[len]) && (w >= L'0' && w <= L'9'))
+						len++;
+				}
+				result << L"\x0F\xD3\x36\x82";
+				result.write(wstart, len);
+				result << L"\bw";
+				pos += len;
+			}
+		}
+		else if(c == L'\'' || c == L'"' || (c == L'[' && (raw[pos + 1] == L'[' || raw[pos + 1] == L'=')))
+		{
+			if(c == L'[')
+			{
+				int len = 1, eqs=0;
+				wchar_t w;
+				const wchar_t *wstart = raw + pos;
+				while((w = wstart[len]) && (w == L'='))
+				{
+					eqs++;
+					len++;
+				}
+				while((w = wstart[len]))
+				{
+					if(w == L']')
+					{
+						int nlen = 1;
+						const wchar_t *cstart = wstart + len;
+						while((w = cstart[nlen]) && (w == L'='))
+							nlen++;
+						if(w == L']' && nlen == eqs+1)
+						{
+							len += nlen+1;
+							break;
+						}
+					}
+					len++;
+				}
+				result << L"\x0F\xDC\x32\x2F";
+				result.write(wstart, len);
+				result << L"\bw";
+				pos += len;
+			}
+			else
+			{
+				int len = 1;
+				wchar_t w;
+				const wchar_t *wstart = raw+pos;
+				while((w = wstart[len]) && (w != c))
+				{
+					if(w == L'\\' && wstart[len + 1])
+						len++;
+					len++;
+				}
+				if(w == c)
+					len++;
+				result << L"\x0F\xDC\x32\x2F";
+				result.write(wstart, len);
+				result << L"\bw";
+				pos += len;
+			}
+		}
+		else if(c == L'-' && raw[pos + 1] == L'-')
+		{
+			if(raw[pos + 2] == L'[')
+			{
+				int len = 3, eqs = 0;
+				wchar_t w;
+				const wchar_t *wstart = raw + pos;
+				while((w = wstart[len]) && (w == L'='))
+				{
+					eqs++;
+					len++;
+				}
+				while((w = wstart[len]))
+				{
+					if(w == L']')
+					{
+						int nlen = 1;
+						const wchar_t *cstart = wstart + len;
+						while((w = cstart[nlen]) && (w == L'='))
+							nlen++;
+						if(w == L']' && nlen == eqs + 1)
+						{
+							len += nlen+1;
+							break;
+						}
+					}
+					len++;
+				}
+				result << L"\x0F\x85\x99\x01";
+				result.write(wstart, len);
+				result << L"\bw";
+				pos += len;
+			}
+			else
+			{
+				int len = 2;
+				wchar_t w;
+				const wchar_t *wstart = raw + pos;
+				while((w = wstart[len]) && (w != L'\n'))
+					len++;
+				result << L"\x0F\x85\x99\x01";
+				result.write(wstart, len);
+				result << L"\bw";
+				pos += len;
+			}
+		}
+		else if(c == L'{' || c == L'}')
+		{
+			result << L"\x0F\xCB\x4B\x16" << c;
+			pos++;
+		}
+		else if(c == L'.' && raw[pos + 1] == L'.' && raw[pos + 2] == L'.')
+		{
+			result << L"\x0F\x2A\xA1\x98...";
+			pos += 3;
+		}
+		else
+		{
+			result << c;
+			pos++;
+		}
+	}
+	return result.str();
+}
+
 std::string LuaScriptInterface::FormatCommand(std::string command)
 {
 	if(command != "" && command[0] == '!')
@@ -3634,6 +3852,16 @@ std::string LuaScriptInterface::FormatCommand(std::string command)
 	}
 	else
 		return highlight(command);
+}
+
+std::wstring LuaScriptInterface::FormatWCommand(std::wstring command)
+{
+	if(command != L"" && command[0] == L'!')
+	{
+		return L"!"+format::StringToWString(legacy->FormatCommand(format::WStringToString(command.substr(1))));
+	}
+	else
+		return whighlight(command);
 }
 
 LuaScriptInterface::~LuaScriptInterface() {

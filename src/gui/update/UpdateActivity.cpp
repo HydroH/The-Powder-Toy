@@ -8,6 +8,8 @@
 #include "client/Client.h"
 #include "Update.h"
 #include "Platform.h"
+#include "Format.h"
+#include "Lang.h"
 
 
 class UpdateDownloadTask : public Task
@@ -28,7 +30,7 @@ private:
 	{
 		std::stringstream errorStream;
 		void * request = http_async_req_start(NULL, (char*)updateName.c_str(), NULL, 0, 0);
-		notifyStatus("Downloading update");
+		notifyStatus("Downloading update"); //TODO: Chinese?
 		notifyProgress(-1);
 		while(!http_async_req_status(request))
 		{
@@ -124,7 +126,7 @@ UpdateActivity::UpdateActivity() {
 	file << "http://" << SERVER << Client::Ref().GetUpdateInfo().File;
 #endif
 	updateDownloadTask = new UpdateDownloadTask(file.str(), this);
-	updateWindow = new TaskWindow("Downloading update...", updateDownloadTask, true);
+	updateWindow = new TaskWindow(TEXT_GUI_UPDATE_WIN_TITLE, updateDownloadTask, true);
 }
 
 void UpdateActivity::NotifyDone(Task * sender)
@@ -161,9 +163,9 @@ void UpdateActivity::NotifyError(Task * sender)
 		virtual ~ErrorMessageCallback() { }
 	};
 #ifdef UPDATESERVER
-	new ConfirmPrompt("Autoupdate failed", "Please go online to manually download a newer version.\nError: " + sender->GetError(), new ErrorMessageCallback(this));
+	new ConfirmPrompt(TEXT_GUI_UPDATE_FAIL_CONF_TITLE, TEXT_GUI_UPDATE_FAIL_CONF_SERVER_MSG + format::StringToWString(sender->GetError()), new ErrorMessageCallback(this));
 #else
-	new ConfirmPrompt("Autoupdate failed", "Please visit the website to download a newer version.\nError: " + sender->GetError(), new ErrorMessageCallback(this));
+	new ConfirmPrompt(TEXT_GUI_UPDATE_FAIL_CONF_TITLE, TEXT_GUI_UPDATE_FAIL_CONF_DEFAULT_MSG + format::StringToWString(sender->GetError()), new ErrorMessageCallback(this));
 #endif
 }
 

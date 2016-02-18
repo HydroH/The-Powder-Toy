@@ -184,6 +184,7 @@ public:
 	virtual void SetWindow(ui::Window * window);
 	virtual int Command(std::string command);
 	virtual std::string FormatCommand(std::string command);
+	virtual std::wstring FormatWCommand(std::wstring command);
 	virtual ~LuaScriptInterface();
 };
 

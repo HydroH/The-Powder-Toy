@@ -52,6 +52,8 @@ extern "C" {
 
 #include "client/HTTP.h"
 
+#include "Lang.h"
+
 using namespace std;
 
 #if defined(WIN) || defined(LIN)
@@ -577,11 +579,11 @@ void EventProcess(SDL_Event event)
 
 void DoubleScreenDialog()
 {
-	std::stringstream message;
-	message << "Switching to double size mode since your screen was determined to be large enough: ";
-	message << desktopWidth << "x" << desktopHeight << " detected, " << WINDOWW*2 << "x" << WINDOWH*2 << " required";
-	message << "\nTo undo this, hit Cancel. You can toggle double size mode in settings at any time.";
-	if (!ConfirmPrompt::Blocking("Large screen detected", message.str()))
+	std::wstringstream message;
+	message << TEXT_SYSTEM_DOUBLE_SCALE_MSG1;
+	message << desktopWidth << "x" << desktopHeight << TEXT_SYSTEM_DOUBLE_SCALE_MSG2 << WINDOWW*2 << "x" << WINDOWH*2 << TEXT_SYSTEM_DOUBLE_SCALE_MSG3;
+	message << TEXT_SYSTEM_DOUBLE_SCALE_MSG4;
+	if (!ConfirmPrompt::Blocking(TEXT_SYSTEM_DOUBLE_SCALE_TITLE, message.str()))
 	{
 		Client::Ref().SetPref("Scale", 1);
 		engine->SetScale(1);
@@ -744,10 +746,9 @@ void BlueScreen(const char * detailMessage){
 	ui::Engine * engine = &ui::Engine::Ref();
 	engine->g->fillrect(0, 0, engine->GetWidth(), engine->GetHeight(), 17, 114, 169, 210);
 
-	std::string errorTitle = "ERROR";
-	std::string errorDetails = "Details: " + std::string(detailMessage);
-	std::string errorHelp = "An unrecoverable fault has occurred, please report the error by visiting the website below\n"
-		"http://" SERVER;
+	std::wstring errorTitle = TEXT_SYSTEM_BLUESCR_TITLE;
+	std::wstring errorDetails = TEXT_SYSTEM_BLUESCR_DETAIL + format::StringToWString(detailMessage);
+	std::wstring errorHelp = TEXT_SYSTEM_BLUESCR_HELP SERVER;
 	int currentY = 0, width, height;
 	int errorWidth = 0;
 	Graphics::textsize(errorHelp.c_str(), errorWidth, height);
@@ -786,7 +787,7 @@ void SigHandler(int signal)
 {
 	switch(signal){
 	case SIGSEGV:
-		BlueScreen("Memory read/write error");
+		BlueScreen("Memory read/write error"); //TODO: Globalize!
 		break;
 	case SIGFPE:
 		BlueScreen("Floating point exception");
@@ -957,7 +958,7 @@ int main(int argc, char * argv[])
 		{
 			engine->g->fillrect((engine->GetWidth()/2)-101, (engine->GetHeight()/2)-26, 202, 52, 0, 0, 0, 210);
 			engine->g->drawrect((engine->GetWidth()/2)-100, (engine->GetHeight()/2)-25, 200, 50, 255, 255, 255, 180);
-			engine->g->drawtext((engine->GetWidth()/2)-(Graphics::textwidth("Loading save...")/2), (engine->GetHeight()/2)-5, "Loading save...", style::Colour::InformationTitle.Red, style::Colour::InformationTitle.Green, style::Colour::InformationTitle.Blue, 255);
+			engine->g->drawtext((engine->GetWidth()/2)-(Graphics::textwidth(TEXT_GUI_SAVE_PRE_LOAD_INFO)/2), (engine->GetHeight()/2)-5, TEXT_GUI_SAVE_PRE_LOAD_INFO, style::Colour::InformationTitle.Red, style::Colour::InformationTitle.Green, style::Colour::InformationTitle.Blue, 255);
 
 #ifdef OGLI
 			blit();
