@@ -776,7 +776,6 @@
 #define TEXT_SYSTEM_BLUESCR_DETAIL L"Details: "
 #define TEXT_SYSTEM_BLUESCR_HELP L"An unrecoverable fault has occurred, please report the error by visiting the website below\n" \
 		"http://"
-#define TEXT_SYSTEM_BLUESCR_TITLE L"ERROR"
 
 //Lua prompts.
 #define TEXT_LUA_NORESPOND_TITLE L"Script not responding"
