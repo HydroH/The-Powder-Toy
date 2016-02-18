@@ -592,12 +592,12 @@ int Graphics::textwidth(const wchar_t *s)
 	int x = 0;
 	for (; *s; s++)
 	{
-		if(((char)*s)=='\b')
+		if(((wchar_t)*s)==L'\b')
 		{
 			if(!s[1]) break;
 			s++;
 			continue;
-		} else if(*s == '\x0F') {
+		} else if(*s == L'\x0F') {
 			if(!s[1] || !s[2] || !s[3]) break;
 			s+=3;
 			continue;
@@ -647,7 +647,7 @@ int Graphics::textnwidth(wchar_t *s, int n)
 	{
 		if (!n)
 			break;
-		if(((char)*s)==L'\b')
+		if(((wchar_t)*s)==L'\b')
 		{
 			if(!s[1]) break;
 			s++;
@@ -757,7 +757,7 @@ int Graphics::textwidthx(wchar_t *s, int w)
 	int x=0,n=0,cw;
 	for (; *s; s++)
 	{
-		if((char)*s == L'\b')
+		if((wchar_t)*s == L'\b')
 		{
 			if(!s[1]) break;
 			s++;

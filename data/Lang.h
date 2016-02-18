@@ -1,4 +1,4 @@
-//Menu sections.
+﻿//Menu sections.
 #define TEXT_MENU_NAME_WALL L"Walls"
 #define TEXT_MENU_NAME_ELEC L"Electronics"
 #define TEXT_MENU_NAME_POWER L"Powered Materials"
