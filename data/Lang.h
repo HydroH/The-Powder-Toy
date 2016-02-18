@@ -17,7 +17,7 @@
 #define TEXT_MENU_NAME_CRACK1 L"Cracker"
 #define TEXT_MENU_NAME_CRACK2 L"Cracker!"
 
-//Wall names.
+ //Wall names.
 #define TEXT_WALL_ERASE_NAME L"删除墙"
 #define TEXT_WALL_CNDTW_NAME L"导体墙"
 #define TEXT_WALL_EWALL_NAME L"电控墙"
@@ -37,7 +37,7 @@
 #define TEXT_WALL_NOAIR_NAME L"气压墙"
 #define TEXT_WALL_ERASEA_NAME L"橡皮擦"
 
-//Wall descriptions.
+ //Wall descriptions.
 #define TEXT_WALL_ERASE_DESC L"擦除墙"
 #define TEXT_WALL_CNDTW_DESC L"阻挡一切. 导体."
 #define TEXT_WALL_EWALL_DESC L"电控墙. 通电时允许物质通过."
@@ -57,7 +57,7 @@
 #define TEXT_WALL_NOAIR_DESC L"允许所有物质通过, 除了压力."
 #define TEXT_WALL_ERASEA_DESC L"能擦除任何墙, 物质, 标识等."
 
-//Element descriptions.
+ //Element descriptions.
 #define TEXT_ELEM_116_DESC L"一个失败的实验产物. "
 #define TEXT_ELEM_146_DESC L"布莱恩 6 S6/B246/3. "
 #define TEXT_ELEM_ACEL_DESC L"加速器, 加速能量粒子. "
@@ -70,12 +70,12 @@
 #define TEXT_ELEM_BCOL_DESC L"煤渣, 重粉末, 只能用明火点燃, 缓慢燃烧. "
 #define TEXT_ELEM_BGLA_DESC L"玻璃渣, 熔化后能重新变回玻璃. "
 #define TEXT_ELEM_BHOL_DESC L"吸气孔, 吸引并吞噬其他物质, 发出热量. "
-#define TEXT_ELEM_BIZR_DESC L"奇特液体, 与一般物理规律相反的液体, 高温时凝固, 低温时汽化, 还可以把其他与之相遇的物质染成它的颜色. "
+#define TEXT_ELEM_BIZR_DESC L"奇特液体, 高温时凝固, 低温时汽化, 还可以用于染色. "
 #define TEXT_ELEM_BIZRG_DESC L"奇特气体. "
 #define TEXT_ELEM_BIZRS_DESC L"奇特固体. "
 #define TEXT_ELEM_BMTL_DESC L"脆金属.可以用做建筑材料.可以被融化.高压下被破坏. "
 #define TEXT_ELEM_BOMB_DESC L"炸弹, 摧毁大部分碰到它的物体, 爆炸时在8个像素的范围内产生9725.85 C的高温, 同时产生火花. "
-#define TEXT_ELEM_BOYL_DESC L"波义耳气, 加热产生气压. "
+#define TEXT_ELEM_BOYL_DESC L"波义耳气, 加热时气压上升. "
 #define TEXT_ELEM_BRAY_DESC L"射线, 多个射线相遇时能变成固体."
 #define TEXT_ELEM_BRCK_DESC L"砖块, 易碎的建筑材料. "
 #define TEXT_ELEM_BREC_DESC L"电渣, 使用EMP摧毁电子设备留下的物质, 在高压下通电会形成奇异物质. "
@@ -98,13 +98,13 @@
 #define TEXT_ELEM_DESL_DESC L"柴油, 高温高压下爆炸. "
 #define TEXT_ELEM_DEST_DESC L"高爆炸药, 升级版BOMB,几乎可以摧毁任何东西. "
 #define TEXT_ELEM_DEUT_DESC L"重水, 体积随温度变化, 遇中子(NEUT)会裂变. "
-#define TEXT_ELEM_DLAY_DESC L"延时器, 当电脉冲通过延时计时会延迟X帧, X等于延时计的温度, 可以使用升温笔(HEAT)和降温笔(COOL)来改变温度. "
+#define TEXT_ELEM_DLAY_DESC L"延时计, 延迟收到的电脉冲, 延迟时间由温度决定, 使用温度工具(HEAT/COOL)来改变温度. "
 #define TEXT_ELEM_DMG_DESC L"压力炸弹, 对碰到它的物质表面产生一个破坏性的压力. "
 #define TEXT_ELEM_DMND_DESC L"钻石. 不可摧毁. "
 #define TEXT_ELEM_DRAY_DESC L"复印机, 复制在他前面的那一行元素. "
 #define TEXT_ELEM_DRIC_DESC L"干冰, 二氧化碳达到凝固点时形成. "
 #define TEXT_ELEM_DSTW_DESC L"纯水, 不导电. "
-#define TEXT_ELEM_DTEC_DESC L"探测器, 当周围有一个ctype值与之相等的元素时产生电流. "
+#define TEXT_ELEM_DTEC_DESC L"探测器, 当检测到周围有和设定值(Ctype)相同的元素时发出电脉冲. "
 #define TEXT_ELEM_DUST_DESC L"尘埃, 轻粉末, 难燃烧且火焰微弱. "
 #define TEXT_ELEM_DYST_DESC L"菌尸, 死亡的酵母. "
 #define TEXT_ELEM_ELEC_DESC L"电子. 给碰到的物质传递一个电脉冲, 可以跟水和中子起反应. "
@@ -117,7 +117,7 @@
 #define TEXT_ELEM_FIRE_DESC L"明火, 用于点燃或加热. "
 #define TEXT_ELEM_FIRW_DESC L"五颜六色的烟花!  用火点燃. "
 #define TEXT_ELEM_FOG_DESC L"雾, 霜(RIME)受到电脉冲刺激会形成雾(FOG). "
-#define TEXT_ELEM_FRAY_DESC L"力射线发射器, 通电后, 会沿着电流方向给物体一个力（类似于ARAY）, 当物质温度大于FRAY的温度时, 物质将会被FRAY给吸引, 反之, 则推开物质. "
+#define TEXT_ELEM_FRAY_DESC L"力射线发射器, 会沿着电流方向给物体一个力(类似于ARAY), 大于FRAY温度的物质会被吸引, 反之被推开. "
 #define TEXT_ELEM_FRME_DESC L"支架, 用于增加活塞一次性推动物质的数量. "
 #define TEXT_ELEM_FRZW_DESC L"寒水. 寒尘(FRZZ)溶解得到."
 #define TEXT_ELEM_FRZZ_DESC L"寒尘, 很冷, 能立即冻住水. 能将水转变成寒水(FRZW). "
@@ -125,13 +125,13 @@
 #define TEXT_ELEM_FUSE_DESC L"导火索, 高温下或通电能缓慢燃烧. "
 #define TEXT_ELEM_FWRK_DESC L"原始烟花, 由中子(NEUT)或者达到燃点时激发, 比烟花(FIRW)升的更高, 但火焰苍白. "
 #define TEXT_ELEM_GAS_DESC L"石油气, 易燃气体, 由石油(OIL)在低压下形成. "
-#define TEXT_ELEM_GBMB_DESC L"引力炸弹, 碰到物质时会吸附在物质上并产生一个巨大的引力, 随后再突然变为巨大的斥力从而破坏物质. "
+#define TEXT_ELEM_GBMB_DESC L"引力炸弹, 碰到物质时会吸附在物质上并产生一个巨大的引力, 随后再突然变为巨大的斥力以破坏物质. "
 #define TEXT_ELEM_GEL_DESC L"胶体, 一种有可变粘性和热导率的液体. "
 #define TEXT_ELEM_GLAS_DESC L"玻璃, 在压力下会破碎, 可以熔化, 还可以折射光子. "
 #define TEXT_ELEM_GLOW_DESC L"荧光液, 随状态、压力、温度的变化而改变颜色. "
 #define TEXT_ELEM_GOLD_DESC L"金,抗腐蚀(但通电时会受到酸的腐蚀), 可以保护钢(IRON)免受腐蚀. "
 #define TEXT_ELEM_GOO_DESC L"粘土, 受压后变形并消失. "
-#define TEXT_ELEM_GPMP_DESC L"引力泵, 激活时改变使周围重力值变为自身温度值, 自身温度可用升温/降温笔(HEAT/COOL)控制. "
+#define TEXT_ELEM_GPMP_DESC L"引力泵, 激活时使周围重力值变为自身温度值, 使用温度工具(HEAT/COOL)控制其温度. "
 #define TEXT_ELEM_GRAV_DESC L"引力尘, 很轻的粉末, 颜色随自身速度变化. "
 #define TEXT_ELEM_GRVT_DESC L"引力子, 会在周围产生引力场. "
 #define TEXT_ELEM_GUNP_DESC L"黑火药, 以粉末形式爆炸, 可以被明火或电脉冲或达到爆炸点引爆. "
@@ -159,37 +159,37 @@
 #define TEXT_ELEM_METL_DESC L"金属, 最基础的导体, 可以熔化. "
 #define TEXT_ELEM_MORT_DESC L"烟尘, 不断释放烟."
 #define TEXT_ELEM_MWAX_DESC L"融化的蜡(WAX), 可以燃烧, 45 C时凝固. "
-#define TEXT_ELEM_NBHL_DESC L"黑洞.用引力吸入物体.(需要开启牛顿引力). "
+#define TEXT_ELEM_NBHL_DESC L"黑洞.用引力吸入物体.(需要开启引力模拟). "
 #define TEXT_ELEM_NBLE_DESC L"惰性气体, 通电后能电离成等PLSM. "
 #define TEXT_ELEM_NEUT_DESC L"中子, 与许多物质产生有趣的反应. "
 #define TEXT_ELEM_NICE_DESC L"固态氮, 很冷,液氮凝固形成. "
-#define TEXT_ELEM_NITR_DESC L"硝化甘油, 压力敏感型炸药, 压力下、电脉冲、明火都可以引起爆炸,和粘土砂(CLST)混合来制造TNT. "
+#define TEXT_ELEM_NITR_DESC L"硝化甘油, 压力敏感型炸药, 压力下、电脉冲、明火都可以引起爆炸,和粘土砂(CLST)混合形成TNT. "
 #define TEXT_ELEM_NONE_DESC L"擦除物质. "
 #define TEXT_ELEM_NSCN_DESC L"N型硅, 不会向P型硅(PSCN)传递电脉冲. "
 #define TEXT_ELEM_NTCT_DESC L"热敏电阻, 只有超过100 C时才导电. "
-#define TEXT_ELEM_NWHL_DESC L"白洞.把所有靠近他的物体用引力推开(需要开启牛顿引力). "
+#define TEXT_ELEM_NWHL_DESC L"白洞.把所有靠近他的物体用引力推开(需要开启引力模拟). "
 #define TEXT_ELEM_O2_DESC L"氧气, 高度易燃的气体. "
 #define TEXT_ELEM_OIL_DESC L"石油, 可燃.低压或高温时可产生GAS.NEUT和NITR碰撞可以形成. "
-#define TEXT_ELEM_PBCN_DESC L"可控可破坏复制体, 激活时和可破坏复制体(BCLN)相同, 复制与之相接触的物质, 但可以被破坏. "
-#define TEXT_ELEM_PCLN_DESC L"可控复制体, 激活时变得和复制体(CLNE)一样, 可以复制与之接触的物质. 也可以通过修改Ctype值来改变复制的物质. "
+#define TEXT_ELEM_PBCN_DESC L"可控可破坏复制体, 可破坏复制体(BLCN)的可控形式. "
+#define TEXT_ELEM_PCLN_DESC L"可控复制体, 复制体(CLNE)的可控形式. "
 #define TEXT_ELEM_PHOT_DESC L"光子, 在玻璃中折射, 在石英中散射, 经过不同元素时会变成不同的颜色. 会点燃易燃物质. "
-#define TEXT_ELEM_PIPE_DESC L"动力管,可用于移动元素. 当放置时周围出现一圈BRCK,移除一些BRCK作为PIPE的出口, 之后PIPE会自动充能并变得可用. "
+#define TEXT_ELEM_PIPE_DESC L"动力管,可用于移动物质. 放置后四周出现一圈砖块(BRCK), 擦去作为出口处的砖块之后动力管会自动形成. "
 #define TEXT_ELEM_PLEX_DESC L"C4炸药, 对压力敏感, 暴露在高压下、电脉冲或者达到爆炸点都可以引发爆炸. "
-#define TEXT_ELEM_PLNT_DESC L"植物, 吸收水份生长. "
+#define TEXT_ELEM_PLNT_DESC L"植物, 吸收水生长. "
 #define TEXT_ELEM_PLSM_DESC L"等离子体, 炽热的气体, 9725.85 C. "
 #define TEXT_ELEM_PLUT_DESC L"钚. 裂变材料, 压力下产生中子. "
-#define TEXT_ELEM_PPIP_DESC L"可控动力管, 利用PSCN激活时其中的物质将会运输, 用NSCN则会停止其中物质的运输, 用INST会使物质向反方向运输. "
+#define TEXT_ELEM_PPIP_DESC L"可控动力管, 动力管(PIPE)的可控形式. "
 #define TEXT_ELEM_PQRT_DESC L"石英砂,石英(QRTZ)粉碎后形成. "
 #define TEXT_ELEM_PROT_DESC L"质子.可以传导热量到另一个物体, 也可以移除电流. "
 #define TEXT_ELEM_PRTI_DESC L"传送门入口, 可以传送物质和电脉冲, 也有温度形成的频道(和Wi-Fi相似). "
 #define TEXT_ELEM_PRTO_DESC L"传送门出口, 和传送门入口配套, 物质从这里出来,也有温度形成的频道（和Wi-Fi类似）. "
 #define TEXT_ELEM_PSCN_DESC L"P型硅, 可以将电脉冲传导给任何导体. "
-#define TEXT_ELEM_PSNS_DESC L"压力传感器, 可以用升温笔/降温笔(HEAT/COOL)来改变自身温度, 当压力大于其温度值时发出电脉冲给周围的导电体. "
+#define TEXT_ELEM_PSNS_DESC L"压力传感器, 用温度工具(HEAT/COOL)改变其温度, 当周围压力大于其温度值时发出电脉冲. "
 #define TEXT_ELEM_PSTE_DESC L"浆糊, 受压时凝固. "
-#define TEXT_ELEM_PSTN_DESC L"活塞, 当用PSCN激活时, 活塞会变长, 碰到物质后它不会停止而是继续推动物质上升, 使用NSCN激活可以使它缩短. "
+#define TEXT_ELEM_PSTN_DESC L"活塞, 当用PSCN激活时变长, 能推动其他物质, 使用NSCN激活可以使它缩短. "
 #define TEXT_ELEM_PSTS_DESC L"凝固的浆糊."
 #define TEXT_ELEM_PTCT_DESC L"热敏电阻, 只有低于100 C时才导电. "
-#define TEXT_ELEM_PUMP_DESC L"压力泵, 激活时改变使周围压力值变为自身温度值, 自身温度可用升温/降温笔(HEAT/COOL)控制. "
+#define TEXT_ELEM_PUMP_DESC L"压力泵, 激活时改变使周围压力值变为自身温度值, 自身温度可用温度工具(HEAT/COOL)控制. "
 #define TEXT_ELEM_PVOD_DESC L"可控虚空, 一旦激活就如同虚空(VOID)一样, 吸收一切物质. 改变其Ctype值可以令其只吸收特定物质."
 #define TEXT_ELEM_QRTZ_DESC L"石英, 较脆的矿物, 温度越低越脆. "
 #define TEXT_ELEM_RBDM_DESC L"铷, 低熔点, 遇水爆炸, 可以导电. "
@@ -213,13 +213,13 @@
 #define TEXT_ELEM_STKM_DESC L"火柴人, 不要杀掉他! 使用方向键来控制其运动. "
 #define TEXT_ELEM_STKM2_DESC L"火柴人二号, 不要杀死他! 使用WASD控制. "
 #define TEXT_ELEM_STNE_DESC L"石粉, 会熔化成为岩浆. "
-#define TEXT_ELEM_STOR_DESC L"堆栈, 吸收一个像素的与之接触的物质, 修改它的Ctype值可以使它吸收特定的物质, 用PSCN激活后释放, 也可以传递给动力管(PIPE). "
+#define TEXT_ELEM_STOR_DESC L"堆栈, 吸收一个像素的与之接触的物质, 用PSCN激活后释放, 也可以传递给动力管(PIPE). "
 #define TEXT_ELEM_SWCH_DESC L"开关, 仅当开关打开时导电. P型硅输入电脉冲可以打开开关, N型硅输入电脉冲可以关闭. "
 #define TEXT_ELEM_TESC_DESC L"特斯拉线圈, 通电时产生闪电. "
 #define TEXT_ELEM_THDR_DESC L"球状闪电, 很热的类液体物质, 高温带电, 与物质接触时产生巨大压力. "
 #define TEXT_ELEM_THRM_DESC L"铝热剂, 燃烧产生巨大的热量. "
 #define TEXT_ELEM_TRON_DESC L"智能粒子, 直线行进并会躲避障碍. 随时间变长. "
-#define TEXT_ELEM_TSNS_DESC L"温度传感器, 可以用HEAT/COOL来改变自身温度, 当周围有温度比它高的物质时, 温度传感器会发出电脉冲给周围的导电体. "
+#define TEXT_ELEM_TSNS_DESC L"温度传感器, 可以用温度工具(HEAT/COOL)来改变其温度, 检测到更高温度物质时释放电脉冲. "
 #define TEXT_ELEM_TTAN_DESC L"钛, 坚固的材料. 熔点很高, 能导电,不传导压力, 不论任何厚度都可以阻隔压力. "
 #define TEXT_ELEM_TUNG_DESC L"钨, 脆金属, 熔点很高. "
 #define TEXT_ELEM_URAN_DESC L"铀.受到压力产生热量. "
@@ -239,7 +239,7 @@
 #define TEXT_ELEM_WTRV_DESC L"水蒸气, 加热水产生. "
 #define TEXT_ELEM_YEST_DESC L"酵母, 在37 C时会繁殖. "
 
-//GOL Descriptions.
+ //GOL Descriptions.
 #define TEXT_GOL_GOL_DESC L"生命游戏: 繁殖 3/存活 23"
 #define TEXT_GOL_HLIF_DESC L"高等生命: 36/23"
 #define TEXT_GOL_ASIM_DESC L"同化: 345/4567, 稳定后呈现钻石形状."
@@ -265,16 +265,16 @@
 #define TEXT_GOL_FROG_DESC L"青蛙: 34/12/3"
 #define TEXT_GOL_BRAN_DESC L"布莱恩 6: 246/6/3"
 
-//Tool descriptions.
+ //Tool descriptions.
 #define TEXT_TOOL_AIR_DESC L"升高目标范围内的气压"
 #define TEXT_TOOL_VAC_DESC L"降低目标范围内的气压"
 #define TEXT_TOOL_HEAT_DESC L"升高目标的温度"
 #define TEXT_TOOL_COOL_DESC L"降低目标的温度"
-#define TEXT_TOOL_PGRV_DESC L"制造一个引力墙,一段时间后消失."
-#define TEXT_TOOL_NGRV_DESC L"制造一个负引力墙,一段时间后消失."
+#define TEXT_TOOL_PGRV_DESC L"制造一个引力源,一段时间后消失."
+#define TEXT_TOOL_NGRV_DESC L"制造一个负引力源,一段时间后消失."
 #define TEXT_TOOL_NULL_DESC L"无用的工具"
 
-//Decoration tool descriptions.
+ //Decoration tool descriptions.
 #define TEXT_DECO_ADD_DESC L"混合模式: 增加"
 #define TEXT_DECO_SUB_DESC L"混合模式: 删除"
 #define TEXT_DECO_MUL_DESC L"混合模式: 提高饱和度"
@@ -283,13 +283,13 @@
 #define TEXT_DECO_CLR_DESC L"删除所有装饰颜色"
 #define TEXT_DECO_DRAW_DESC L"绘制颜色(无混合)"
 
-//Special Tool descriptions.
+ //Special Tool descriptions.
 #define TEXT_SPEC_TOOL_WIND_DESC L"风, 制造气流."
 #define TEXT_SPEC_TOOL_SIGN_DESC L"标识工具, 修改或新建一个标识."
 #define TEXT_SPEC_TOOL_SMPL_DESC L"吸管工具, 选取屏幕上的元素."
 #define TEXT_SPEC_TOOL_SMPL_PROP L"属性笔, 修改元素的属性值." 
 
-//Display modes.
+ //Display modes.
 #define TEXT_RENDER_PRESET_ALTV L"气流显示模式2"
 #define TEXT_RENDER_PRESET_VELOCITY L"气流显示模式1"
 #define TEXT_RENDER_PRESET_PRESSURE L"气压显示模式"
@@ -302,25 +302,25 @@
 #define TEXT_RENDER_PRESET_HEATGRAD L"热梯度显示模式"
 #define TEXT_RENDER_PRESET_LIFEGRAD L"Life梯度显示模式"
 
-//Quick Options.
+ //Quick Options.
 #define TEXT_QUICK_OPT_SAND_DESC L"粒子效果"
 #define TEXT_QUICK_OPT_GGRID_DESC L"引力网格 \bg(ctrl+g)"
 #define TEXT_QUICK_OPT_DECO_DESC L"装饰图层 \bg(ctrl+b)"
 #define TEXT_QUICK_OPT_NEWTON_DESC L"引力模拟 \bg(n)"
-#define TEXT_QUICK_OPT_AHEAT_DESC L"全局热模拟 \bg(u)"
+#define TEXT_QUICK_OPT_AHEAT_DESC L"环境热模拟 \bg(u)"
 #define TEXT_QUICK_OPT_CON_DESC L"打开控制台 \bg(~)"
 #define TEXT_QUICK_OPT_SAND_DESC L"粒子效果"
 #define TEXT_QUICK_OPT_SAND_DESC L"粒子效果"
 
-//Option infotips.
+ //Option infotips.
 #define TEXT_INFOTIP_GGRID_ON L"引力网格: 打开"
 #define TEXT_INFOTIP_GGRID_OFF L"引力网格: 关闭"
 #define TEXT_INFOTIP_DECO_ON L"装饰图层: 打开"
 #define TEXT_INFOTIP_DECO_OFF L"装饰图层: 关闭"
 #define TEXT_INFOTIP_NEWTON_ON L"引力模拟: 打开"
 #define TEXT_INFOTIP_NEWTON_OFF L"引力模拟: 关闭"
-#define TEXT_INFOTIP_AHEAT_ON L"全局热模拟: 打开"
-#define TEXT_INFOTIP_AHEAT_OFF L"全局热模拟: 关闭"
+#define TEXT_INFOTIP_AHEAT_ON L"环境热模拟: 打开"
+#define TEXT_INFOTIP_AHEAT_OFF L"环境热模拟: 关闭"
 #define TEXT_INFOTIP_GRAV_VER L"重力模拟: 标准重力"
 #define TEXT_INFOTIP_GRAV_OFF L"重力模拟: 无重力"
 #define TEXT_INFOTIP_GRAV_RAD L"重力模拟: 中心重力"
@@ -330,7 +330,7 @@
 #define TEXT_INFOTIP_AIR_OFF L"大气模拟: 全部关闭"
 #define TEXT_INFOTIP_AIR_NO_UPD L"大气模拟: 关闭推演"
 
-//HUDs
+ //HUDs
 #define TEXT_GUI_HUD_REC L". \x8E 记录"
 #define TEXT_GUI_HUD_MOLTEN L"熔融的 "
 #define TEXT_GUI_HUD_WITH L" 中的 " /* PIPE with WATR*/
@@ -366,7 +366,7 @@
 #define TEXT_GUI_HUD_GRID L" [网格: "
 #define TEXT_GUI_HUD_FIND L" [透视模式]"
 
-//GUI Button texts.
+ //GUI Button texts.
 #define TEXT_GUI_MAIN_BTN_OPEN_TIP L"打开云沙盘,按住Ctrl以浏览本地存档"
 #define TEXT_GUI_MAIN_BTN_OPEN_LOCAL_TIP L"从本地打开存档"
 #define TEXT_GUI_MAIN_BTN_RESET_TIP L"重新加载存档"
@@ -404,7 +404,7 @@
 #define TEXT_GUI_SIGN_THREAD_TIP2 L" 主题"
 #define TEXT_GUI_SIGN_SEARCH_TIP L"搜索 "
 
-//Dialogs.
+ //Dialogs.
 #define TEXT_DIALOG_CONF_PROM_BTN_CONF L"确定"
 #define TEXT_DIALOG_CONF_PROM_BTN_CANC L"取消"
 #define TEXT_DIALOG_CONF_PROM_BTN_OKAY L"继续"
@@ -416,7 +416,7 @@
 #define TEXT_DIALOG_SAVEMSG_LABEL_COPY L"点击下方复制存档ID"
 #define TEXT_DIALOG_SAVEMSG_BTN_OKAY L"确定"
 
-//Save window.
+ //Save window.
 #define TEXT_GUI_SAVE_WIN_PREVIEW_LABEL L"预览:"
 #define TEXT_GUI_SAVE_WIN_NAME_TBOX_HOLDER L"[存档名]"
 #define TEXT_GUI_SAVE_WIN_DESC_TBOX_HOLDER L"[存档描述]"
@@ -439,7 +439,7 @@
 #define TEXT_GUI_SAVE_WIN_MODIFY_SAVE_TITLE L"修改存档设置: "
 #define TEXT_GUI_SAVE_WIN_NEW_SAVE_TITLE L"上传新的存档: "
 
-//Local save window.
+ //Local save window.
 #define TEXT_GUI_SAVE_LOCAL_TITLE L"保存到本地: "
 #define TEXT_GUI_SAVE_LOCAL_NAME_TBOX_HOLDER L"[文件名]"
 #define TEXT_GUI_SAVE_LOCAL_BTN_CANCEL L"取消"
@@ -451,7 +451,7 @@
 #define TEXT_GUI_SAVE_LOCAL_WRITE_ERR_TITLE L"错误"
 #define TEXT_GUI_SAVE_LOCAL_WRITE_ERR_MSG L"无法访问目录."
 
-//Save browser.
+ //Save browser.
 #define TEXT_GUI_SAVE_BROWSE_TITLE L"浏览存档"
 #define TEXT_GUI_SAVE_BROWSE_TBOX_HOLDER L"[关键字]"
 #define TEXT_GUI_SAVE_BROWSE_INFO_NOSAVE L"没有相关存档"
@@ -467,7 +467,7 @@
 #define TEXT_GUI_SAVE_BROWSE_PROGBAR_LOAD L"加载中..."
 #define TEXT_GUI_SAVE_BROWSE_PROGBAR_RENDER L"加载缩略图..."
 
-//Local save browser.
+ //Local save browser.
 #define TEXT_GUI_LOCAL_BROWSE_BTN_NEXT L"下一页 \x95"
 #define TEXT_GUI_LOCAL_BROWSE_BTN_PREV L"\x96 上一页"
 #define TEXT_GUI_LOCAL_BROWSE_BTN_SCAN L"刷新"
@@ -483,7 +483,7 @@
 #define TEXT_GUI_LOCAL_BROWSE_CONF_RESCAN_TITLE L"刷新"
 #define TEXT_GUI_LOCAL_BROWSE_CONF_RESCAN_MSG L"重新扫描本地对象, 这一操作可能改变目前的排列顺序."
 
-//Search window.
+ //Search window.
 #define TEXT_GUI_SEARCH_BTN_NEXT L"下一页 \x95"
 #define TEXT_GUI_SEARCH_BTN_PREV L"\x96 上一页"
 #define TEXT_GUI_SEARCH_LABEL_TAGS L"\bo热门标签: "
@@ -499,8 +499,8 @@
 #define TEXT_GUI_SEARCH_EDIT_BTN_DELETE L"删除"
 #define TEXT_GUI_SEARCH_EDIT_BTN_UNPUB L"转为私人"
 #define TEXT_GUI_SEARCH_EDIT_BTN_PUB L"转为公开"
-#define TEXT_GUI_SEARCH_EDIT_BTN_FAV L"设为星标"
-#define TEXT_GUI_SEARCH_EDIT_BTN_UNFAV L"取消星标"
+#define TEXT_GUI_SEARCH_EDIT_BTN_FAV L"收藏"
+#define TEXT_GUI_SEARCH_EDIT_BTN_UNFAV L"取消收藏"
 #define TEXT_GUI_SEARCH_EDIT_BTN_CLEAR L"取消选择"
 #define TEXT_GUI_SEARCH_ERR_TITLE L"错误"
 #define TEXT_GUI_SEARCH_ERR_LOAD_TITLE L"加载中..."
@@ -515,10 +515,10 @@
 #define TEXT_GUI_SEARCH_PUB_UNPUB_CONF_MSG_MULTI L""
 #define TEXT_GUI_SEARCH_PUB_WIN_TITLE L"转为公开中..."
 #define TEXT_GUI_SEARCH_UNPUB_WIN_TITLE L"转为私有中..."
-#define TEXT_GUI_SEARCH_FAV_WIN_TITLE L"星标存档中..."
-#define TEXT_GUI_SEARCH_UNFAV_WIN_TITLE L"取消星标存档中..."
+#define TEXT_GUI_SEARCH_FAV_WIN_TITLE L"收藏存档中..."
+#define TEXT_GUI_SEARCH_UNFAV_WIN_TITLE L"取消收藏存档中..."
 
-//Tags window.
+ //Tags window.
 #define TEXT_GUI_TAG_BTN_CLOSE L"关闭"
 #define TEXT_GUI_TAG_TBOX_HOLDER L"[新标签]"
 #define TEXT_GUI_TAG_BTN_ADD L"添加"
@@ -528,7 +528,7 @@
 #define TEXT_GUI_TAG_LENGTH_ERR_MSG L"标签长度至少为4字节"
 #define TEXT_GUI_TAG_ADD_ERR_TITLE L"无法添加标签"
 
-//Login window.
+ //Login window.
 #define TEXT_GUI_LOGIN_BTN_LOGIN L"登录"
 #define TEXT_GUI_LOGIN_BTN_CANCEL L"注销"
 #define TEXT_GUI_LOGIN_TITLE L"登录到服务器"
@@ -538,7 +538,7 @@
 #define TEXT_GUI_LOGIN_STATUS_LOGGED L"登录成功"
 #define TEXT_GUI_LOGIN_STATUS_BAN L". 登录 http://powdertoy.co.uk 以了解封禁原因. 后解禁"
 
-//Profile window.
+ //Profile window.
 #define TEXT_GUI_PROFILE_SAVE_INFO L"保存中..."
 #define TEXT_GUI_PROFILE_BTN_CLOSE L"关闭"
 #define TEXT_GUI_PROFILE_BTN_SAVE L"保存"
@@ -553,16 +553,16 @@
 #define TEXT_GUI_PROFILE_SCORE_HIGH_LABEL L"最高评分: "
 #define TEXT_GUI_PROFILE_BIO_LABEL L"个人档案: "
 
-//Simulation options window.
+ //Simulation options window.
 #define TEXT_GUI_SIM_OPT_TITLE L"设置"
 #define TEXT_GUI_SIM_OPT_HEATSIM_CHECK L"热模拟 \bg34.0版本后加入"
 #define TEXT_GUI_SIM_OPT_HEATSIM_LABEL L"\bg关闭此项可能导致一些奇怪的问题"
-#define TEXT_GUI_SIM_OPT_AHEAT_CHECK L"全局热模拟 \bg50.0版本后加入"
+#define TEXT_GUI_SIM_OPT_AHEAT_CHECK L"环境热模拟 \bg50.0版本后加入"
 #define TEXT_GUI_SIM_OPT_AHEAT_LABEL L"\bg关闭此项可能导致一些存档不能正常运行"
 #define TEXT_GUI_SIM_OPT_NEWTON_CHECK L"牛顿引力模拟 \bg48.0版本后加入"
 #define TEXT_GUI_SIM_OPT_NEWTON_LABEL L"\bg会降低游戏运行的效能"
 #define TEXT_GUI_SIM_OPT_WEQUAL_CHECK L"连通器模拟 \bg61.0版本后加入"
-#define TEXT_GUI_SIM_OPT_WEQUAL_LABEL L"\bg在有大量液体存在时会显著降低游戏运行的效能"
+#define TEXT_GUI_SIM_OPT_WEQUAL_LABEL L"\bg有大量液体存在时会显著降低游戏运行的效能"
 #define TEXT_GUI_SIM_OPT_AIRMODE_LABEL L"大气模拟设定"
 #define TEXT_GUI_SIM_OPT_AIRMODE_OPT_ON L"全部打开"
 #define TEXT_GUI_SIM_OPT_AIRMODE_OPT_PRESSOFF L"关闭气压"
@@ -578,7 +578,7 @@
 #define TEXT_GUI_SIM_OPT_EDGEMODE_OPT_SOLID L"固体"
 #define TEXT_GUI_SIM_OPT_EDGEMODE_OPT_LOOP L"回环"
 #define TEXT_GUI_SIM_OPT_LARGE_CHECK L"大窗口模式"
-#define TEXT_GUI_SIM_OPT_LARGE_LABEL L"\bg- 为更大显示屏提供双倍窗口大小"
+#define TEXT_GUI_SIM_OPT_LARGE_LABEL L"\bg- 为更大的显示屏提供双倍窗口大小"
 #define TEXT_GUI_SIM_OPT_LARGE_ERR_TITLE L"窗口大小设置失败"
 #define TEXT_GUI_SIM_OPT_LARGE_ERR_MSG L"您当前的显示屏大小不满足大窗口模式的需求"
 #define TEXT_GUI_SIM_OPT_FULL_CHECK L"全屏模式"
@@ -593,9 +593,9 @@
 #define TEXT_GUI_SIM_OPT_FOLDER_LABEL L"\bg- 打开游戏程序和存档目录"
 #define TEXT_GUI_SIM_OPT_BTN_OK L"确定"
 
-//Save preview window.
-#define TEXT_GUI_SAVE_PRE_FAV_BTN L"星标"
-#define TEXT_GUI_SAVE_PRE_UNFAV_BTN L"取消星标"
+ //Save preview window.
+#define TEXT_GUI_SAVE_PRE_FAV_BTN L"收藏"
+#define TEXT_GUI_SAVE_PRE_UNFAV_BTN L"取消收藏"
 #define TEXT_GUI_SAVE_PRE_REPORT_BTN L"举报"
 #define TEXT_GUI_SAVE_PRE_REPORT_PROM_TITLE L"举报存档"
 #define TEXT_GUI_SAVE_PRE_REPORT_PROM_MSG L"注意:\n\bw1)\bg 举报抄袭行为时请附上被抄袭的存档ID.\n\bw2)\bg  请不要发布虚假举报, 这可能会导致你的账号被封禁."
@@ -626,18 +626,18 @@
 #define TEXT_GUI_SAVE_PRE_REPORT_ERR_TITLE L"错误"
 #define TEXT_GUI_SAVE_PRE_REPORT_ERR_MSG L"无法举报: "
 
-//Update window.
+ //Update window.
 #define TEXT_GUI_UPDATE_WIN_TITLE L"下载更新中..."
 #define TEXT_GUI_UPDATE_FAIL_CONF_TITLE L"自动更新失败"
 #define TEXT_GUI_UPDATE_FAIL_CONF_SERVER_MSG L"请连接网络以自动更新.\n错误: "
 #define TEXT_GUI_UPDATE_FAIL_CONF_DEFAULT_MSG L"请通过官网下载最新版本.\n错误: "
 
-//Element search window.
+ //Element search window.
 #define TEXT_GUI_ELEM_SEARCH_TITLE L"搜索元素"
 #define TEXT_GUI_ELEM_SEARCH_BTN_CLOSE L"取消"
 #define TEXT_GUI_ELEM_SEARCH_BTN_OK L"确定"
 
-//Sign tool.
+ //Sign tool.
 #define TEXT_GUI_SIGN_TOOL_TITLE L"新建标识"
 #define TEXT_GUI_SIGN_TOOL_BTN_OK L"确定"
 #define TEXT_GUI_SIGN_TOOL_LABEL_JUSTIFY L"对齐:"
@@ -650,16 +650,16 @@
 #define TEXT_GUI_SIGN_TOOL_BTN_MOVE L"移动"
 #define TEXT_GUI_SIGN_TOOL_BTN_DEL L"删除"
 
-//Property pen.
+ //Property pen.
 #define TEXT_GUI_PROP_TITLE L"属性笔工具"
 #define TEXT_GUI_PROP_BTN_OK L"确定"
 #define TEXT_GUI_PROP_TBOX_HOLDER L"[新的属性值]"
 #define TEXT_GUI_PROP_ERR_TITLE L"无法修改属性"
 #define TEXT_GUI_PROP_TYPE_ERR_MSG L"非法元素"
 #define TEXT_GUI_PROP_PROP_ERR_MSG L"非法属性"
-#define TEXT_GUI_PROP_VALUE_ERR_MSG L"非法值"
+#define TEXT_GUI_PROP_VALUE_ERR_MSG L"非法属性值"
 
-//Render mode window.
+ //Render mode window.
 #define TEXT_GUI_RENDER_PRESET_BTN_VELO_TIP L"气流显示模组"
 #define TEXT_GUI_RENDER_PRESET_BTN_PRESS_TIP L"气压显示模组"
 #define TEXT_GUI_RENDER_PRESET_BTN_PERSIST_TIP L"轨迹显示模组"
@@ -692,7 +692,7 @@
 #define TEXT_GUI_RENDER_OPT_VELO_TEXT L"气流"
 #define TEXT_GUI_RENDER_OPT_VELO_TIP L"蓝色表示纵向气流, 红色表示横向气流, 绿色表示静止气流"
 #define TEXT_GUI_RENDER_OPT_AHEAT_TEXT L"环境热"
-#define TEXT_GUI_RENDER_OPT_AHEAT_TIP L"显示全局热模拟下的环境热"
+#define TEXT_GUI_RENDER_OPT_AHEAT_TIP L"显示环境热模拟下的环境热"
 #define TEXT_GUI_RENDER_OPT_WARP_TEXT L"翘曲"
 #define TEXT_GUI_RENDER_OPT_WARP_TIP L"引力透镜, 开启时显示引力情况"
 #define TEXT_GUI_RENDER_OPT_OPENGL_TEXT L"效果"
@@ -710,10 +710,10 @@
 #define TEXT_GUI_RENDER_OPT_BASIC_TEXT L"基础"
 #define TEXT_GUI_RENDER_OPT_BASIC_TIP L"关闭其他所有特殊模式以及装饰图层"
 
-//Colourpickers.
+ //Colourpickers.
 #define TEXT_GUI_COLOUR_BTN_DONE L"完成"
 
-//Controls.
+ //Controls.
 #define TEXT_CONTROL_MENU_COPY L"复制"
 #define TEXT_CONTROL_MENU_CUT L"剪切"
 #define TEXT_CONTROL_MENU_PASTE L"粘贴"
@@ -730,7 +730,7 @@
 #define TEXT_CONTROL_TASKWIN_ERR_TITLE L"错误"
 #define TEXT_CONTROL_TASKWIN_PROG_WAIT L"请等待..."
 
-//Game Controllers.
+ //Game Controllers.
 #define TEXT_GAME_CONTROL_OPEN_SAVE_FAIL L"读取对象失败"
 #define TEXT_GAME_CONTROL_LOAD_STAMP_FAIL L"读取对象时发生错误"
 #define TEXT_GAME_CONTROL_MAC_INST_TITLE L"检测到Mac OS X"
@@ -766,18 +766,18 @@
 #define TEXT_GAME_CONTROL_UPDATE_BETA_NOTIFY L"发现新版本, 点击此处更新"
 #define TEXT_GAME_CONTROL_UPDATE_STABLE_NOTIFY L"发现新版本, 点击此处更新"
 
-//System messages.
-#define TEXT_SYSTEM_DOUBLE_SCALE_TITLE L"检测到大屏幕"
-#define TEXT_SYSTEM_DOUBLE_SCALE_MSG1 L"你的屏幕分辨率足够大, 将自动切换到大屏幕: 检测到 "
+ //System messages.
+#define TEXT_SYSTEM_DOUBLE_SCALE_TITLE L"检测到高分辨率显示屏"
+#define TEXT_SYSTEM_DOUBLE_SCALE_MSG1 L"你的屏幕分辨率足够大, 将自动切换到大窗口模式: 检测到 "
 #define TEXT_SYSTEM_DOUBLE_SCALE_MSG2 L" 分辨率, 需求 "
 #define TEXT_SYSTEM_DOUBLE_SCALE_MSG3 L" 分辨率. "
-#define TEXT_SYSTEM_DOUBLE_SCALE_MSG4 L"\n要取消这一设置, 点击取消. 你可以在设置菜单里随时启用或禁用两倍大小模式. "
+#define TEXT_SYSTEM_DOUBLE_SCALE_MSG4 L"\n要取消这一设置, 请点击取消. 你也可以在设置菜单里随时启用或禁用两倍大小模式. "
 #define TEXT_SYSTEM_BLUESCR_TITLE L"错误"
 #define TEXT_SYSTEM_BLUESCR_DETAIL L"细节: "
 #define TEXT_SYSTEM_BLUESCR_HELP L"发生了致命错误, 你可以在下面的网站中报告错误. \n" \
 		"http://"
 
-//Lua prompts.
+ //Lua prompts.
 #define TEXT_LUA_NORESPOND_TITLE L"脚本无响应"
 #define TEXT_LUA_NORESPOND_MSG L"当前脚本无响应, 是否强制关闭?"
 #define TEXT_LUA_NORESPOND_BTN_STOP L"强制关闭"
@@ -786,7 +786,7 @@
 #define TEXT_LUA_OVERWRITE_TITLE L"发现同名文档, 确认替换吗?"
 #define TEXT_LUA_OVERWRITE_BTN_WRITE L"保存并替换"
 
-//Intro text.
+ //Intro text.
 #define TEXT_BLOCK_INTRO_TEXT \
 	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powder  \bo汉化版 V0.2 Alpha\n" \
 	"\bl\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\n" \
@@ -819,7 +819,7 @@
 #define TEXT_BLOCK_INTRO_GRAVFFT "GRAVFFT "
 #define TEXT_BLOCK_INTRO_REALISTIC "REALISTIC"
 
-//Publishing info.
+ //Publishing info.
 #define TEXT_BLOCK_PUBLISH_INFO \
 		L"在TPT中, 你可以使用两种方式上传存档: 公开和私人. 你可以通过选择是否公开来设置.  该选项默认是关闭的, 私人的存档只能由你一个人看到.\n" \
 		"\n" \
@@ -831,7 +831,7 @@
 		"如果存档已经发布了一个礼拜并拥有较高人气, 它会自动出现在 \bt首页\bw上. 只有设置为公开的存档才有机会登上首页. 版主同样有权限使某个存档在首页上显示, 但这种情况非常少见. 如果某存档被认为触犯了条例或不适合放在首页, 他们同样有权限撤下它.\n" \
 		"当一个存档上传后, 你可以不限次数的修改它. 服务器会保存一个简短的 \bt存档历史\bw, 在存档浏览器中右键你的存档并选择 '查看历史' 就能找到它. 这一功能可以帮助你找回以前的版本并修复错误.\n"
 
-//Saving rules.
+ //Saving rules.
 #define TEXT_BLOCK_SAVE_RULES \
 		L"为了避免你的存档遭到删除或封禁, 以下条例是你所需要遵守的. 这些条例会根据情况更新.\n" \
 		"\n" \
@@ -849,7 +849,7 @@
 		"\bt8. 禁止过于简单的存档.\bw 你的存档应该运用一些游戏中的特性. 只有文字的存档将失去在首页的机会.\n" \
 		   "- 同样地, 元素介绍类存档也不能出现在首页. 你可以在论坛中与其他人讨论元素性质方面的问题.\n" \
 		   "- 这也同样适用于在首页的绘画类存档. 完全依赖于装饰图层的绘画类作品不能出现在首页. 使用元素原本颜色的绘画类存档可以酌情延长在首页的时间.\n" \
-		"\bt9.禁止抄袭.\bw 不允许将他人的作品占为己有. 如果你希望下次再看这个存档, 你可以星标它而不是以个人名义再次发布一遍.\n" \
+		"\bt9.禁止抄袭.\bw 不允许将他人的作品占为己有. 如果你希望下次再看这个存档, 你可以收藏它而不是以个人名义再次发布一遍.\n" \
 		   "- 这不意味着你不能借鉴或者改进别人的存档; 我们鼓励借鉴和改进. 除非作者有特殊说明, 否则在注明出处的情况下适当的借鉴是允许的.\n" \
 		"\bt10. 禁止效率低下的存档.\bw 如果某个存档故意制作成运行缓慢以至于导致游戏崩溃, 那么它将被移出首页.\n" \
 		"\n" \
