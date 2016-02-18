@@ -58,7 +58,7 @@
 #define TEXT_WALL_ERASEA_DESC L"能擦除任何墙, 物质, 标识等."
 
 //Element descriptions.
-#define TEXT_ELEM_116_DESC L"一个失败的实验产物. . "
+#define TEXT_ELEM_116_DESC L"一个失败的实验产物. "
 #define TEXT_ELEM_146_DESC L"布莱恩 6 S6/B246/3. "
 #define TEXT_ELEM_ACEL_DESC L"加速器, 加速能量粒子. "
 #define TEXT_ELEM_ACID_DESC L"酸, 可以腐蚀几乎所有物质. "
@@ -74,7 +74,7 @@
 #define TEXT_ELEM_BIZRG_DESC L"奇特气体. "
 #define TEXT_ELEM_BIZRS_DESC L"奇特固体. "
 #define TEXT_ELEM_BMTL_DESC L"脆金属.可以用做建筑材料.可以被融化.高压下被破坏. "
-#define TEXT_ELEM_BOMB_DESC L"炸弹, 摧毁大部分碰到它的物体, 爆炸时在8个像素的范围内产生9725.85℃的高温, 同时产生火花. "
+#define TEXT_ELEM_BOMB_DESC L"炸弹, 摧毁大部分碰到它的物体, 爆炸时在8个像素的范围内产生9725.85 C的高温, 同时产生火花. "
 #define TEXT_ELEM_BOYL_DESC L"波义耳气, 加热产生气压. "
 #define TEXT_ELEM_BRAY_DESC L"射线, 多个射线相遇时能变成固体."
 #define TEXT_ELEM_BRCK_DESC L"砖块, 易碎的建筑材料. "
@@ -82,7 +82,7 @@
 #define TEXT_ELEM_BRMT_DESC L"金属粉, 一些金属生锈或暴露在高压下能形成. "
 #define TEXT_ELEM_BTRY_DESC L"电池, 能提供稳定的电脉冲给导电元素. "
 #define TEXT_ELEM_BVBR_DESC L"振金粉, 破碎的振金. "
-#define TEXT_ELEM_C5_DESC L"C5炸弹, 能被温度低于-174℃的物质引爆. 对压力不敏感. "
+#define TEXT_ELEM_C5_DESC L"C5炸弹, 能被温度低于-174 C的物质引爆. 对压力不敏感. "
 #define TEXT_ELEM_CAUS_DESC L"酸气, 特性类似于酸(ACID). "
 #define TEXT_ELEM_CBNW_DESC L"苏打水, 释放出二氧化碳(CO2)并产生压力. "
 #define TEXT_ELEM_CFLM_DESC L"冷焰, 据对零度的火焰. "
@@ -125,7 +125,7 @@
 #define TEXT_ELEM_FUSE_DESC L"导火索, 高温下或通电能缓慢燃烧. "
 #define TEXT_ELEM_FWRK_DESC L"原始烟花, 由中子(NEUT)或者达到燃点时激发, 比烟花(FIRW)升的更高, 但火焰苍白. "
 #define TEXT_ELEM_GAS_DESC L"石油气, 易燃气体, 由石油(OIL)在低压下形成. "
-#define TEXT_ELEM_GBMB_DESC L"引力炸弹, 碰到物质时会吸附在物质上并产生一个巨大的引力, 随后再突然变为巨大的斥力从而破坏物质. . "
+#define TEXT_ELEM_GBMB_DESC L"引力炸弹, 碰到物质时会吸附在物质上并产生一个巨大的引力, 随后再突然变为巨大的斥力从而破坏物质. "
 #define TEXT_ELEM_GEL_DESC L"胶体, 一种有可变粘性和热导率的液体. "
 #define TEXT_ELEM_GLAS_DESC L"玻璃, 在压力下会破碎, 可以熔化, 还可以折射光子. "
 #define TEXT_ELEM_GLOW_DESC L"荧光液, 随状态、压力、温度的变化而改变颜色. "
@@ -144,7 +144,7 @@
 #define TEXT_ELEM_INVIS_DESC L"虚无, 当施加压力时隐形, 使物质通过. "
 #define TEXT_ELEM_INWR_DESC L"绝缘线, 只能在P型硅(PSCN)与N型硅(NSCN)之间传递电脉冲. "
 #define TEXT_ELEM_IRON_DESC L"钢, 被盐等物质腐蚀, 可以电解水. "
-#define TEXT_ELEM_ISOZ_DESC L"同位素-Z, 放射性液体, 可以被光子(PHOT)或负压激发, 会释放出更多的光子. . "
+#define TEXT_ELEM_ISOZ_DESC L"同位素-Z, 放射性液体, 可以被光子(PHOT)或负压激发, 会释放出更多的光子. "
 #define TEXT_ELEM_ISZS_DESC L"同位素-Z的固体状态. 慢慢的转化为光子(PHOT). "
 #define TEXT_ELEM_LAVA_DESC L"岩浆, 可以引燃可燃物. 低温时会凝固. "
 #define TEXT_ELEM_LCRY_DESC L"液晶, 激活时改变颜色（PSCN激活, NSCN关闭）. "
@@ -158,7 +158,7 @@
 #define TEXT_ELEM_MERC_DESC L"汞, 体积随温度变化, 导体. "
 #define TEXT_ELEM_METL_DESC L"金属, 最基础的导体, 可以熔化. "
 #define TEXT_ELEM_MORT_DESC L"烟尘, 不断释放烟."
-#define TEXT_ELEM_MWAX_DESC L"融化的蜡(WAX), 可以燃烧, 45℃时凝固. "
+#define TEXT_ELEM_MWAX_DESC L"融化的蜡(WAX), 可以燃烧, 45 C时凝固. "
 #define TEXT_ELEM_NBHL_DESC L"黑洞.用引力吸入物体.(需要开启牛顿引力). "
 #define TEXT_ELEM_NBLE_DESC L"惰性气体, 通电后能电离成等PLSM. "
 #define TEXT_ELEM_NEUT_DESC L"中子, 与许多物质产生有趣的反应. "
@@ -166,17 +166,17 @@
 #define TEXT_ELEM_NITR_DESC L"硝化甘油, 压力敏感型炸药, 压力下、电脉冲、明火都可以引起爆炸,和粘土砂(CLST)混合来制造TNT. "
 #define TEXT_ELEM_NONE_DESC L"擦除物质. "
 #define TEXT_ELEM_NSCN_DESC L"N型硅, 不会向P型硅(PSCN)传递电脉冲. "
-#define TEXT_ELEM_NTCT_DESC L"热敏电阻, 只有超过100℃时才导电. "
+#define TEXT_ELEM_NTCT_DESC L"热敏电阻, 只有超过100 C时才导电. "
 #define TEXT_ELEM_NWHL_DESC L"白洞.把所有靠近他的物体用引力推开(需要开启牛顿引力). "
 #define TEXT_ELEM_O2_DESC L"氧气, 高度易燃的气体. "
 #define TEXT_ELEM_OIL_DESC L"石油, 可燃.低压或高温时可产生GAS.NEUT和NITR碰撞可以形成. "
 #define TEXT_ELEM_PBCN_DESC L"可控可破坏复制体, 激活时和可破坏复制体(BCLN)相同, 复制与之相接触的物质, 但可以被破坏. "
-#define TEXT_ELEM_PCLN_DESC L"可控复制体, 激活时变得和复制体(CLNE)一样, 可以复制与之接触的物质. 也可以通过修改Ctype值来改变复制的物质. . "
-#define TEXT_ELEM_PHOT_DESC L"光子, 在玻璃中折射, 在石英中散射, 经过不同元素时会变成不同的颜色. 会点燃易燃物质. . "
+#define TEXT_ELEM_PCLN_DESC L"可控复制体, 激活时变得和复制体(CLNE)一样, 可以复制与之接触的物质. 也可以通过修改Ctype值来改变复制的物质. "
+#define TEXT_ELEM_PHOT_DESC L"光子, 在玻璃中折射, 在石英中散射, 经过不同元素时会变成不同的颜色. 会点燃易燃物质. "
 #define TEXT_ELEM_PIPE_DESC L"动力管,可用于移动元素. 当放置时周围出现一圈BRCK,移除一些BRCK作为PIPE的出口, 之后PIPE会自动充能并变得可用. "
 #define TEXT_ELEM_PLEX_DESC L"C4炸药, 对压力敏感, 暴露在高压下、电脉冲或者达到爆炸点都可以引发爆炸. "
 #define TEXT_ELEM_PLNT_DESC L"植物, 吸收水份生长. "
-#define TEXT_ELEM_PLSM_DESC L"等离子体, 炽热的气体, 9725.85℃. "
+#define TEXT_ELEM_PLSM_DESC L"等离子体, 炽热的气体, 9725.85 C. "
 #define TEXT_ELEM_PLUT_DESC L"钚. 裂变材料, 压力下产生中子. "
 #define TEXT_ELEM_PPIP_DESC L"可控动力管, 利用PSCN激活时其中的物质将会运输, 用NSCN则会停止其中物质的运输, 用INST会使物质向反方向运输. "
 #define TEXT_ELEM_PQRT_DESC L"石英砂,石英(QRTZ)粉碎后形成. "
@@ -188,7 +188,7 @@
 #define TEXT_ELEM_PSTE_DESC L"浆糊, 受压时凝固. "
 #define TEXT_ELEM_PSTN_DESC L"活塞, 当用PSCN激活时, 活塞会变长, 碰到物质后它不会停止而是继续推动物质上升, 使用NSCN激活可以使它缩短. "
 #define TEXT_ELEM_PSTS_DESC L"凝固的浆糊."
-#define TEXT_ELEM_PTCT_DESC L"热敏电阻, 只有低于100℃时才导电. "
+#define TEXT_ELEM_PTCT_DESC L"热敏电阻, 只有低于100 C时才导电. "
 #define TEXT_ELEM_PUMP_DESC L"压力泵, 激活时改变使周围压力值变为自身温度值, 自身温度可用升温/降温笔(HEAT/COOL)控制. "
 #define TEXT_ELEM_PVOD_DESC L"可控虚空, 一旦激活就如同虚空(VOID)一样, 吸收一切物质. 改变其Ctype值可以令其只吸收特定物质."
 #define TEXT_ELEM_QRTZ_DESC L"石英, 较脆的矿物, 温度越低越脆. "
@@ -204,7 +204,7 @@
 #define TEXT_ELEM_SING_DESC L"奇点. 产生一个巨大的低压并且摧毁一切碰到它的物体. "
 #define TEXT_ELEM_SLTW_DESC L"盐水, 比水具更高沸点和更低的凝固点. "
 #define TEXT_ELEM_SMKE_DESC L"烟, 火焰冷却到较低温度时产生. 可以燃烧. "
-#define TEXT_ELEM_SNOW_DESC L"学粉, 冰(ICE)在压力下形成. "
+#define TEXT_ELEM_SNOW_DESC L"雪粉, 冰(ICE)在压力下形成. "
 #define TEXT_ELEM_SOAP_DESC L"肥皂, 可以产生泡泡, 洗去染色以及治愈病毒(VIRS)的感染. "
 #define TEXT_ELEM_SPAWN_DESC L"火柴人出生点."
 #define TEXT_ELEM_SPAWN2_DESC L"火柴人2号出生点."
@@ -219,7 +219,7 @@
 #define TEXT_ELEM_THDR_DESC L"球状闪电, 很热的类液体物质, 高温带电, 与物质接触时产生巨大压力. "
 #define TEXT_ELEM_THRM_DESC L"铝热剂, 燃烧产生巨大的热量. "
 #define TEXT_ELEM_TRON_DESC L"智能粒子, 直线行进并会躲避障碍. 随时间变长. "
-#define TEXT_ELEM_TSNS_DESC L"温度传感器, 可以用HEAT/COOL来改变自身温度, 当周围有温度比它高的物质时, 温度传感器会发出电脉冲给周围的导电体. . "
+#define TEXT_ELEM_TSNS_DESC L"温度传感器, 可以用HEAT/COOL来改变自身温度, 当周围有温度比它高的物质时, 温度传感器会发出电脉冲给周围的导电体. "
 #define TEXT_ELEM_TTAN_DESC L"钛, 坚固的材料. 熔点很高, 能导电,不传导压力, 不论任何厚度都可以阻隔压力. "
 #define TEXT_ELEM_TUNG_DESC L"钨, 脆金属, 熔点很高. "
 #define TEXT_ELEM_URAN_DESC L"铀.受到压力产生热量. "
@@ -237,7 +237,7 @@
 #define TEXT_ELEM_WIRE_DESC L"Wire World线, 细胞自动机的一种. "
 #define TEXT_ELEM_WOOD_DESC L"木头, 可燃物. "
 #define TEXT_ELEM_WTRV_DESC L"水蒸气, 加热水产生. "
-#define TEXT_ELEM_YEST_DESC L"酵母, 在37℃时会繁殖. "
+#define TEXT_ELEM_YEST_DESC L"酵母, 在37 C时会繁殖. "
 
 //GOL Descriptions.
 #define TEXT_GOL_GOL_DESC L"生命游戏: 繁殖 3/存活 23"
@@ -251,7 +251,7 @@
 #define TEXT_GOL_DMOE_DESC L"方片: 35678/5678, 稳定后形成不规则的菱形."
 #define TEXT_GOL_34_DESC L"34: 34/34"
 #define TEXT_GOL_LLIF_DESC L"长生: 345/5"
-#define TEXT_GOL_STAN_DESC L"染色剂: 3678/235678"
+#define TEXT_GOL_STAN_DESC L"污渍: 3678/235678"
 #define TEXT_GOL_SEED_DESC L"种子: 2/"
 #define TEXT_GOL_MAZE_DESC L"迷宫: 3/12345"
 #define TEXT_GOL_COAG_DESC L"凝固物: 378/235678"
@@ -788,8 +788,8 @@
 
 //Intro text.
 #define TEXT_BLOCK_INTRO_TEXT \
-	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powder  \bo汉化版 V0.1Beta\n" \
-	"\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\n" \
+	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powder  \bo汉化版 V0.1 Beta\n" \
+	"\bl\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\n" \
 	"\n" \
 	"\bg\bgCtrl+C/V/X 复制,粘贴,剪切\n" \
 	"\bg鼠标移至右侧元素栏中某一个类别可以显示该类下的所有元素\n" \
