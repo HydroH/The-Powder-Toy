@@ -15,6 +15,7 @@ def open_file(filename, mode='r'):
     return open(full_path, mode)
 
 
+# Reduce 8-bit greyness to 2-bit
 def bit_reduce(x):
     if x == 255: return 0
     if x == 170: return 1
@@ -45,33 +46,6 @@ fontfile.close()
 
 for char in char_list:
     charindex += 1
-
-    # Original converting method, no anti-aliasing
-    '''
-    cmd = "convert -size 10x10 xc:none +antialias -gravity center -pointsize 10 "
-    cmd += "-font \"C:\\\\Windows\\\\Fonts\\\\ZpixEX2_EX.ttf\" label:\""
-    cmd += char
-    cmd += "\" result.xbm"
-    print cmd
-    if os.system(cmd.decode('UTF-8').encode('cp936')):
-        print('IM process failed!')
-    else:
-        print('IM process success.')
-
-    # xbm file to TPT font encoding
-    charmap = open('result-1.xbm', 'r').read()
-    bit = []
-    i = 0
-    for hexstr in re.finditer('0x', charmap):
-        i += 1
-        byte = int(charmap[hexstr.start():hexstr.start() + 4], 16)
-        if i % 2:
-            rowcount = 8
-        else:
-            rowcount = 2
-        for k in range(rowcount):
-            bit.append(byte >> k & 1)
-    '''
 
     # New converting method with anti-aliasing
     cmd = "convert -size 10x10 -gravity center -pointsize 10 -depth 2 "
@@ -124,8 +98,4 @@ fontfile.writelines(contents)
 fontfile.close()
 
 # Delete useless files
-'''
-os.remove('result-0.xbm')
-os.remove('result-1.xbm')
-'''
 os.remove('result.png')
