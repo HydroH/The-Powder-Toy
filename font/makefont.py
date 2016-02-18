@@ -44,6 +44,8 @@ fontfile = open_file('fontsample.h', 'r')
 contents = fontfile.readlines()
 fontfile.close()
 
+print char_list
+
 for char in char_list:
     charindex += 1
 
@@ -74,7 +76,9 @@ for char in char_list:
             byte = byte << 2 | bitslice[k]
         line += "0x" + format(byte, '02X') + ", "
         i += 4
-    contents.insert(charindex + 260, line + "\n")  # Insert font pointer data into Font.h, 0x0000 for unused characters
+    contents.insert(charindex + 260, line + "\n")
+
+    # Insert font pointer data into Font.h, 0x0000 for unused characters
     currchar = int(repr(char)[4:8], 16)
     for i in range(lastchar + 1, currchar):
         if not ptrcount % 8:
@@ -92,6 +96,9 @@ for char in char_list:
     if ptrcount % 8 == 7:
         contents.insert(charindex + 262 + ((ptrcount + 1) / 8), ptrline + "\n")
     ptrcount += 1
+
+if ptrline != "    ":
+    contents.insert(charindex + 263 + ((ptrcount + 1) / 8), ptrline + "\n")
 
 fontfile = open_file('../data/font.h', 'w')
 fontfile.writelines(contents)
