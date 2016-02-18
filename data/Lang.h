@@ -810,7 +810,7 @@
 	"原作者: \bgStanislaw K Skowronek (Designed the original Powder Toy),\n" \
 	"\bgSimon Robertshaw, Skresanov Savely, cracker64, Catelite, Bryan Hoyle, Nathan Cousins, jacksonmj,\n" \
 	"\bgFelix Wallin, Lieuwe Mosch, Anthony Boot, Matthew \"me4502\", MaksProg, jacob1, mniip\n" \
-	"\bo汉化组: \bg氢氧化氢, Ike, BK, AsBAngel, shimongrom, 85" \
+	"\bo汉化组: \bg氢氧化氢, Ike, BK, AsBAngel, shimongrom, 85\n" \
 	"\n" 
 #define TEXT_BLOCK_INTRO_STABLE "\bg某些联网功能需要注册账号,转到: \brhttp://powdertoy.co.uk/Register.html了解更多\n"
 #define TEXT_BLOCK_INTRO_BETA "\br当前使用的是测试版本,如果你需要上传存档,请使用正式版本\n"
