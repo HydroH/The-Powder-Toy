@@ -26,8 +26,8 @@ SearchView::SearchView():
 
 	Client::Ref().AddListener(this);
 
-	nextButton = new ui::Button(ui::Point(WINDOWW-52, WINDOWH-18), ui::Point(50, 16), TEXT_GUI_SEARCH_BTN_NEXT);
-	previousButton = new ui::Button(ui::Point(2, WINDOWH-18), ui::Point(50, 16), TEXT_GUI_SEARCH_BTN_PREV);
+	nextButton = new ui::Button(ui::Point(WINDOWW-57, WINDOWH-18), ui::Point(55, 16), TEXT_GUI_SEARCH_BTN_NEXT);
+	previousButton = new ui::Button(ui::Point(2, WINDOWH-18), ui::Point(55, 16), TEXT_GUI_SEARCH_BTN_PREV);
 	tagsLabel  = new ui::Label(ui::Point(270, WINDOWH-18), ui::Point(WINDOWW-540, 16), TEXT_GUI_SEARCH_LABEL_TAGS);
 	motdLabel  = new ui::RichLabel(ui::Point(51, WINDOWH-18), ui::Point(WINDOWW-102, 16), Client::Ref().GetMessageOfTheDay());
 
@@ -377,9 +377,12 @@ void SearchView::NotifyPageChanged(SearchModel * sender)
 	else
 	{
 		std::wstringstream pageInfo;
-		pageInfo << TEXT_GUI_SEARCH_LABEL_PAGE2 << pageCount << TEXT_GUI_SEARCH_LABEL_PAGE3;
+		std::wstringstream pageCountStr;
+		pageInfo << TEXT_GUI_SEARCH_LABEL_PAGE2 << pageCount;
+		pageCountStr << pageCount;
+		int width = Graphics::textwidth(pageInfo.str().c_str())-Graphics::textwidth(pageCountStr.str().c_str())/2;  //TODO: A terrible hack. Gotta figure out how to solve later.
+		pageInfo << TEXT_GUI_SEARCH_LABEL_PAGE3;
 		pageCountLabel->SetText(pageInfo.str());
-		int width = Graphics::textwidth(pageInfo.str().c_str());
 
 		pageLabel->Position.X = WINDOWW/2-width-20;
 		pageTextbox->Position.X = WINDOWW/2-width+11;
