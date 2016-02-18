@@ -24,11 +24,12 @@ def bit_reduce(x):
 
 
 # Remain only foreign characters thats not inside ASCII with regex
+# Using only the unicode range of you own languange is suggested; Change the \u0100-\uFEFE part.
 lang_str = open_file('../data/Lang.h', 'r').read().decode("UTF-8")
-lang_str = re.sub(ur"[^\u0100-\uFFFF]", "", lang_str)
+lang_str = re.sub(ur"[^\u0100-\uFEFE]", "", lang_str)  # Don't include your own language punctuations; Won't be included
 
 # Exit if no special characters found
-if not lang_str:
+if lang_str == u'':
     sys.exit()
 
 # Deduplication
@@ -57,7 +58,7 @@ for char in char_list:
     cmd += char
     cmd += "\" result.png"
     print cmd
-    if os.system(cmd.decode('UTF-8').encode('cp936')):
+    if os.system(cmd.decode('UTF-8').encode('cp936')):  # You need to change 'cp936' to your own system coding.
         print('IM process failed!')
     else:
         print('IM process success.')
