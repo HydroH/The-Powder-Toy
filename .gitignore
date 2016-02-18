@@ -11,6 +11,7 @@
 *.lua
 *.sh
 *.xbm
+result*.png
 font/*.bin
 stdout.txt
 stderr.txt
