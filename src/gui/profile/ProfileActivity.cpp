@@ -119,7 +119,7 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 	currentY += 23;
 
 	// age
-	ui::Label * ageTitle = new ui::Label(ui::Point(4, currentY), ui::Point(18, 15), TEXT_GUI_PROFILE_AGE_LABEL);
+	ui::Label * ageTitle = new ui::Label(ui::Point(4, currentY), ui::Point(24, 15), TEXT_GUI_PROFILE_AGE_LABEL);
 	ageTitle->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	ageTitle->SetTextColour(ui::Colour(180, 180, 180));
 	scrollPanel->AddChild(ageTitle);
@@ -131,7 +131,7 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 	currentY += 2+age->Size.Y;
 
 	// location
-	ui::Label * locationTitle = new ui::Label(ui::Point(4, currentY), ui::Point(45, 15), TEXT_GUI_PROFILE_LOC_LABEL);
+	ui::Label * locationTitle = new ui::Label(ui::Point(4, currentY), ui::Point(54, 15), TEXT_GUI_PROFILE_LOC_LABEL);
 	locationTitle->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	locationTitle->SetTextColour(ui::Colour(180, 180, 180));
 	scrollPanel->AddChild(locationTitle);
@@ -145,7 +145,7 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 	currentY += 2+location->Size.Y;
 
 	// website
-	ui::Label * websiteTitle = new ui::Label(ui::Point(4, currentY), ui::Point(38, 15), TEXT_GUI_PROFILE_SITE_LABEL);
+	ui::Label * websiteTitle = new ui::Label(ui::Point(4, currentY), ui::Point(29, 15), TEXT_GUI_PROFILE_SITE_LABEL);
 	websiteTitle->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	websiteTitle->SetTextColour(ui::Colour(180, 180, 180));
 	scrollPanel->AddChild(websiteTitle);
@@ -156,14 +156,14 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 	currentY += 2+website->Size.Y;
 
 	// saves
-	ui::Label * savesTitle = new ui::Label(ui::Point(4, currentY), ui::Point(35, 15), TEXT_GUI_PROFILE_SAVE_LABEL);
+	ui::Label * savesTitle = new ui::Label(ui::Point(4, currentY), ui::Point(29, 15), TEXT_GUI_PROFILE_SAVE_LABEL);
 	savesTitle->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	savesTitle->SetTextColour(ui::Colour(180, 180, 180));
 	scrollPanel->AddChild(savesTitle);
 	currentY += savesTitle->Size.Y;
 
 		// saves count
-		ui::Label * saveCountTitle = new ui::Label(ui::Point(12, currentY), ui::Point(30, 15), TEXT_GUI_PROFILE_COUNT_LABEL);
+		ui::Label * saveCountTitle = new ui::Label(ui::Point(12, currentY), ui::Point(39, 15), TEXT_GUI_PROFILE_COUNT_LABEL);
 		saveCountTitle->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 		saveCountTitle->SetTextColour(ui::Colour(180, 180, 180));
 		scrollPanel->AddChild(saveCountTitle);
@@ -174,7 +174,7 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 		currentY += savesCount->Size.Y;
 
 		// average score
-		ui::Label * averageScoreTitle = new ui::Label(ui::Point(12, currentY), ui::Point(70, 15), TEXT_GUI_PROFILE_SCORE_AVER_LABEL);
+		ui::Label * averageScoreTitle = new ui::Label(ui::Point(12, currentY), ui::Point(49, 15), TEXT_GUI_PROFILE_SCORE_AVER_LABEL);
 		averageScoreTitle->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 		averageScoreTitle->SetTextColour(ui::Colour(180, 180, 180));
 		scrollPanel->AddChild(averageScoreTitle);
@@ -185,7 +185,7 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 		currentY += averageScore->Size.Y;
 
 		// highest score
-		ui::Label * highestScoreTitle = new ui::Label(ui::Point(12, currentY), ui::Point(69, 15), TEXT_GUI_PROFILE_SCORE_HIGH_LABEL);
+		ui::Label * highestScoreTitle = new ui::Label(ui::Point(12, currentY), ui::Point(49, 15), TEXT_GUI_PROFILE_SCORE_HIGH_LABEL);
 		highestScoreTitle->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 		highestScoreTitle->SetTextColour(ui::Colour(180, 180, 180));
 		scrollPanel->AddChild(highestScoreTitle);
@@ -196,7 +196,7 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 		currentY += 2+highestScore->Size.Y;
 	
 	// biograhy
-	ui::Label * bioTitle = new ui::Label(ui::Point(4, currentY), ui::Point(50, 15), TEXT_GUI_PROFILE_BIO_LABEL);
+	ui::Label * bioTitle = new ui::Label(ui::Point(4, currentY), ui::Point(49, 15), TEXT_GUI_PROFILE_BIO_LABEL);
 	bioTitle->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	bioTitle->SetTextColour(ui::Colour(180, 180, 180));
 	scrollPanel->AddChild(bioTitle);
