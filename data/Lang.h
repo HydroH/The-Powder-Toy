@@ -585,7 +585,7 @@
 #define TEXT_GUI_SIM_OPT_FULL_LABEL L"\bg- 进入全屏模式"
 #define TEXT_GUI_SIM_OPT_FULL_ERR_TITLE L"错误"
 #define TEXT_GUI_SIM_OPT_FULL_ERR_MSG L"您不能使用全屏模式, 检测到OS X."
-#define TEXT_GUI_SIM_OPT_QUIT_CHECK L"快速推出"
+#define TEXT_GUI_SIM_OPT_QUIT_CHECK L"快速退出"
 #define TEXT_GUI_SIM_OPT_QUIT_LABEL L"\bg- 点击关闭按钮时总是完全退出游戏"
 #define TEXT_GUI_SIM_OPT_AVATAR_CHECK L"显示头像"
 #define TEXT_GUI_SIM_OPT_AVATAR_LABEL L"\bg- 禁用此项以提升在差网络环境下的加载速度"
