@@ -371,7 +371,7 @@ void PreviewView::OnTick(float dt)
 	c->Update();
 	if (doError)
 	{
-		ErrorMessage::Blocking(TEXT_GUI_SAVE_PRE_LOAD_ERR_TITLE, format::StringToWString(doErrorMessage)); //TODO: Chinese?
+		ErrorMessage::Blocking(TEXT_GUI_SAVE_PRE_LOAD_ERR_TITLE, format::StringToWString(doErrorMessage)); //TODO: Globalize?
 		c->Exit();
 	}
 }

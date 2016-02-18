@@ -67,7 +67,7 @@ void LocalBrowserController::removeSelectedC()
 			for (size_t i = 0; i < saves.size(); i++)
 			{
 				std::stringstream saveName;
-				saveName << "Deleting stamp [" << saves[i] << "] ..."; //TODO: Chinese?
+				saveName << "Deleting stamp [" << saves[i] << "] ..."; //TODO: Globalize?
  				notifyStatus(saveName.str());
  				Client::Ref().DeleteStamp(saves[i]);
 				notifyProgress((float(i+1)/float(saves.size())*100));

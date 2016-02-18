@@ -250,7 +250,7 @@ void ProfileActivity::OnResponseFailed(int identifier)
 {
 	doError = true;
 	if (loading)
-		doErrorMessage = "Could not load user info: " + Client::Ref().GetLastError(); //TODO: Chinese?
+		doErrorMessage = "Could not load user info: " + Client::Ref().GetLastError(); //TODO: Globalize?
 	else if (saving)
 		doErrorMessage = "Could not save user info: " + Client::Ref().GetLastError();
 }

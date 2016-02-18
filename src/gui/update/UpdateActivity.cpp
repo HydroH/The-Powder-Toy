@@ -30,7 +30,7 @@ private:
 	{
 		std::stringstream errorStream;
 		void * request = http_async_req_start(NULL, (char*)updateName.c_str(), NULL, 0, 0);
-		notifyStatus("Downloading update"); //TODO: Chinese?
+		notifyStatus("Downloading update"); //TODO: Globalize?
 		notifyProgress(-1);
 		while(!http_async_req_status(request))
 		{

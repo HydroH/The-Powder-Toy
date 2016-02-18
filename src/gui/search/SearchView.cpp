@@ -379,7 +379,7 @@ void SearchView::NotifyPageChanged(SearchModel * sender)
 		std::wstringstream pageInfo;
 		pageInfo << TEXT_GUI_SEARCH_LABEL_PAGE2 << pageCount << TEXT_GUI_SEARCH_LABEL_PAGE3;
 		pageCountLabel->SetText(pageInfo.str());
-		int width = Graphics::textwidth(pageInfo.str().c_str());
+		int width = Graphics::textwidth(pageInfo.str().c_str());  //TODO: Some problem with other languages here, make textbox too lang. Need to figure out later.
 
 		pageLabel->Position.X = WINDOWW/2-width-20;
 		pageTextbox->Position.X = WINDOWW/2-width+11;
@@ -621,7 +621,7 @@ void SearchView::NotifySaveListChanged(SearchModel * sender)
 		else
 		{
 			if(sender->GetLastError().length())
-				errorLabel->SetText("\bo" + sender->GetLastError()); //TODO: Chinese?
+				errorLabel->SetText("\bo" + sender->GetLastError()); //TODO: Globalize?
 			else
 				errorLabel->SetText(TEXT_GUI_SEARCH_ERR_NONE_TITLE);
 		}
@@ -674,7 +674,7 @@ void SearchView::NotifySaveListChanged(SearchModel * sender)
 			virtual void AltActionCallback(ui::SaveButton * sender)
 			{
 				stringstream search;
-				search << "history:" << sender->GetSave()->GetID(); //TODO: Chinese?
+				search << "history:" << sender->GetSave()->GetID(); //TODO: Globalize?
 				v->Search(search.str());
 			}
 			virtual void AltActionCallback2(ui::SaveButton * sender)

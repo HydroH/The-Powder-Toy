@@ -322,7 +322,7 @@ void SearchController::unpublishSelectedC(bool publish)
 		bool PublishSave(int saveID)
 		{
 			std::stringstream message;
-			message << "Publishing save [" << saveID << "]"; //TODO: Chinese?
+			message << "Publishing save [" << saveID << "]"; //TODO: Globalize?
 			notifyStatus(message.str());
 			if (Client::Ref().PublishSave(saveID) != RequestOkay)
 				return false;

@@ -21,7 +21,7 @@ void Task::Start()
 	pthread_create(&doWorkThread, 0, &Task::doWork_helper, this);
 }
 
-int Task::GetProgress() //TODO: Chinese?
+int Task::GetProgress() //TODO: Globalize?
 {
 	return progress;
 }

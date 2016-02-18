@@ -268,7 +268,7 @@ void ServerSaveActivity::saveUpload()
 
 	if(Client::Ref().UploadSave(save) != RequestOkay)
 	{
-		new ErrorMessage(TEXT_GUI_SAVE_WIN_UPLOAD_ERR_TITLE, TEXT_GUI_SAVE_WIN_UPLOAD_ERR_MSG+format::StringToWString(Client::Ref().GetLastError())); //TODO: Chinese?
+		new ErrorMessage(TEXT_GUI_SAVE_WIN_UPLOAD_ERR_TITLE, TEXT_GUI_SAVE_WIN_UPLOAD_ERR_MSG+format::StringToWString(Client::Ref().GetLastError())); //TODO: Globalize?
 	}
 	else if(callback)
 	{

@@ -7,7 +7,7 @@
 class TagsModelException {
 	std::string message;
 public:
-	TagsModelException(std::string message_): message(message_) {}; //TODO: Chinese?
+	TagsModelException(std::string message_): message(message_) {}; //TODO: Globalize?
 	const char * what() const throw() { return message.c_str(); };
 	~TagsModelException() throw() {};
 };

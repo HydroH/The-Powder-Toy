@@ -28,7 +28,7 @@ void PreviewModel::SetFavourite(bool favourite)
 		if (Client::Ref().FavouriteSave(save->id, favourite) == RequestOkay)
 			save->Favourite = favourite;
 		else if (favourite)
-			throw PreviewModelException("Error, could not fav. the save: " + Client::Ref().GetLastError()); //TODO: Chinese?
+			throw PreviewModelException("Error, could not fav. the save: " + Client::Ref().GetLastError()); //TODO: Globalize?
 		else
 			throw PreviewModelException("Error, could not unfav. the save: " + Client::Ref().GetLastError());
 		notifySaveChanged();
@@ -192,7 +192,7 @@ void PreviewModel::OnResponseReady(void * object, int identifier)
 			}
 			catch(ParseException &e)
 			{
-				new ErrorMessage(TEXT_GUI_SAVE_PRE_PARSE_ERR_TITLE, format::StringToWString(e.what()));  //TODO: Chinese?
+				new ErrorMessage(TEXT_GUI_SAVE_PRE_PARSE_ERR_TITLE, format::StringToWString(e.what()));  //TODO: Globalize?
 				canOpen = false;
 			}
 			notifySaveChanged();
