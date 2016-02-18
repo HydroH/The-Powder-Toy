@@ -157,7 +157,7 @@ OptionsView::OptionsView():
 
 	scale = new ui::Checkbox(ui::Point(8, 210), ui::Point(Size.X-6, 16), TEXT_GUI_SIM_OPT_LARGE_CHECK, L"");
 	scale->SetActionCallback(new ScaleAction(this));
-	tempLabel = new ui::Label(ui::Point(scale->Position.X+Graphics::textwidth(scale->GetText().c_str())+20, scale->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_LARGE_LABEL);
+	tempLabel = new ui::Label(ui::Point(scale->Position.X+Graphics::textwidth(scale->GetWText().c_str())+20, scale->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_LARGE_LABEL);
 	tempLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	tempLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
 	AddComponent(scale);
@@ -182,7 +182,7 @@ OptionsView::OptionsView():
 
 	fullscreen = new ui::Checkbox(ui::Point(8, 230), ui::Point(Size.X-6, 16), TEXT_GUI_SIM_OPT_FULL_CHECK, L"");
 	fullscreen->SetActionCallback(new FullscreenAction(this));
-	tempLabel = new ui::Label(ui::Point(fullscreen->Position.X+Graphics::textwidth(fullscreen->GetText().c_str())+20, fullscreen->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_FULL_LABEL);
+	tempLabel = new ui::Label(ui::Point(fullscreen->Position.X+Graphics::textwidth(fullscreen->GetWText().c_str())+20, fullscreen->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_FULL_LABEL);
 	tempLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	tempLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
 	AddComponent(fullscreen);
@@ -198,7 +198,7 @@ OptionsView::OptionsView():
 
 	fastquit = new ui::Checkbox(ui::Point(8, 250), ui::Point(Size.X-6, 16), TEXT_GUI_SIM_OPT_QUIT_CHECK, L"");
 	fastquit->SetActionCallback(new FastQuitAction(this));
-	tempLabel = new ui::Label(ui::Point(fastquit->Position.X+Graphics::textwidth(fastquit->GetText().c_str())+20, fastquit->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_QUIT_LABEL);
+	tempLabel = new ui::Label(ui::Point(fastquit->Position.X+Graphics::textwidth(fastquit->GetWText().c_str())+20, fastquit->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_QUIT_LABEL);
 	tempLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	tempLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
 	AddComponent(fastquit);
@@ -213,7 +213,7 @@ OptionsView::OptionsView():
 
 	showAvatars = new ui::Checkbox(ui::Point(8, 270), ui::Point(Size.X-6, 16), TEXT_GUI_SIM_OPT_AVATAR_CHECK, L"");
 	showAvatars->SetActionCallback(new ShowAvatarsAction(this));
-	tempLabel = new ui::Label(ui::Point(showAvatars->Position.X+Graphics::textwidth(showAvatars->GetText().c_str())+20, showAvatars->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_AVATAR_LABEL);
+	tempLabel = new ui::Label(ui::Point(showAvatars->Position.X+Graphics::textwidth(showAvatars->GetWText().c_str())+20, showAvatars->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_AVATAR_LABEL);
 	tempLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	tempLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
 	AddComponent(showAvatars);
