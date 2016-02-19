@@ -150,7 +150,7 @@ ServerSaveActivity::ServerSaveActivity(SaveInfo save, ServerSaveActivity::SaveUp
 	}
 	AddComponent(publishedCheckbox);
 
-	pausedCheckbox = new ui::Checkbox(ui::Point(160, 45), ui::Point(55, 16), TEXT_GUI_SAVE_WIN_PAUSE_CHECK, L"");
+	pausedCheckbox = new ui::Checkbox(ui::Point(144, 45), ui::Point(55, 16), TEXT_GUI_SAVE_WIN_PAUSE_CHECK, L"");
 	pausedCheckbox->SetChecked(save.GetGameSave()->paused);
 	AddComponent(pausedCheckbox);
 

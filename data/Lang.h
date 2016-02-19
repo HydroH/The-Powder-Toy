@@ -242,13 +242,13 @@
  //GOL Descriptions.
 #define TEXT_GOL_GOL_DESC L"生命游戏: 繁殖 3/存活 23"
 #define TEXT_GOL_HLIF_DESC L"高等生命: 36/23"
-#define TEXT_GOL_ASIM_DESC L"同化: 345/4567, 稳定后呈现钻石形状."
+#define TEXT_GOL_ASIM_DESC L"同化: 345/4567, 稳定后呈现钻石形状. "
 #define TEXT_GOL_2X2_DESC L"2x2: 36/125"
 #define TEXT_GOL_DANI_DESC L"日以继夜: 3678/34678"
 #define TEXT_GOL_AMOE_DESC L"阿米巴: 357/1358"
 #define TEXT_GOL_MOVE_DESC L"移动: 368/245"
 #define TEXT_GOL_PGOL_DESC L"伪生命游戏: 357/238"
-#define TEXT_GOL_DMOE_DESC L"方片: 35678/5678, 稳定后形成不规则的菱形."
+#define TEXT_GOL_DMOE_DESC L"方片: 35678/5678, 稳定后形成不规则的菱形. "
 #define TEXT_GOL_34_DESC L"34: 34/34"
 #define TEXT_GOL_LLIF_DESC L"长生: 345/5"
 #define TEXT_GOL_STAN_DESC L"污渍: 3678/235678"
@@ -266,51 +266,49 @@
 #define TEXT_GOL_BRAN_DESC L"布莱恩 6: 246/6/3"
 
  //Tool descriptions.
-#define TEXT_TOOL_AIR_DESC L"升高目标范围内的气压"
-#define TEXT_TOOL_VAC_DESC L"降低目标范围内的气压"
-#define TEXT_TOOL_HEAT_DESC L"升高目标的温度"
-#define TEXT_TOOL_COOL_DESC L"降低目标的温度"
-#define TEXT_TOOL_PGRV_DESC L"制造一个引力源,一段时间后消失."
-#define TEXT_TOOL_NGRV_DESC L"制造一个斥力源,一段时间后消失."
-#define TEXT_TOOL_NULL_DESC L"无用的工具"
+#define TEXT_TOOL_AIR_DESC L"压力工具, 升高目标范围内的气压. "
+#define TEXT_TOOL_VAC_DESC L"真空工具, 降低目标范围内的气压. "
+#define TEXT_TOOL_HEAT_DESC L"加热工具, 升高目标的温度. "
+#define TEXT_TOOL_COOL_DESC L"冷却工具, 降低目标的温度. "
+#define TEXT_TOOL_PGRV_DESC L"引力工具, 制造一个引力源, 一段时间后消失. "
+#define TEXT_TOOL_NGRV_DESC L"斥力工具, 制造一个斥力源, 一段时间后消失. "
+#define TEXT_TOOL_NULL_DESC L"无用的工具, 什么用也没有. "
 
  //Decoration tool descriptions.
-#define TEXT_DECO_ADD_DESC L"混合模式: 增加"
-#define TEXT_DECO_SUB_DESC L"混合模式: 删除"
-#define TEXT_DECO_MUL_DESC L"混合模式: 提高饱和度"
-#define TEXT_DECO_DIV_DESC L"混合模式: 降低饱和度"
-#define TEXT_DECO_SMDG_DESC L"涂抹工具, 混合相邻的颜色"
-#define TEXT_DECO_CLR_DESC L"删除所有装饰颜色"
-#define TEXT_DECO_DRAW_DESC L"绘制颜色(无混合)"
+#define TEXT_DECO_ADD_DESC L"混合模式: 增加. "
+#define TEXT_DECO_SUB_DESC L"混合模式: 删除. "
+#define TEXT_DECO_MUL_DESC L"混合模式: 提高饱和度. "
+#define TEXT_DECO_DIV_DESC L"混合模式: 降低饱和度. "
+#define TEXT_DECO_SMDG_DESC L"涂抹工具, 混合相邻的颜色. "
+#define TEXT_DECO_CLR_DESC L"删除所有装饰颜色. "
+#define TEXT_DECO_DRAW_DESC L"绘制颜色(无混合). "
 
  //Special Tool descriptions.
-#define TEXT_SPEC_TOOL_WIND_DESC L"风, 制造气流."
-#define TEXT_SPEC_TOOL_SIGN_DESC L"标识工具, 修改或新建一个标识."
-#define TEXT_SPEC_TOOL_SMPL_DESC L"吸管工具, 选取屏幕上的元素."
-#define TEXT_SPEC_TOOL_SMPL_PROP L"属性笔, 修改元素的属性值." 
+#define TEXT_SPEC_TOOL_WIND_DESC L"风, 制造气流. "
+#define TEXT_SPEC_TOOL_SIGN_DESC L"标识工具, 修改或新建一个标识. "
+#define TEXT_SPEC_TOOL_SMPL_DESC L"吸管工具, 选取屏幕上的元素. "
+#define TEXT_SPEC_TOOL_SMPL_PROP L"属性笔, 修改笔刷内元素的属性值. " 
 
  //Display modes.
-#define TEXT_RENDER_PRESET_ALTV L"气流显示模式2"
-#define TEXT_RENDER_PRESET_VELOCITY L"气流显示模式1"
+#define TEXT_RENDER_PRESET_ALTV L"气流显示模式 2"
+#define TEXT_RENDER_PRESET_VELOCITY L"气流显示模式 1"
 #define TEXT_RENDER_PRESET_PRESSURE L"气压显示模式"
 #define TEXT_RENDER_PRESET_PERSIST L"轨迹显示模式"
 #define TEXT_RENDER_PRESET_FIRE L"标准显示模式"
 #define TEXT_RENDER_PRESET_BLOB L"模糊显示模式"
 #define TEXT_RENDER_PRESET_HEAT L"热显示模式"
 #define TEXT_RENDER_PRESET_FANCY L"特效显示模式"
-#define TEXT_RENDER_PRESET_NONE L"无显示模式"
+#define TEXT_RENDER_PRESET_NONE L"基本显示模式"
 #define TEXT_RENDER_PRESET_HEATGRAD L"热梯度显示模式"
 #define TEXT_RENDER_PRESET_LIFEGRAD L"Life梯度显示模式"
 
  //Quick Options.
-#define TEXT_QUICK_OPT_SAND_DESC L"粒子效果"
+#define TEXT_QUICK_OPT_SAND_DESC L"颗粒效果"
 #define TEXT_QUICK_OPT_GGRID_DESC L"引力网格 \bg(ctrl+g)"
 #define TEXT_QUICK_OPT_DECO_DESC L"装饰图层 \bg(ctrl+b)"
 #define TEXT_QUICK_OPT_NEWTON_DESC L"引力模拟 \bg(n)"
 #define TEXT_QUICK_OPT_AHEAT_DESC L"环境热模拟 \bg(u)"
 #define TEXT_QUICK_OPT_CON_DESC L"打开控制台 \bg(~)"
-#define TEXT_QUICK_OPT_SAND_DESC L"粒子效果"
-#define TEXT_QUICK_OPT_SAND_DESC L"粒子效果"
 
  //Option infotips.
 #define TEXT_INFOTIP_GGRID_ON L"引力网格: 打开"
@@ -321,7 +319,7 @@
 #define TEXT_INFOTIP_NEWTON_OFF L"引力模拟: 关闭"
 #define TEXT_INFOTIP_AHEAT_ON L"环境热模拟: 打开"
 #define TEXT_INFOTIP_AHEAT_OFF L"环境热模拟: 关闭"
-#define TEXT_INFOTIP_GRAV_VER L"重力模拟: 标准重力"
+#define TEXT_INFOTIP_GRAV_VER L"重力模拟: 竖直重力"
 #define TEXT_INFOTIP_GRAV_OFF L"重力模拟: 无重力"
 #define TEXT_INFOTIP_GRAV_RAD L"重力模拟: 中心重力"
 #define TEXT_INFOTIP_AIR_ON L"大气模拟: 全部开启"
@@ -391,7 +389,7 @@
 #define TEXT_GUI_MAIN_BTN_PAUSE_TIP L"暂停/继续"
 #define TEXT_GUI_MAIN_BTN_SEARCH_TIP L"搜索元素"
 #define TEXT_GUI_DECO_BTN_COLORPICK_TIP L"打开色盘"
-#define TEXT_GUI_DECO_BTN_PRESET_TIP L"预制颜色"
+#define TEXT_GUI_DECO_BTN_PRESET_TIP L"预设颜色"
 #define TEXT_GUI_REC_CONF_TITLE L"保存所有帧"
 #define TEXT_GUI_REC_CONF_MSG L"即将保存所有已经绘制的帧, 这将占用一定的存储空间"
 #define TEXT_GUI_EXIT_CONF_TITLE L"退出游戏"
@@ -660,17 +658,17 @@
 #define TEXT_GUI_PROP_VALUE_ERR_MSG L"非法属性值"
 
  //Render mode window.
-#define TEXT_GUI_RENDER_PRESET_BTN_VELO_TIP L"气流显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_PRESS_TIP L"气压显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_PERSIST_TIP L"轨迹显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_FIRE_TIP L"标准显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_BLOB_TIP L"模糊显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_HEAT_TIP L"热显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_FANCY_TIP L"特效显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_NONE_TIP L"无显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_HGRAD_TIP L"热梯度显示模组"
-#define TEXT_GUI_RENDER_PRESET_BTN_ALTV_TIP L"气流显示模组2"
-#define TEXT_GUI_RENDER_PRESET_BTN_LIFE_TIP L"Life显示模组"
+#define TEXT_GUI_RENDER_PRESET_BTN_VELO_TIP L"气流显示预设 1"
+#define TEXT_GUI_RENDER_PRESET_BTN_PRESS_TIP L"气压显示预设"
+#define TEXT_GUI_RENDER_PRESET_BTN_PERSIST_TIP L"轨迹显示预设"
+#define TEXT_GUI_RENDER_PRESET_BTN_FIRE_TIP L"标准显示预设"
+#define TEXT_GUI_RENDER_PRESET_BTN_BLOB_TIP L"模糊显示预设"
+#define TEXT_GUI_RENDER_PRESET_BTN_HEAT_TIP L"热显示预设"
+#define TEXT_GUI_RENDER_PRESET_BTN_FANCY_TIP L"特效显示预设"
+#define TEXT_GUI_RENDER_PRESET_BTN_NONE_TIP L"基本显示预设"
+#define TEXT_GUI_RENDER_PRESET_BTN_HGRAD_TIP L"热梯度显示预设"
+#define TEXT_GUI_RENDER_PRESET_BTN_ALTV_TIP L"气流显示预设 2"
+#define TEXT_GUI_RENDER_PRESET_BTN_LIFE_TIP L"Life显示预设"
 #define TEXT_GUI_RENDER_OPT_EFFECT_TEXT L"光效"
 #define TEXT_GUI_RENDER_OPT_EFFECT_TIP L"为某些元素添加额外的光效"
 #define TEXT_GUI_RENDER_OPT_FIRE_TEXT L"火焰"
@@ -698,7 +696,7 @@
 #define TEXT_GUI_RENDER_OPT_OPENGL_TEXT L"效果"
 #define TEXT_GUI_RENDER_OPT_OPENGL_TIP L"开启某些OpenGL特效"
 #define TEXT_GUI_RENDER_OPT_HOLDER_TEXT L"效果"
-#define TEXT_GUI_RENDER_OPT_HOLDER_TIP L"开启可移动固体, 持枪火柴人以及更多特效"
+#define TEXT_GUI_RENDER_OPT_HOLDER_TIP L"开启可移动固体, 持枪火柴人以及更多(TM)特效"
 #define TEXT_GUI_RENDER_OPT_PERSIST_TEXT L"轨迹"
 #define TEXT_GUI_RENDER_OPT_PERSIST_TIP L"物质移动的轨迹将会被保存一段时间"
 #define TEXT_GUI_RENDER_OPT_HEAT_TEXT L"热"
@@ -823,13 +821,13 @@
 #define TEXT_BLOCK_PUBLISH_INFO \
 		L"在TPT中, 你可以使用两种方式上传存档: 公开和私人. 你可以通过选择是否公开来设置.  该选项默认是关闭的, 私人的存档只能由你一个人看到.\n" \
 		"\n" \
-		"\bt公开的存档\bw 会立即被使用按日期排布存档的人看到. 这些存档的评分将影响你的个人平均评分(显示在你的个人档案上). 公开的存档能被所有人评论和评分.\n" \
-		"\bt私人的存档\bw 不会出现在云沙盘更新中. 这些存档也不会影响你的平均评分. 尽管设置为私人. 但别人仍然可以通过存档ID来访问他们. 因此, 你可以通过存档ID来向你的朋友分享存档.\n" \
+		"\bt公开的存档\bw会立即被使用按日期排布存档的人看到. 这些存档的评分将影响你的个人平均评分(显示在你的个人档案上). 公开的存档能被所有人评论和评分.\n" \
+		"\bt私人的存档\bw不会出现在云沙盘更新中. 这些存档也不会影响你的平均评分. 尽管设置为私人, 但别人仍然可以通过存档ID来访问他们. 因此, 你可以通过存档ID来向你的朋友分享存档.\n" \
 		"\n" \
-		"打开存档并点击存档名左侧的按钮 \bt'重新上传当前存档'\bw, 可以快速更改已经上传的存档. 如果你希望更改存档描述或存档属性, 你可以点击右侧按钮 \bt'修改存档属性'\bw. 注意你不能更改存档名称; 这会重新创建一个全新的存档.\n" \
-		"你可能希望发布一个设置为私人的存档, 或将以前发布过的存档设置为私人. 打开存档, 选择 '修改存档属性' 按钮, 在弹出的对话框中修改属性. 你也可以在'个人存档'页面中选择你所需要的存档来 \bt删除存档或转为私人\bw.\n" \
-		"如果存档已经发布了一个礼拜并拥有较高人气, 它会自动出现在 \bt首页\bw上. 只有设置为公开的存档才有机会登上首页. 版主同样有权限使某个存档在首页上显示, 但这种情况非常少见. 如果某存档被认为触犯了条例或不适合放在首页, 他们同样有权限撤下它.\n" \
-		"当一个存档上传后, 你可以不限次数的修改它. 服务器会保存一个简短的 \bt存档历史\bw, 在存档浏览器中右键你的存档并选择 '查看历史' 就能找到它. 这一功能可以帮助你找回以前的版本并修复错误.\n"
+		"打开存档并点击存档名左侧的按钮\bt'重新上传当前存档'\bw, 可以快速更改已经上传的存档. 如果你希望更改存档描述或存档属性, 你可以点击右侧按钮\bt'修改存档属性'\bw. 注意你不能更改存档名称; 这会重新创建一个全新的存档.\n" \
+		"你可能希望发布一个设置为私人的存档, 或将以前发布过的存档设置为私人. 打开存档, 选择 '修改存档属性' 按钮, 在弹出的对话框中修改属性. 你也可以在'个人存档'页面中选择你所需要的存档来\bt删除存档或转为私人\bw.\n" \
+		"如果存档已经发布了一个星期并拥有较高人气, 它会自动出现在\bt首页\bw上. 只有设置为公开的存档才有机会登上首页. 版主同样有权限使某个存档在首页上显示, 但这种情况非常少见. 如果某存档被认为触犯了条例或不适合放在首页, 他们同样有权限撤下它.\n" \
+		"当一个存档上传后, 你可以不限次数的修改它. 服务器会保存一个简短的\bt存档历史\bw, 在存档浏览器中右键你的存档并选择 '查看历史' 就能找到它. 这一功能可以帮助你找回以前的版本并修复错误.\n"
 
  //Saving rules.
 #define TEXT_BLOCK_SAVE_RULES \
@@ -842,7 +840,7 @@
 		"\bt5. 禁止拉票.\bw 酒香不怕巷子深. 禁止在存档中以任何形式拉票.\n" \
 		   "- 包括在存档中的求赞标志, 赞的箭头, 以及其他形式的求赞. 允许用极小篇幅来感谢为你点赞的人. 请不要以身试法.\n" \
 		   "- 其他例如: 过100赞就解锁更多内容也视为拉票行为.\n" \
-		"\bt6. logo占用的空间应尽可能少.\bw 这不仅会拖慢游戏的运行速度, 也会让你的存档失去吸引力. \n" \
+		"\bt6. Logo占用的空间应尽可能少.\bw 这不仅会拖慢游戏的运行速度, 也会让你的存档失去吸引力. \n" \
 		   "- 最多链接3个其他存档, 超过这一数目可能会使你失去在首页的位置.\n" \
 		   "- 请不要发布假的更新许诺以及其他的虚假信息.\n" \
 		"\bt7. 注意言辞.\bw 包含过于激烈言辞的存档将会被设为私有. 同样地, 也不要发布言辞过于激烈的评论.\n" \
