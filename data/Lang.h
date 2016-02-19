@@ -309,8 +309,6 @@
 #define TEXT_QUICK_OPT_NEWTON_DESC L"Newtonian Gravity \bg(n)"
 #define TEXT_QUICK_OPT_AHEAT_DESC L"Ambient heat \bg(u)"
 #define TEXT_QUICK_OPT_CON_DESC L"Show Console \bg(~)"
-#define TEXT_QUICK_OPT_SAND_DESC L"Sand effect"
-#define TEXT_QUICK_OPT_SAND_DESC L"Sand effect"
 
 //Option infotips.
 #define TEXT_INFOTIP_GGRID_ON L"Gravity Grid: On"
