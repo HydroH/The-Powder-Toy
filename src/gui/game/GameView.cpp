@@ -1918,7 +1918,7 @@ void GameView::NotifyNotificationsChanged(GameModel * sender)
 		AddComponent(tempButton);
 		notificationComponents.push_back(tempButton);
 
-		tempButton = new ui::Button(ui::Point(XRES-20, currentY), ui::Point(15, 15), "\xAA");
+		tempButton = new ui::Button(ui::Point(XRES-20, currentY), ui::Point(15, 15), L"\xAA");
 		//tempButton->SetIcon(IconClose);
 		tempButton->SetActionCallback(new CloseNotificationButtonAction(this, *iter));
 		tempButton->Appearance.Margin.Left -= 1;

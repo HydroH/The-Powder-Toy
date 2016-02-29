@@ -791,7 +791,7 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 					this->messageOfTheDay = objDocument["MessageOfTheDay"].asString();
 					notifyMessageOfTheDay();
 
-#ifndef IGNORE_UPDATES
+#ifndef DISABLE_UPDATES
 					//Check for updates
 					Json::Value versions = objDocument["Updates"];
 #if !defined(BETA) && !defined(SNAPSHOT)

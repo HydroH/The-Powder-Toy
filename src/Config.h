@@ -12,23 +12,25 @@
 
 //VersionInfoStart
 #ifndef SAVE_VERSION
-#define SAVE_VERSION 90
+#define SAVE_VERSION 91
 #endif
 
 #ifndef MINOR_VERSION
-#define MINOR_VERSION 2
+#define MINOR_VERSION 0
 #endif
 
 #ifndef BUILD_NUM
-#define BUILD_NUM 322
+#define BUILD_NUM 323
 #endif
 
 #ifndef SNAPSHOT_ID
-#define SNAPSHOT_ID 0
+#define SNAPSHOT_ID 31
+
+#define SNAPSHOT
 #endif
 //VersionInfoEnd
 
-//#define IGNORE_UPDATES //uncomment this for mods, to not get any update notifications
+//#define DISABLE_UPDATES //uncomment this for mods, to not get any update notifications
 
 #define HIGH_QUALITY_RESAMPLE			//High quality image resampling, slower but much higher quality than my terribad linear interpolation
 
@@ -73,6 +75,7 @@
 
 #define SERVER "powdertoy.co.uk"
 #define STATICSERVER "static.powdertoy.co.uk"
+#define UPDATESERVER "powdertoy.co.uk"
 
 #define LOCAL_SAVE_DIR "Saves"
 

@@ -786,7 +786,7 @@
 
  //Intro text.
 #define TEXT_BLOCK_INTRO_TEXT \
-	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powder  \bo汉化版 V0.3 Alpha\n" \
+	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powder  \bo汉化版 V0.4 Alpha\n" \
 	"\bl\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\n" \
 	"\n" \
 	"\bg\bgCtrl+C/V/X 复制,粘贴,剪切\n" \
