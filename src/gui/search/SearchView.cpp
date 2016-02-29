@@ -379,7 +379,7 @@ void SearchView::NotifyPageChanged(SearchModel * sender)
 		std::wstringstream pageInfo;
 		pageInfo << TEXT_GUI_SEARCH_LABEL_PAGE2 << pageCount << TEXT_GUI_SEARCH_LABEL_PAGE3;
 		pageCountLabel->SetText(pageInfo.str());
-		int width = Graphics::textwidth(pageInfo.str().c_str());  //TODO: Some problem with other languages here, make textbox too lang. Need to figure out later.
+		int width = Graphics::textwidth(pageInfo.str().c_str());  //TODO: Some problem with other languages here, making textbox too long. Need to figure out later.
 
 		pageLabel->Position.X = WINDOWW/2-width-20;
 		pageTextbox->Position.X = WINDOWW/2-width+11;

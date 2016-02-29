@@ -243,12 +243,12 @@ void SearchController::RemoveSelected()
 		virtual ~RemoveSelectedConfirmation() { }
 	};
 
-	std::stringstream desc;
-	desc << "Are you sure you want to delete " << searchModel->GetSelected().size() << " save";
+	std::wstringstream desc;
+	desc << TEXT_GUI_SEARCH_REMOVE_CONF_MSG1 << searchModel->GetSelected().size() << TEXT_GUI_SEARCH_REMOVE_CONF_MSG2;
 	if(searchModel->GetSelected().size()>1)
-		desc << "s";
-	desc << "?";
-	new ConfirmPrompt("Delete saves", desc.str(), new RemoveSelectedConfirmation(this));
+		desc << TEXT_GUI_SEARCH_REMOVE_CONF_MSG_MULTI;
+	desc << L"?";
+	new ConfirmPrompt(TEXT_GUI_SEARCH_REMOVE_CONF_TITLE, desc.str(), new RemoveSelectedConfirmation(this));
 }
 
 void SearchController::removeSelectedC()
