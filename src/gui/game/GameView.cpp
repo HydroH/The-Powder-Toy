@@ -1461,19 +1461,6 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 		c->OpenElementSearch();
 		break;
 	case 'f':
-#ifdef PARTICLEDEBUG
-		if (ctrl)
-		{
-			c->ParticleDebug(0, 0, 0);
-		}
-		else if (shift)
-		{
-			ui::Point mouse = c->PointTranslate(currentMouse);
-			c->ParticleDebug(1, mouse.X, mouse.Y);
-		}
-		else
-			c->FrameStep();
-#else
 		if (ctrl)
 		{
 			Tool *active = c->GetActiveTool(0);
@@ -1484,7 +1471,6 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 		}
 		else
 			c->FrameStep();
-#endif
 		break;
 	case 'g':
 		if (ctrl)
