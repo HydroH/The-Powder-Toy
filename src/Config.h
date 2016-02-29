@@ -26,7 +26,6 @@
 #ifndef SNAPSHOT_ID
 #define SNAPSHOT_ID 31
 
-#define SNAPSHOT
 #endif
 //VersionInfoEnd
 

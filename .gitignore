@@ -21,6 +21,8 @@ Saves/*
 scripts/*
 includes/*
 temp/*
+Debug/*
+Release/*
 generate
 Makefile.me
 *.xcodeproj

@@ -85,7 +85,7 @@ void ConsoleView::NotifyPreviousCommandsChanged(ConsoleModel * sender)
 void ConsoleView::NotifyCurrentCommandChanged(ConsoleModel * sender)
 {
 	commandField->SetText(sender->GetCurrentCommand().Command);
-	commandField->SetDisplayText(c->FormatCommand(commandField->GetText()));
+	commandField->SetDisplayText(c->FormatWCommand(commandField->GetWText()));
 }
 
 

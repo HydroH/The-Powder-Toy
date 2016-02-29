@@ -178,6 +178,7 @@
     <ClCompile Include="src\debug\DebugLines.cpp" />
     <ClCompile Include="src\debug\DebugParts.cpp" />
     <ClCompile Include="src\debug\ElementPopulation.cpp" />
+    <ClCompile Include="src\debug\ParticleDebug.cpp" />
     <ClCompile Include="src\Format.cpp" />
     <ClCompile Include="src\graphics\Graphics.cpp" />
     <ClCompile Include="src\graphics\OpenGLGraphics.cpp" />
@@ -580,6 +581,7 @@
     <ClInclude Include="src\debug\DebugLines.h" />
     <ClInclude Include="src\debug\DebugParts.h" />
     <ClInclude Include="src\debug\ElementPopulation.h" />
+    <ClInclude Include="src\debug\ParticleDebug.h" />
     <ClInclude Include="src\Format.h" />
     <ClInclude Include="src\graphics\Graphics.h" />
     <ClInclude Include="src\graphics\OpenGLHeaders.h" />
