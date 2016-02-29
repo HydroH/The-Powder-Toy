@@ -12,11 +12,11 @@
 
 //VersionInfoStart
 #ifndef SAVE_VERSION
-#define SAVE_VERSION 91
+#define SAVE_VERSION 90
 #endif
 
 #ifndef MINOR_VERSION
-#define MINOR_VERSION 0
+#define MINOR_VERSION 2
 #endif
 
 #ifndef BUILD_NUM
