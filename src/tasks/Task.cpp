@@ -1,6 +1,7 @@
 #include "Config.h"
 #include "Task.h"
 #include "TaskListener.h"
+#include "Format.h"
 
 void Task::AddTaskListener(TaskListener * listener)
 {
@@ -14,7 +15,7 @@ void Task::Start()
 	thDone = false;
 	done = false;
 	progress = 0;
-	status = "";
+	status = L"";
 	//taskMutex = PTHREAD_MUTEX_INITIALIZER;
 	before();
 	pthread_mutex_init (&taskMutex, NULL);
@@ -28,10 +29,20 @@ int Task::GetProgress() //TODO: Chinese?
 
 std::string Task::GetStatus()
 {
+	return format::WStringToString(status);
+}
+
+std::wstring Task::GetWStatus()
+{
 	return status;
 }
 
 std::string Task::GetError()
+{
+	return format::WStringToString(error);
+}
+
+std::wstring Task::GetWError()
 {
 	return error;
 }
@@ -53,14 +64,14 @@ void Task::Poll()
 		int newProgress;
 		bool newDone = false;
 		bool newSuccess = false;
-		std::string newStatus;
-		std::string newError;
+		std::wstring newStatus;
+		std::wstring newError;
 		pthread_mutex_lock(&taskMutex);
 		newProgress = thProgress;
 		newDone = thDone;
 		newSuccess = thSuccess;
-		newStatus = std::string(thStatus);
-		newError = std::string(thError);
+		newStatus = std::wstring(thStatus);
+		newError = std::wstring(thError);
 		pthread_mutex_unlock(&taskMutex);
 
 		success = newSuccess;
@@ -71,12 +82,12 @@ void Task::Poll()
 		}
 
 		if(newError!=error) {
-			error = std::string(newError);
+			error = std::wstring(newError);
 			notifyErrorMain();
 		}
 
 		if(newStatus!=status) {
-			status = std::string(newStatus);
+			status = std::wstring(newStatus);
 			notifyStatusMain();
 		}
 
@@ -110,7 +121,7 @@ void Task::before()
 
 bool Task::doWork()
 {
-	notifyStatus("Fake progress");
+	notifyStatus("Fake progress");  //TODO: Chinese?
 	for(int i = 0; i < 100; i++)
 	{
 		notifyProgress(i);
@@ -143,14 +154,28 @@ void Task::notifyProgress(int progress)
 void Task::notifyStatus(std::string status)
 {
 	pthread_mutex_lock(&taskMutex);
-	thStatus = std::string(status);
+	thStatus = std::wstring(format::StringToWString(status));
+	pthread_mutex_unlock(&taskMutex);
+}
+
+void Task::notifyStatus(std::wstring status)
+{
+	pthread_mutex_lock(&taskMutex);
+	thStatus = std::wstring(status);
 	pthread_mutex_unlock(&taskMutex);
 }
 
 void Task::notifyError(std::string error)
 {
 	pthread_mutex_lock(&taskMutex);
-	thError = std::string(error);
+	thError = std::wstring(format::StringToWString(error));
+	pthread_mutex_unlock(&taskMutex);
+}
+
+void Task::notifyError(std::wstring error)
+{
+	pthread_mutex_lock(&taskMutex);
+	thError = std::wstring(error);
 	pthread_mutex_unlock(&taskMutex);
 }
 

@@ -16,7 +16,9 @@ public:
 	bool GetDone();
 	bool GetSuccess();
 	std::string GetError();
+	std::wstring GetWError();
 	std::string GetStatus();
+	std::wstring GetWStatus();
 	void Poll();
 	Task() : listener(NULL) { progress = 0; thProgress = 0; }
 	virtual ~Task();
@@ -24,14 +26,14 @@ protected:
 	int progress;
 	bool done;
 	bool success;
-	std::string status;
-	std::string error;
+	std::wstring status;
+	std::wstring error;
 
 	int thProgress;
 	bool thDone;
 	bool thSuccess;
-	std::string thStatus;
-	std::string thError;
+	std::wstring thStatus;
+	std::wstring thError;
 
 	TaskListener * listener;
 	pthread_t doWorkThread;
@@ -46,7 +48,9 @@ protected:
 
 	virtual void notifyProgress(int progress);
 	virtual void notifyError(std::string error);
+	virtual void notifyError(std::wstring error);
 	virtual void notifyStatus(std::string status);
+	virtual void notifyStatus(std::wstring status);
 
 	virtual void notifyProgressMain();
 	virtual void notifyErrorMain();
