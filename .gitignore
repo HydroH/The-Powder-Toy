@@ -62,6 +62,7 @@ config.log
 *.sconf_temp
 *.gch
 *.pyc
+*.VC.opendb
 site_scons/site_tools/mfprogram/*.pyc
 site_scons/site_tools/gch/*.pyc
 others*
