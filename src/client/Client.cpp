@@ -799,12 +799,16 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 					int stableMajor = stableVersion["Major"].asInt();
 					int stableMinor = stableVersion["Minor"].asInt();
 					int stableBuild = stableVersion["Build"].asInt();
+					int stableCNMajor = stableVersion["CN-Major"].asInt();
+					int stableCNMinor = stableVersion["CN-Minor"].asInt();
+					int stableCNBuild = stableVersion["CN-Build"].asInt();
+					std::string stableCNStage = stableVersion["CN-Stage"].asString();
 					std::string stableFile = stableVersion["File"].asString();
 					std::string stableChangelog = stableVersion["Changelog"].asString();
-					if (stableMajor > SAVE_VERSION || (stableMinor > MINOR_VERSION && stableMajor == SAVE_VERSION) || stableBuild > BUILD_NUM)
+					if (stableCNMajor > CN_SAVE_VERSION || (stableCNMinor > CN_MINOR_VERSION && stableCNMajor == CN_SAVE_VERSION) || stableCNBuild > CN_BUILD_NUM)
 					{
 						updateAvailable = true;
-						updateInfo = UpdateInfo(stableMajor, stableMinor, stableBuild, stableFile, stableChangelog, UpdateInfo::Stable);
+						updateInfo = UpdateInfo(stableMajor, stableMinor, stableBuild, stableCNMajor, stableCNMinor, stableCNBuild, stableCNStage, stableFile, stableChangelog, UpdateInfo::Stable);
 					}
 #endif
 

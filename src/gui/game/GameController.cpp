@@ -1542,16 +1542,16 @@ void GameController::NotifyUpdateAvailable(Client * sender)
 #elif defined(BETA)
 			updateMessage << SAVE_VERSION << L"." << MINOR_VERSION << TEXT_GAME_CONTROL_UPDATE_BETA << BUILD_NUM;
 #else
-			updateMessage << SAVE_VERSION << L"." << MINOR_VERSION << TEXT_GAME_CONTROL_UPDATE_STABLE << BUILD_NUM;
+			updateMessage << SAVE_VERSION << L"." << MINOR_VERSION << TEXT_GAME_CONTROL_UPDATE_STABLE << BUILD_NUM << TEXT_GAME_CONTROL_UPDATE_STABLE_CN1 << CN_SAVE_VERSION << L"." << CN_MINOR_VERSION << L"-" << format::StringToWString(CN_STAGE) << TEXT_GAME_CONTROL_UPDATE_STABLE_CN2 << CN_BUILD_NUM;
 #endif
 
 			updateMessage << TEXT_GAME_CONTROL_UPDATE_NEWVER;
 			if (info.Type == UpdateInfo::Beta)
-				updateMessage << info.Major << L" " << info.Minor << TEXT_GAME_CONTROL_UPDATE_BETA << info.Build;
+				updateMessage << info.Major << L"." << info.Minor << TEXT_GAME_CONTROL_UPDATE_BETA << info.Build;
 			else if (info.Type == UpdateInfo::Snapshot)
 				updateMessage << TEXT_GAME_CONTROL_UPDATE_SNAP << info.Time;
 			else if(info.Type == UpdateInfo::Stable)
-				updateMessage << info.Major << L" " << info.Minor << TEXT_GAME_CONTROL_UPDATE_STABLE << info.Build;
+				updateMessage << info.Major << L"." << info.Minor << TEXT_GAME_CONTROL_UPDATE_STABLE << info.Build << TEXT_GAME_CONTROL_UPDATE_STABLE_CN1 << info.CNMajor << L"." << info.CNMinor << L"-" << format::StringToWString(info.CNStage) << TEXT_GAME_CONTROL_UPDATE_STABLE_CN2 << info.CNBuild;
 
 			if (info.Changelog.length())
 				updateMessage << TEXT_GAME_CONTROL_UPDATE_CHANGE << format::StringToWString(info.Changelog);

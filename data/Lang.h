@@ -796,14 +796,16 @@
 #define TEXT_GAME_CONTROL_UPDATE_CONF L"现在更新吗? 更新前请保存所有更改\n\n当前版本:\n "
 #define TEXT_GAME_CONTROL_UPDATE_SNAP L"Snapshot "
 #define TEXT_GAME_CONTROL_UPDATE_BETA L" 测试版, Build "
-#define TEXT_GAME_CONTROL_UPDATE_STABLE L" 正式版, Build "
+#define TEXT_GAME_CONTROL_UPDATE_STABLE L"正式版, Build "
+#define TEXT_GAME_CONTROL_UPDATE_STABLE_CN1 L"; 汉化V"
+#define TEXT_GAME_CONTROL_UPDATE_STABLE_CN2 L", Build "
 #define TEXT_GAME_CONTROL_UPDATE_NEWVER L"\n新版本:\n "
 #define TEXT_GAME_CONTROL_UPDATE_CHANGE L"\n\n更新内容:\n"
 #define TEXT_GAME_CONTROL_UPDATE_TITLE L"游戏更新"
 #define TEXT_GAME_CONTROL_UPDATE_SNAP_NOTIFY L"发现新版本, 点击此处更新"
 #define TEXT_GAME_CONTROL_UPDATE_BETA_NOTIFY L"发现新版本, 点击此处更新"
 #define TEXT_GAME_CONTROL_UPDATE_STABLE_NOTIFY L"发现新版本, 点击此处更新"
-#define TEXT_GAME_CONTROL_STAT_FAKE_MSG L"Fake progress"
+#define TEXT_GAME_CONTROL_STAT_FAKE_MSG L"无效进程"
 
  //System messages.
 #define TEXT_SYSTEM_DOUBLE_SCALE_TITLE L"检测到高分辨率显示屏"
@@ -827,7 +829,7 @@
 
  //Intro text.
 #define TEXT_BLOCK_INTRO_TEXT \
-	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - http://powdertoy.co.uk, irc.freenode.net #powder  \bo汉化版 V0.4 Alpha\n" \
+	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - " "\bo汉化版 V" MTOS(CN_SAVE_VERSION) "." MTOS(CN_MINOR_VERSION) " " CN_STAGE "\bl - http://powdertoy.co.uk, irc.freenode.net #powder\n" \
 	"\bl\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\x7F\n" \
 	"\n" \
 	"\bg\bgCtrl+C/V/X 复制,粘贴,剪切\n" \

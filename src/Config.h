@@ -20,11 +20,27 @@
 #endif
 
 #ifndef BUILD_NUM
-#define BUILD_NUM 323
+#define BUILD_NUM 322
 #endif
 
 #ifndef SNAPSHOT_ID
 #define SNAPSHOT_ID 31
+
+#ifndef CN_SAVE_VERSION
+#define CN_SAVE_VERSION 1
+#endif
+
+#ifndef CN_MINOR_VERSION
+#define CN_MINOR_VERSION 0
+#endif
+
+#ifndef CN_BUILD_NUM
+#define CN_BUILD_NUM 13
+#endif
+
+#ifndef CN_STAGE
+#define CN_STAGE "Beta"
+#endif
 
 #endif
 //VersionInfoEnd
@@ -74,7 +90,7 @@
 
 #define SERVER "powdertoy.co.uk"
 #define STATICSERVER "static.powdertoy.co.uk"
-#define UPDATESERVER "powdertoy.co.uk"
+#define UPDATESERVER "hydroh.xyz/powder"
 
 #define LOCAL_SAVE_DIR "Saves"
 

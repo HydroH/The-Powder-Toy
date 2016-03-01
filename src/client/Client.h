@@ -39,10 +39,14 @@ public:
 	int Major;
 	int Minor;
 	int Build;
+	int CNMajor;
+	int CNMinor;
+	int CNBuild;
+	std::string CNStage;
 	int Time;
 	BuildType Type;
-	UpdateInfo() : File(""), Changelog(""), Major(0), Minor(0), Build(0), Time(0), Type(Stable) {}
-	UpdateInfo(int major, int minor, int build, std::string file, std::string changelog, BuildType type) : File(file), Changelog(changelog), Major(major), Minor(minor), Build(build), Time(0), Type(type) {}
+	UpdateInfo() : File(""), Changelog(""), Major(0), Minor(0), Build(0), CNMajor(0), CNMinor(0), CNBuild(0), CNStage(""), Time(0), Type(Stable) {}
+	UpdateInfo(int major, int minor, int build, int cnmajor, int cnminor, int cnbuild, std::string cnstage, std::string file, std::string changelog, BuildType type) : File(file), Changelog(changelog), Major(major), Minor(minor), Build(build), CNMajor(cnmajor), CNMinor(cnminor), CNBuild(cnbuild), CNStage(cnstage), Time(0), Type(type) {}
 	UpdateInfo(int time, std::string file, std::string changelog, BuildType type) : File(file), Changelog(changelog), Major(0), Minor(0), Build(0), Time(time), Type(type) {}
 };
 
