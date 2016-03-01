@@ -17,6 +17,9 @@ stamps/*
 Saves/*
 scripts/*
 includes/*
+Debug/*
+Release/*
+temp/*
 generate
 Makefile.me
 *.xcodeproj
@@ -55,6 +58,7 @@ config.log
 *.sconf_temp
 *.gch
 *.pyc
+*.VC.opendb
 site_scons/site_tools/mfprogram/*.pyc
 site_scons/site_tools/gch/*.pyc
 others*
