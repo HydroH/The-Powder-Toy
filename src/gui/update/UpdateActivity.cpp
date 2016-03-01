@@ -28,9 +28,9 @@ private:
 	}
 	virtual bool doWork()
 	{
-		std::stringstream errorStream;
+		std::wstringstream errorStream;
 		void * request = http_async_req_start(NULL, (char*)updateName.c_str(), NULL, 0, 0);
-		notifyStatus("Downloading update"); //TODO: Chinese?
+		notifyStatus(TEXT_GUI_UPDATE_STAT_DOWN_MSG);
 		notifyProgress(-1);
 		while(!http_async_req_status(request))
 		{
@@ -45,30 +45,30 @@ private:
 		if (status!=200)
 		{
 			free(data);
-			errorStream << "Server responded with Status " << status;
-			notifyError("Could not download update: " + errorStream.str());
+			errorStream << TEXT_GUI_UPDATE_ERR_STREAM_STAT << status;
+			notifyError(TEXT_GUI_UPDATE_ERR_DOWN + errorStream.str());
 			return false;
 		}
 		if (!data)
 		{
-			errorStream << "Server responded with nothing";
-			notifyError("Server did not return any data");
+			errorStream << TEXT_GUI_UPDATE_ERR_STREAM_RESPOND;
+			notifyError(TEXT_GUI_UPDATE_ERR_RETURN);
 			return false;
 		}
 
-		notifyStatus("Unpacking update");
+		notifyStatus(TEXT_GUI_UPDATE_STAT_UNPACK_MSG);
 		notifyProgress(-1);
 
 		unsigned int uncompressedLength;
 
 		if(dataLength<16)
 		{
-			errorStream << "Unsufficient data, got " << dataLength << " bytes";
+			errorStream << TEXT_GUI_UPDATE_ERR_STREAM_UNSUF_1 << dataLength << TEXT_GUI_UPDATE_ERR_STREAM_UNSUF_2;
 			goto corrupt;
 		}
 		if (data[0]!=0x42 || data[1]!=0x75 || data[2]!=0x54 || data[3]!=0x54)
 		{
-			errorStream << "Invalid update format";
+			errorStream << TEXT_GUI_UPDATE_ERR_STREAM_INVALID;
 			goto corrupt;
 		}
 
@@ -81,7 +81,7 @@ private:
 		res = (char *)malloc(uncompressedLength);
 		if (!res)
 		{
-			errorStream << "Unable to allocate " << uncompressedLength << " bytes of memory for decompression";
+			errorStream << TEXT_GUI_UPDATE_ERR_STREAM_ALLOC_1 << uncompressedLength << TEXT_GUI_UPDATE_ERR_STREAM_ALLOC_2;
 			goto corrupt;
 		}
 
@@ -89,14 +89,14 @@ private:
 		dstate = BZ2_bzBuffToBuffDecompress((char *)res, (unsigned *)&uncompressedLength, (char *)(data+8), dataLength-8, 0, 0);
 		if (dstate)
 		{
-			errorStream << "Unable to decompress update: " << dstate;
+			errorStream << TEXT_GUI_UPDATE_ERR_STREAM_DECOMP << dstate;
 			free(res);
 			goto corrupt;
 		}
 
 		free(data);
 
-		notifyStatus("Applying update");
+		notifyStatus(TEXT_GUI_UPDATE_STAT_APPLY_MSG);
 		notifyProgress(-1);
 
 		Client::Ref().SetPref("version.update", true);
@@ -105,14 +105,14 @@ private:
 		{
 			Client::Ref().SetPref("version.update", false);
 			update_cleanup();
-			notifyError("Update failed - try downloading a new version.");
+			notifyError(TEXT_GUI_UPDATE_ERR_FAIL);
 			return false;
 		}
 
 		return true;
 
 	corrupt:
-		notifyError("Downloaded update is corrupted\n" + errorStream.str());
+		notifyError(TEXT_GUI_UPDATE_ERR_CORRUPT + errorStream.str());
 		free(data);
 		return false;
 	}

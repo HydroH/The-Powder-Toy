@@ -10,6 +10,9 @@
 #include "LocalBrowserModel.h"
 #include "LocalBrowserView.h"
 
+#include "Format.h"
+#include "Lang.h"
+
 LocalBrowserController::LocalBrowserController(ControllerCallback * callback):
 	HasDone(false)
 {
@@ -66,8 +69,8 @@ void LocalBrowserController::removeSelectedC()
 		{
 			for (size_t i = 0; i < saves.size(); i++)
 			{
-				std::stringstream saveName;
-				saveName << "Deleting stamp [" << saves[i] << "] ..."; //TODO: Chinese?
+				std::wstringstream saveName;
+				saveName << TEXT_GUI_LOCAL_BROWSE_STAT_DELETE_MSG1 << format::StringToWString(saves[i]) << TEXT_GUI_LOCAL_BROWSE_STAT_DELETE_MSG2;
  				notifyStatus(saveName.str());
  				Client::Ref().DeleteStamp(saves[i]);
 				notifyProgress((float(i+1)/float(saves.size())*100));
