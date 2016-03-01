@@ -96,7 +96,7 @@ for char in char_list:
         contents.insert(charindex + 262 + ((ptrcount + 1) / 8), ptrline + "\n")
     ptrcount += 1
 
-if ptrline != "    ":
+if ptrcount % 8:
     contents.insert(charindex + 263 + ((ptrcount + 1) / 8), ptrline + "\n")
 
 fontfile = open_file('../data/font.h', 'w')
