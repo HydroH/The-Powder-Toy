@@ -1002,6 +1002,9 @@
     <ClCompile Include="src\simulation\elements\ONC.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\debug\ParticleDebug.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="data\font.h">
@@ -1743,6 +1746,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\tasks\TaskWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\debug\ParticleDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

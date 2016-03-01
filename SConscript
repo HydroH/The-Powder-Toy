@@ -74,6 +74,7 @@ AddSconsOption('luajit', False, False, "Enable LuaJIT")
 AddSconsOption('lua52', False, False, "Compile using lua 5.2")
 AddSconsOption('nofft', False, False, "Disable FFT.")
 AddSconsOption("output", False, True, "Executable output name.")
+AddSconsOption("Iodizon", False, False, "Custom output name.")
 
 
 #detect platform automatically, but it can be overrided
@@ -536,6 +537,8 @@ elif platform == "Darwin":
 #Program output name
 if GetOption('output'):
 	programName = GetOption('output')
+elif GetOption('Iodizon'):
+	programName = "Iodizon-Mod.exe"
 else:
 	programName = GetOption('renderer') and "render" or "powder"
 	if "BIT" in env and env["BIT"] == 64:
