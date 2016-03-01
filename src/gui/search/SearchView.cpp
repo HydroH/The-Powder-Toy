@@ -62,7 +62,7 @@ SearchView::SearchView():
 			v->doSearch();
 		}
 	};
-	searchField = new ui::Textbox(ui::Point(60, 10), ui::Point(WINDOWW-238, 17), L"", TEXT_GUI_SEARCH_SEARCH_TBOX_HOLDER);
+	searchField = new ui::Textbox(ui::Point(45, 10), ui::Point(WINDOWW-227, 17), L"", TEXT_GUI_SEARCH_SEARCH_TBOX_HOLDER);
 	searchField->Appearance.icon = IconSearch;
 	searchField->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	searchField->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
@@ -80,7 +80,7 @@ SearchView::SearchView():
 			v->c->ChangeSort();
 		}
 	};
-	sortButton = new ui::Button(ui::Point(WINDOWW-140, 10), ui::Point(61, 17), TEXT_GUI_SEARCH_SEARCH_BTN_SORT);
+	sortButton = new ui::Button(ui::Point(WINDOWW-144, 10), ui::Point(64, 17), TEXT_GUI_SEARCH_SEARCH_BTN_SORT);
 	sortButton->SetIcon(IconVoteSort);
 	sortButton->SetTogglable(true);
 	sortButton->SetActionCallback(new SortAction(this));
@@ -98,7 +98,7 @@ SearchView::SearchView():
 			v->c->ShowOwn(sender->GetToggleState());
 		}
 	};
-	ownButton = new ui::Button(ui::Point(WINDOWW-70, 10), ui::Point(61, 17), TEXT_GUI_SEARCH_SEARCH_BTN_OWN);
+	ownButton = new ui::Button(ui::Point(WINDOWW-74, 10), ui::Point(64, 17), TEXT_GUI_SEARCH_SEARCH_BTN_OWN);
 	ownButton->SetIcon(IconMyOwn);
 	ownButton->SetTogglable(true);
 	ownButton->SetActionCallback(new MyOwnAction(this));
@@ -181,7 +181,7 @@ SearchView::SearchView():
 	loadingSpinner = new ui::Spinner(ui::Point((WINDOWW/2)-12, (WINDOWH/2)+12), ui::Point(24, 24));
 	AddComponent(loadingSpinner);
 
-	ui::Label * searchPrompt = new ui::Label(ui::Point(10, 10), ui::Point(50, 16), TEXT_GUI_SEARCH_SEARCH_LABEL);
+	ui::Label * searchPrompt = new ui::Label(ui::Point(8, 10), ui::Point(35, 16), TEXT_GUI_SEARCH_SEARCH_LABEL);
 	searchPrompt->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	searchPrompt->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(searchPrompt);
