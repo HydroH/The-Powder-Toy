@@ -11,6 +11,7 @@
 #include "Platform.h"
 #include "tasks/Task.h"
 #include "tasks/TaskWindow.h"
+#include "Format.h"
 #include "Lang.h"
 
 class SearchController::OpenCallback: public ControllerCallback
@@ -263,13 +264,13 @@ void SearchController::removeSelectedC()
 		{
 			for (size_t i = 0; i < saves.size(); i++)
 			{
-				std::stringstream saveID;
-				saveID << "Deleting save [" << saves[i] << "] ...";
+				std::wstringstream saveID;
+				saveID << TEXT_GUI_SAVE_BROWSE_STAT_DELETE_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_STAT_DELETE_MSG2;
  				notifyStatus(saveID.str());
 				if (Client::Ref().DeleteSave(saves[i])!=RequestOkay)
 				{
- 					std::stringstream saveIDF;
-					saveIDF << "\boFailed to delete [" << saves[i] << "]: " << Client::Ref().GetLastError();
+ 					std::wstringstream saveIDF;
+					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_DELETE_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_DELETE_MSG2 << format::StringToWString(Client::Ref().GetLastError());  //TODO: Globalize?
 					notifyError(saveIDF.str());
 					c->Refresh();
 					return false;
@@ -321,8 +322,8 @@ void SearchController::unpublishSelectedC(bool publish)
 
 		bool PublishSave(int saveID)
 		{
-			std::stringstream message;
-			message << "Publishing save [" << saveID << "]"; //TODO: Globalize?
+			std::wstringstream message;
+			message << TEXT_GUI_SAVE_BROWSE_STAT_PUB_MSG1 << saveID << TEXT_GUI_SAVE_BROWSE_STAT_PUB_MSG2;
 			notifyStatus(message.str());
 			if (Client::Ref().PublishSave(saveID) != RequestOkay)
 				return false;
@@ -331,8 +332,8 @@ void SearchController::unpublishSelectedC(bool publish)
 
 		bool UnpublishSave(int saveID)
 		{
-			std::stringstream message;
-			message << "Unpublishing save [" << saveID << "]";
+			std::wstringstream message;
+			message << TEXT_GUI_SAVE_BROWSE_STAT_UNPUB_MSG1 << saveID << TEXT_GUI_SAVE_BROWSE_STAT_UNPUB_MSG2;
 			notifyStatus(message.str());
 			if (Client::Ref().UnpublishSave(saveID) != RequestOkay)
 				return false;
@@ -350,11 +351,11 @@ void SearchController::unpublishSelectedC(bool publish)
 					ret = UnpublishSave(saves[i]);
 				if (!ret)
 				{
-					std::stringstream error;
+					std::wstringstream error;
 					if (publish) // uses html page so error message will be spam
-						error << "\boFailed to publish [" << saves[i] << "], is this save yours?";
+						error << TEXT_GUI_SAVE_BROWSE_ERR_PUB_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_PUB_MSG2;
 					else
-						error << "\boFailed to unpublish [" << saves[i] << "]: " + Client::Ref().GetLastError();
+						error << TEXT_GUI_SAVE_BROWSE_ERR_UNPUB_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_UNPUB_MSG2 + format::StringToWString(Client::Ref().GetLastError());  //TODO: Globalize?
 					notifyError(error.str());
 					c->Refresh();
 					return false;
@@ -381,13 +382,13 @@ void SearchController::FavouriteSelected()
 		{
 			for (size_t i = 0; i < saves.size(); i++)
 			{
-				std::stringstream saveID;
-				saveID << "Favouring save [" << saves[i] << "]";
+				std::wstringstream saveID;
+				saveID << TEXT_GUI_SAVE_BROWSE_STAT_FAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_STAT_FAV_MSG2;
 				notifyStatus(saveID.str());
 				if (Client::Ref().FavouriteSave(saves[i], true)!=RequestOkay)
 				{
-					std::stringstream saveIDF;
-					saveIDF << "\boFailed to favourite [" << saves[i] << "]: " + Client::Ref().GetLastError();
+					std::wstringstream saveIDF;
+					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_FAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_FAV_MSG2 + format::StringToWString(Client::Ref().GetLastError());
 					notifyError(saveIDF.str());
 					return false;
 				}
@@ -406,13 +407,13 @@ void SearchController::FavouriteSelected()
 		{
 			for (size_t i = 0; i < saves.size(); i++)
 			{
-				std::stringstream saveID;
-				saveID << "Unfavouring save [" << saves[i] << "]";
+				std::wstringstream saveID;
+				saveID << TEXT_GUI_SAVE_BROWSE_STAT_UNFAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_STAT_UNFAV_MSG2;
 				notifyStatus(saveID.str());
 				if (Client::Ref().FavouriteSave(saves[i], false)!=RequestOkay)
 				{
-					std::stringstream saveIDF;
-					saveIDF << "\boFailed to unfavourite [" << saves[i] << "]: " + Client::Ref().GetLastError();
+					std::wstringstream saveIDF;
+					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG2 + format::StringToWString(Client::Ref().GetLastError());
 					notifyError(saveIDF.str());
 					return false;
 				}

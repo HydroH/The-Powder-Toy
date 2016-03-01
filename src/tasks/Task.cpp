@@ -2,6 +2,7 @@
 #include "Task.h"
 #include "TaskListener.h"
 #include "Format.h"
+#include "Lang.h"
 
 void Task::AddTaskListener(TaskListener * listener)
 {
@@ -121,7 +122,7 @@ void Task::before()
 
 bool Task::doWork()
 {
-	notifyStatus("Fake progress");  //TODO: Chinese?
+	notifyStatus(TEXT_GAME_CONTROL_STAT_FAKE_MSG);
 	for(int i = 0; i < 100; i++)
 	{
 		notifyProgress(i);
