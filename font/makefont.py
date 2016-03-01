@@ -64,7 +64,6 @@ for char in char_list:
     charimg = Image.open('result.png')
     bit = list(charimg.getdata())
     bit = map(bit_reduce, bit)
-    print bit
 
     # Insert font data into Font.h
     i = 0
