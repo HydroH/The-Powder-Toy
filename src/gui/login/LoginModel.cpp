@@ -21,7 +21,7 @@ void LoginModel::Login(string username, string password)
 		loginStatus = true;
 		break;
 	case LoginError:
-		statusText = format::StringToWString(Client::Ref().GetLastError()); //TODO: Globalize?
+		statusText = Client::Ref().GetWLastError();
 		size_t banStart = statusText.find(L". Ban expire in"); //TODO: temporary, remove this when the ban message is fixed
 		if (banStart != statusText.npos)
 			statusText.replace(banStart, 15, TEXT_GUI_LOGIN_STATUS_BAN);

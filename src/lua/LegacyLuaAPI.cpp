@@ -1889,7 +1889,7 @@ int luatpt_getscript(lua_State* l)
 	if (ret != 200)
 	{
 		free(scriptData);
-		return luaL_error(l, http_ret_text(ret));
+		return luaL_error(l, format::WStringToString(http_ret_wtext(ret)).c_str());
 	}
 
 	if (!strcmp(scriptData, "Invalid script ID\r\n"))

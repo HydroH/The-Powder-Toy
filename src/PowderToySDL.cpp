@@ -1008,7 +1008,7 @@ int main(int argc, char * argv[])
 			}
 			catch (std::exception & e)
 			{
-				new ErrorMessage("Error", e.what());
+				new ErrorMessage(TEXT_ERR_TITLE, format::StringToWString(e.what()));
 			}
 		}
 

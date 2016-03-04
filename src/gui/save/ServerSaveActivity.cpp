@@ -211,7 +211,7 @@ void ServerSaveActivity::NotifyDone(Task * task)
 	if(!task->GetSuccess())
 	{
 		Exit();
-		new ErrorMessage("Error", Client::Ref().GetLastError());
+		new ErrorMessage(TEXT_ERR_TITLE, Client::Ref().GetWLastError());
 	}
 	else
 	{
@@ -268,7 +268,7 @@ void ServerSaveActivity::saveUpload()
 
 	if(Client::Ref().UploadSave(save) != RequestOkay)
 	{
-		new ErrorMessage(TEXT_GUI_SAVE_WIN_UPLOAD_ERR_TITLE, TEXT_GUI_SAVE_WIN_UPLOAD_ERR_MSG+format::StringToWString(Client::Ref().GetLastError())); //TODO: Globalize?
+		new ErrorMessage(TEXT_GUI_SAVE_WIN_UPLOAD_ERR_TITLE, TEXT_GUI_SAVE_WIN_UPLOAD_ERR_MSG+Client::Ref().GetWLastError());
 	}
 	else if(callback)
 	{

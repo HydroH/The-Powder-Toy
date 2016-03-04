@@ -75,7 +75,7 @@ bool PreviewController::SubmitComment(std::string comment)
 {
 	if(comment.length() < 4)
 	{
-		new ErrorMessage("Error", "Comment is too short");
+		new ErrorMessage(TEXT_GUI_SAVE_PRE_COMM_ERR_TITLE, TEXT_GUI_SAVE_PRE_COMM_ERR_MSG);
 		return false;
 	}
 	else
@@ -83,7 +83,7 @@ bool PreviewController::SubmitComment(std::string comment)
 		RequestStatus status = Client::Ref().AddComment(saveId, comment);
 		if(status != RequestOkay)
 		{
-			new ErrorMessage("Error Submitting comment", Client::Ref().GetLastError());
+			new ErrorMessage(TEXT_GUI_SAVE_PRE_COMM_SUB_ERR_TITLE, Client::Ref().GetWLastError());
 			return false;
 		}
 		else
@@ -129,7 +129,7 @@ void PreviewController::Report(std::string message)
 		new ErrorMessage(TEXT_GUI_SAVE_PRE_REPORT_INFO_TITLE, TEXT_GUI_SAVE_PRE_REPORT_INFO_MSG); //TODO: InfoMessage
 	}
 	else
-		new ErrorMessage(TEXT_GUI_SAVE_PRE_REPORT_ERR_TITLE, TEXT_GUI_SAVE_PRE_REPORT_ERR_MSG + format::StringToWString(Client::Ref().GetLastError()));
+		new ErrorMessage(TEXT_GUI_SAVE_PRE_REPORT_ERR_TITLE, TEXT_GUI_SAVE_PRE_REPORT_ERR_MSG + Client::Ref().GetWLastError());
 }
 
 void PreviewController::FavouriteSave()

@@ -51,6 +51,7 @@
 #include "requestbroker/APIResultParser.h"
 
 #include "json/json.h"
+#include "Lang.h"
 
 extern "C"
 {
@@ -664,7 +665,7 @@ std::vector<std::pair<std::string, std::string> > Client::GetServerNotifications
 
 RequestStatus Client::ParseServerReturn(char *result, int status, bool json)
 {
-	lastError = "";
+	lastError = L"";
 	// no server response, return "Malformed Response"
 	if (status == 200 && !result)
 	{
@@ -674,8 +675,8 @@ RequestStatus Client::ParseServerReturn(char *result, int status, bool json)
 		return RequestOkay;
 	if (status != 200)
 	{
-		std::stringstream httperror;
-		httperror << "HTTP Error " << status << ": " << http_ret_text(status);
+		std::wstringstream httperror;
+		httperror << TEXT_ERR_MSG_HTTP1 << status << TEXT_ERR_MSG_HTTP2 << http_ret_wtext(status);
 		lastError = httperror.str();
 		return RequestFailure;
 	}
@@ -696,7 +697,7 @@ RequestStatus Client::ParseServerReturn(char *result, int status, bool json)
 			int status = root.get("Status", 1).asInt();
 			if (status != 1)
 			{
-				lastError = root.get("Error", "Unspecified Error").asString();
+				lastError = format::StringToWString(root.get("Error", "Unspecified Error").asString());
 				return RequestFailure;
 			}
 		}
@@ -706,12 +707,12 @@ RequestStatus Client::ParseServerReturn(char *result, int status, bool json)
 			if (!strncmp((const char *)result, "Error: ", 7))
 			{
 				status = atoi(result+7);
-				std::stringstream httperror;
-				httperror << "HTTP Error " << status << ": " << http_ret_text(status);
+				std::wstringstream httperror;
+				httperror << TEXT_ERR_MSG_HTTP1 << status << TEXT_ERR_MSG_HTTP2 << http_ret_wtext(status);
 				lastError = httperror.str();
 				return RequestFailure;
 			}
-			lastError = std::string("Could not read response: ") + e.what();
+			lastError = std::wstring(TEXT_ERR_MSG_HTTP_RES) + format::StringToWString(e.what());
 			return RequestFailure;
 		}
 	}
@@ -719,7 +720,7 @@ RequestStatus Client::ParseServerReturn(char *result, int status, bool json)
 	{
 		if (strncmp((const char *)result, "OK", 2))
 		{
-			lastError = std::string(result);
+			lastError = format::StringToWString(result);
 			return RequestFailure;
 		}
 	}
@@ -965,7 +966,7 @@ User Client::GetAuthUser()
 
 RequestStatus Client::UploadSave(SaveInfo & save)
 {
-	lastError = "";
+	lastError = L"";
 	unsigned int gameDataLength;
 	char * gameData = NULL;
 	int dataStatus;
@@ -977,7 +978,7 @@ RequestStatus Client::UploadSave(SaveInfo & save)
 	{
 		if (!save.GetGameSave())
 		{
-			lastError = "Empty game save";
+			lastError = TEXT_ERR_MSG_SAVE_EMPTY;
 			return RequestFailure;
 		}
 		save.SetID(0);
@@ -986,7 +987,7 @@ RequestStatus Client::UploadSave(SaveInfo & save)
 
 		if (!gameData)
 		{
-			lastError = "Cannot upload game save";
+			lastError = TEXT_ERR_MSG_SAVE_UPLOAD;
 			return RequestFailure;
 		}
 
@@ -1011,7 +1012,7 @@ RequestStatus Client::UploadSave(SaveInfo & save)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return RequestFailure;
 	}
 
@@ -1021,7 +1022,7 @@ RequestStatus Client::UploadSave(SaveInfo & save)
 		int saveID = format::StringToNumber<int>(data+3);
 		if (!saveID)
 		{
-			lastError = "Server did not return Save ID";
+			lastError = TEXT_ERR_MSG_SAVE_RETURN;
 			ret = RequestFailure;
 		}
 		else
@@ -1187,7 +1188,7 @@ std::vector<std::string> Client::GetStamps(int start, int count)
 
 RequestStatus Client::ExecVote(int saveID, int direction)
 {
-	lastError = "";
+	lastError = L"";
 	int dataStatus;
 	char * data;
 	int dataLength = 0;
@@ -1216,7 +1217,7 @@ RequestStatus Client::ExecVote(int saveID, int direction)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return RequestFailure;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, false);
@@ -1225,7 +1226,7 @@ RequestStatus Client::ExecVote(int saveID, int direction)
 
 unsigned char * Client::GetSaveData(int saveID, int saveDate, int & dataLength)
 {
-	lastError = "";
+	lastError = L"";
 	int dataStatus;
 	char *data;
 	dataLength = 0;
@@ -1342,7 +1343,7 @@ RequestBroker::Request * Client::GetUserInfoAsync(std::string username)
 
 LoginStatus Client::Login(std::string username, std::string password, User & user)
 {
-	lastError = "";
+	lastError = L"";
 	std::stringstream hashStream;
 	char passwordHash[33];
 	char totalHash[33];
@@ -1405,7 +1406,7 @@ LoginStatus Client::Login(std::string username, std::string password, User & use
 		}
 		catch (std::exception &e)
 		{
-			lastError = std::string("Could not read response: ") + e.what();
+			lastError = std::wstring(TEXT_ERR_MSG_HTTP_RES) + format::StringToWString(e.what());
 			return LoginError;
 		}
 	}
@@ -1415,7 +1416,7 @@ LoginStatus Client::Login(std::string username, std::string password, User & use
 
 RequestStatus Client::DeleteSave(int saveID)
 {
-	lastError = "";
+	lastError = L"";
 	std::stringstream urlStream;
 	char * data = NULL;
 	int dataStatus, dataLength;
@@ -1428,7 +1429,7 @@ RequestStatus Client::DeleteSave(int saveID)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return RequestFailure;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
@@ -1438,7 +1439,7 @@ RequestStatus Client::DeleteSave(int saveID)
 
 RequestStatus Client::AddComment(int saveID, std::string comment)
 {
-	lastError = "";
+	lastError = L"";
 	std::stringstream urlStream;
 	char * data = NULL;
 	int dataStatus, dataLength;
@@ -1455,7 +1456,7 @@ RequestStatus Client::AddComment(int saveID, std::string comment)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return RequestFailure;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
@@ -1465,7 +1466,7 @@ RequestStatus Client::AddComment(int saveID, std::string comment)
 
 RequestStatus Client::FavouriteSave(int saveID, bool favourite)
 {
-	lastError = "";
+	lastError = L"";
 	std::stringstream urlStream;
 	char * data = NULL;
 	int dataStatus, dataLength;
@@ -1480,7 +1481,7 @@ RequestStatus Client::FavouriteSave(int saveID, bool favourite)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return RequestFailure;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
@@ -1490,7 +1491,7 @@ RequestStatus Client::FavouriteSave(int saveID, bool favourite)
 
 RequestStatus Client::ReportSave(int saveID, std::string message)
 {
-	lastError = "";
+	lastError = L"";
 	std::stringstream urlStream;
 	char * data = NULL;
 	int dataStatus, dataLength;
@@ -1507,7 +1508,7 @@ RequestStatus Client::ReportSave(int saveID, std::string message)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return RequestFailure;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
@@ -1517,7 +1518,7 @@ RequestStatus Client::ReportSave(int saveID, std::string message)
 
 RequestStatus Client::UnpublishSave(int saveID)
 {
-	lastError = "";
+	lastError = L"";
 	std::stringstream urlStream;
 	char * data = NULL;
 	int dataStatus, dataLength;
@@ -1530,7 +1531,7 @@ RequestStatus Client::UnpublishSave(int saveID)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return RequestFailure;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
@@ -1540,7 +1541,7 @@ RequestStatus Client::UnpublishSave(int saveID)
 
 RequestStatus Client::PublishSave(int saveID)
 {
-	lastError = "";
+	lastError = L"";
 	std::stringstream urlStream;
 	char *data;
 	int dataStatus;
@@ -1555,7 +1556,7 @@ RequestStatus Client::PublishSave(int saveID)
 		data = http_multipart_post(urlStream.str().c_str(), postNames, postDatas, postLengths, userIDStream.str().c_str(), NULL, authUser.SessionID.c_str(), &dataStatus, NULL);	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return RequestFailure;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
@@ -1565,7 +1566,7 @@ RequestStatus Client::PublishSave(int saveID)
 
 SaveInfo * Client::GetSave(int saveID, int saveDate)
 {
-	lastError = "";
+	lastError = L"";
 	std::stringstream urlStream;
 	urlStream << "http://" << SERVER  << "/Browse/View.json?ID=" << saveID;
 	if(saveDate)
@@ -1623,7 +1624,7 @@ SaveInfo * Client::GetSave(int saveID, int saveDate)
 		}
 		catch (std::exception & e)
 		{
-			lastError = std::string("Could not read response: ") + e.what();
+			lastError = std::wstring(TEXT_ERR_MSG_HTTP_RES) + format::StringToWString(e.what());
 			free(data);
 			return NULL;
 		}
@@ -1631,7 +1632,7 @@ SaveInfo * Client::GetSave(int saveID, int saveDate)
 	else
 	{
 		free(data);
-		lastError = http_ret_text(dataStatus);
+		lastError = http_ret_wtext(dataStatus);
 	}
 	return NULL;
 }
@@ -1742,7 +1743,7 @@ RequestBroker::Request * Client::GetCommentsAsync(int saveID, int start, int cou
 
 std::vector<std::pair<std::string, int> > * Client::GetTags(int start, int count, std::string query, int & resultCount)
 {
-	lastError = "";
+	lastError = L"";
 	resultCount = 0;
 	std::vector<std::pair<std::string, int> > * tagArray = new std::vector<std::pair<std::string, int> >();
 	std::stringstream urlStream;
@@ -1776,12 +1777,12 @@ std::vector<std::pair<std::string, int> > * Client::GetTags(int start, int count
 		}
 		catch (std::exception & e)
 		{
-			lastError = std::string("Could not read response: ") + e.what();
+			lastError = std::wstring(TEXT_ERR_MSG_HTTP_RES) + format::StringToWString(e.what());
 		}
 	}
 	else
 	{
-		lastError = http_ret_text(dataStatus);
+		lastError = http_ret_wtext(dataStatus);
 	}
 	free(data);
 	return tagArray;
@@ -1789,7 +1790,7 @@ std::vector<std::pair<std::string, int> > * Client::GetTags(int start, int count
 
 std::vector<SaveInfo*> * Client::SearchSaves(int start, int count, std::string query, std::string sort, std::string category, int & resultCount)
 {
-	lastError = "";
+	lastError = L"";
 	resultCount = 0;
 	std::vector<SaveInfo*> * saveArray = new std::vector<SaveInfo*>();
 	std::stringstream urlStream;
@@ -1851,7 +1852,7 @@ std::vector<SaveInfo*> * Client::SearchSaves(int start, int count, std::string q
 		}
 		catch (std::exception &e)
 		{
-			lastError = std::string("Could not read response: ") + e.what();
+			lastError = std::wstring(TEXT_ERR_MSG_HTTP_RES) + format::StringToWString(e.what());
 		}
 	}
 	free(data);
@@ -1874,7 +1875,7 @@ void Client::ClearThumbnailRequests()
 
 std::list<std::string> * Client::RemoveTag(int saveID, std::string tag)
 {
-	lastError = "";
+	lastError = L"";
 	std::list<std::string> * tags = NULL;
 	std::stringstream urlStream;
 	char * data = NULL;
@@ -1888,7 +1889,7 @@ std::list<std::string> * Client::RemoveTag(int saveID, std::string tag)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return NULL;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
@@ -1907,7 +1908,7 @@ std::list<std::string> * Client::RemoveTag(int saveID, std::string tag)
 		}
 		catch (std::exception &e)
 		{
-			lastError = std::string("Could not read response: ") + e.what();
+			lastError = std::wstring(TEXT_ERR_MSG_HTTP_RES) + format::StringToWString(e.what());
 		}
 	}
 	free(data);
@@ -1916,7 +1917,7 @@ std::list<std::string> * Client::RemoveTag(int saveID, std::string tag)
 
 std::list<std::string> * Client::AddTag(int saveID, std::string tag)
 {
-	lastError = "";
+	lastError = L"";
 	std::list<std::string> * tags = NULL;
 	std::stringstream urlStream;
 	char * data = NULL;
@@ -1930,7 +1931,7 @@ std::list<std::string> * Client::AddTag(int saveID, std::string tag)
 	}
 	else
 	{
-		lastError = "Not authenticated";
+		lastError = TEXT_ERR_MSG_AUTH;
 		return NULL;
 	}
 	RequestStatus ret = ParseServerReturn(data, dataStatus, true);
@@ -1949,7 +1950,7 @@ std::list<std::string> * Client::AddTag(int saveID, std::string tag)
 		}
 		catch (std::exception & e)
 		{
-			lastError = std::string("Could not read response: ") + e.what();
+			lastError = std::wstring(TEXT_ERR_MSG_HTTP_RES) + format::StringToWString(e.what());
 		}
 	}
 	free(data);
