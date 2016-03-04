@@ -811,83 +811,82 @@
 #define TEXT_GAME_CONTROL_STAT_FAKE_MSG L"无效进程"
 
  //Error notifications.
-#define TEXT_ERR_TITLE L"Error"
-#define TEXT_ERR_MSG_HTTP1 L"HTTP Error "
+#define TEXT_ERR_TITLE L"错误"
+#define TEXT_ERR_MSG_HTTP1 L"HTTP 错误 "
 #define TEXT_ERR_MSG_HTTP2 L": "
-#define TEXT_ERR_MSG_HTTP_RES L"Could not read response: "
-#define TEXT_ERR_MSG_AUTH L"Not authenticated"
-#define TEXT_ERR_MSG_SAVE_EMPTY L"Empty game save"
-#define TEXT_ERR_MSG_SAVE_UPLOAD L"Cannot upload game save"
-#define TEXT_ERR_MSG_SAVE_RETURN L"Server did not return Save ID"
+#define TEXT_ERR_MSG_HTTP_RES L"无法读取回应: "
+#define TEXT_ERR_MSG_AUTH L"没有权限"
+#define TEXT_ERR_MSG_SAVE_EMPTY L"空白存档"
+#define TEXT_ERR_MSG_SAVE_UPLOAD L"上传存档失败"
+#define TEXT_ERR_MSG_SAVE_RETURN L"服务器没有返回存档ID"
 #define TEXT_ERR_MSG_SAVE_OPEN L"Could not open save file:\n"
 #define TEXT_ERR_MSG_OPEN L"Could not open file"
 #define TEXT_ERR_MSG_READ L"Could not read file"
 
  //HTTP return status.
-#define TEXT_HTTP_STAT_100 L"Continue"
-#define TEXT_HTTP_STAT_101 L"Switching Protocols"
-#define TEXT_HTTP_STAT_102 L"Processing"
-#define TEXT_HTTP_STAT_200 L"OK"
-#define TEXT_HTTP_STAT_201 L"Created"
-#define TEXT_HTTP_STAT_202 L"Accepted"
-#define TEXT_HTTP_STAT_203 L"Non-Authoritative Information"
-#define TEXT_HTTP_STAT_204 L"No Content"
-#define TEXT_HTTP_STAT_205 L"Reset Content"
-#define TEXT_HTTP_STAT_206 L"Partial Content"
-#define TEXT_HTTP_STAT_207 L"Multi-Status"
-#define TEXT_HTTP_STAT_300 L"Multiple Choices"
-#define TEXT_HTTP_STAT_301 L"Moved Permanently"
-#define TEXT_HTTP_STAT_302 L"Found"
-#define TEXT_HTTP_STAT_303 L"See Other"
-#define TEXT_HTTP_STAT_304 L"Not Modified"
-#define TEXT_HTTP_STAT_305 L"Use Proxy"
-#define TEXT_HTTP_STAT_306 L"Switch Proxy"
-#define TEXT_HTTP_STAT_307 L"Temporary Redirect"
-#define TEXT_HTTP_STAT_400 L"Bad Request"
-#define TEXT_HTTP_STAT_401 L"Unauthorized"
-#define TEXT_HTTP_STAT_402 L"Payment Required"
-#define TEXT_HTTP_STAT_403 L"Forbidden"
-#define TEXT_HTTP_STAT_404 L"Not Found"
-#define TEXT_HTTP_STAT_405 L"Method Not Allowed"
-#define TEXT_HTTP_STAT_406 L"Not Acceptable"
-#define TEXT_HTTP_STAT_407 L"Proxy Authentication Required"
-#define TEXT_HTTP_STAT_408 L"Request Timeout"
-#define TEXT_HTTP_STAT_409 L"Conflict"
-#define TEXT_HTTP_STAT_410 L"Gone"
-#define TEXT_HTTP_STAT_411 L"Length Required"
-#define TEXT_HTTP_STAT_412 L"Precondition Failed"
-#define TEXT_HTTP_STAT_413 L"Request Entity Too Large"
-#define TEXT_HTTP_STAT_414 L"Request URI Too Long"
-#define TEXT_HTTP_STAT_415 L"Unsupported Media Type"
-#define TEXT_HTTP_STAT_416 L"Requested Range Not Satisfiable"
-#define TEXT_HTTP_STAT_417 L"Expectation Failed"
-#define TEXT_HTTP_STAT_418 L"I'm a teapot"
-#define TEXT_HTTP_STAT_422 L"Unprocessable Entity"
-#define TEXT_HTTP_STAT_423 L"Locked"
-#define TEXT_HTTP_STAT_424 L"Failed Dependency"
-#define TEXT_HTTP_STAT_425 L"Unordered Collection"
-#define TEXT_HTTP_STAT_426 L"Upgrade Required"
-#define TEXT_HTTP_STAT_444 L"No Response"
-#define TEXT_HTTP_STAT_450 L"Blocked by Windows Parental Controls"
-#define TEXT_HTTP_STAT_499 L"Client Closed Request"
-#define TEXT_HTTP_STAT_500 L"Internal Server Error"
-#define TEXT_HTTP_STAT_501 L"Not Implemented"
-#define TEXT_HTTP_STAT_502 L"Bad Gateway"
-#define TEXT_HTTP_STAT_503 L"Service Unavailable"
-#define TEXT_HTTP_STAT_504 L"Gateway Timeout"
-#define TEXT_HTTP_STAT_505 L"HTTP Version Not Supported"
-#define TEXT_HTTP_STAT_506 L"Variant Also Negotiates"
-#define TEXT_HTTP_STAT_507 L"Insufficient Storage"
-#define TEXT_HTTP_STAT_509 L"Bandwidth Limit Exceeded"
-#define TEXT_HTTP_STAT_510 L"Not Extended"
-#define TEXT_HTTP_STAT_600 L"Internal Client Error"
-#define TEXT_HTTP_STAT_601 L"Unsupported Protocol"
-#define TEXT_HTTP_STAT_602 L"Server Not Found"
-#define TEXT_HTTP_STAT_603 L"Malformed Response"
-#define TEXT_HTTP_STAT_604 L"Network Not Available"
-#define TEXT_HTTP_STAT_605 L"Request Timed Out"
-#define TEXT_HTTP_STAT_UNKNOWN L"Unknown Status Code"
-
+#define TEXT_HTTP_STAT_100 L"继续"
+#define TEXT_HTTP_STAT_101 L"切换协议"
+#define TEXT_HTTP_STAT_102 L"处理中"
+#define TEXT_HTTP_STAT_200 L"请求成功,将返回数据"
+#define TEXT_HTTP_STAT_201 L"文档已创建,返回URL"
+#define TEXT_HTTP_STAT_202 L"请求接受,等待处理"
+#define TEXT_HTTP_STAT_203 L"返回副本信息"
+#define TEXT_HTTP_STAT_204 L"没有新内容"
+#define TEXT_HTTP_STAT_205 L"重置内容"
+#define TEXT_HTTP_STAT_206 L"局部内容请求"
+#define TEXT_HTTP_STAT_207 L"返回XML信息"
+#define TEXT_HTTP_STAT_300 L"找到多个来源,正在重定向"
+#define TEXT_HTTP_STAT_301 L"请求资源已被永久移动至新位置,正在重定向"
+#define TEXT_HTTP_STAT_302 L"资源已找到,正在重定向"
+#define TEXT_HTTP_STAT_303 L"发现其他来源,正在重定向"
+#define TEXT_HTTP_STAT_304 L"已最新,无需更改"
+#define TEXT_HTTP_STAT_305 L"通过代理服务器访问"
+#define TEXT_HTTP_STAT_306 L"切换代理服务器"
+#define TEXT_HTTP_STAT_307 L"临时重定向"
+#define TEXT_HTTP_STAT_400 L"请求失败,发现语法错误"
+#define TEXT_HTTP_STAT_401 L"没有权限"
+#define TEXT_HTTP_STAT_402 L"预留状态码"
+#define TEXT_HTTP_STAT_403 L"请求被拒绝"
+#define TEXT_HTTP_STAT_404 L"请求失败,没有找到被请求的资源"
+#define TEXT_HTTP_STAT_405 L"请求失败,错误的请求方法"
+#define TEXT_HTTP_STAT_406 L"无法访问,类型不一致"
+#define TEXT_HTTP_STAT_407 L"需要代理服务器验证"
+#define TEXT_HTTP_STAT_408 L"请求超时"
+#define TEXT_HTTP_STAT_409 L"发生冲突"
+#define TEXT_HTTP_STAT_410 L"请求的文档已被删除"
+#define TEXT_HTTP_STAT_411 L"需要数据长度信息"
+#define TEXT_HTTP_STAT_412 L"先决长度错误"
+#define TEXT_HTTP_STAT_413 L"请求数据过大"
+#define TEXT_HTTP_STAT_414 L"URI过长"
+#define TEXT_HTTP_STAT_415 L"不受支持的媒体格式"
+#define TEXT_HTTP_STAT_416 L"请求范围无法满足"
+#define TEXT_HTTP_STAT_417 L"期望失败"
+#define TEXT_HTTP_STAT_418 L"服务器连接失败,已连接到IETF办公室的茶壶"
+#define TEXT_HTTP_STAT_422 L"语义错误"
+#define TEXT_HTTP_STAT_423 L"资源被锁定"
+#define TEXT_HTTP_STAT_424 L"请求失败,之前的请求有错误"
+#define TEXT_HTTP_STAT_425 L"未排序的集合"
+#define TEXT_HTTP_STAT_426 L"需要TLS/1.0"
+#define TEXT_HTTP_STAT_444 L"无响应"
+#define TEXT_HTTP_STAT_450 L"被Windows家长控制拒绝"
+#define TEXT_HTTP_STAT_499 L"请求被远程服务器关闭"
+#define TEXT_HTTP_STAT_500 L"服务器发生未知错误"
+#define TEXT_HTTP_STAT_501 L"请求的功能不受支持"
+#define TEXT_HTTP_STAT_502 L"网关或代理错误"
+#define TEXT_HTTP_STAT_503 L"服务器暂时无法响应"
+#define TEXT_HTTP_STAT_504 L"网关或代理响应超时"
+#define TEXT_HTTP_STAT_505 L"不受支持的HTTP版本"
+#define TEXT_HTTP_STAT_506 L"服务器配置错误"
+#define TEXT_HTTP_STAT_507 L"服务器暂时无法存储需要的内容"
+#define TEXT_HTTP_STAT_509 L"服务器达到带宽限制"
+#define TEXT_HTTP_STAT_510 L"所需策略未被满足"
+#define TEXT_HTTP_STAT_600 L"客户机内部错误"
+#define TEXT_HTTP_STAT_601 L"不受支持的协议"
+#define TEXT_HTTP_STAT_602 L"服务器没有找到"
+#define TEXT_HTTP_STAT_603 L"响应格式不正确"
+#define TEXT_HTTP_STAT_604 L"网络不可用,检查网络连接"
+#define TEXT_HTTP_STAT_605 L"请求超时"
+#define TEXT_HTTP_STAT_UNKNOWN L"未知的错误代码"
  //Exceptions.
 #define TEXT_EXCEPT_COORD_STACK_OVERFLOW L"Maximum number of entries in the coordinate stack was exceeded"
 #define TEXT_EXCEPT_GAME_MODEL_VOTE L"Could not vote: "
@@ -1032,55 +1031,55 @@
 		"如果你发现有存档违反了以上条例, 可以通过举报功能向版主举报. 举报时请务必附上存档的存档ID以帮助版主快速定位到相应存档."
 
  //Common characters.
-/*
-的一是在不了有和人这中大为上个国我以要他时来用们生到作地于出就分对成会可主发年动
-同工也能下过子说产种面而方后多定行学法所民得经十三之进着等部度家电力里如水化高自
-二理起小物现实加量都两体制机当使点从业本去把性好应开它合还因由其些然前外天政四日
-那社义事平形相全表间样与关各重新线内数正心反你明看原又么利比或但质气第向道命此变
-条只没结解问意建月公无系军很情者最立代想已通并提直题党程展五果料象员革位入常文总
-次品式活设及管特件长求老头基资边流路级少图山统按知较长将组见计别她手角期根论运农
-指几九区强放决西被干做必战先回则任取据处队南给色光门即保治北造百规热领七海地口东
-导器压志世金增争济阶油思术极交受联会认六共权收证改清己美再采转更单风切打白教速花
-带安场身车例真务具万每目至达走积示议声报斗完类八离华名确才科张信马节话米整空元况
-今集温传土许步群广石记需段研界拉林律叫且究观越织装影算低持音众书布复容儿须际商非
-验连断深难近矿千周委素技备半办青省列习响约支般史感劳便团往酸历市克何除消构府称太
-准精值号率族维划选标写存候毛亲快效斯院查江型眼王按格养易置派层片始却专状育厂京识
-适属圆包火住调满县局照参红细引听该铁价严首底液官德调随病苏失尔死讲配女黄推显谈罪
-神艺呢席含企望密批营项防举球英氧势告李台落木帮轮破亚师围注远字材排供河态封另施减
-树溶怎止案言士均武固叶鱼波视仅费紧爱左章早朝害续轻服试食充兵源判护司足某练差致板
-田降黑犯负击范继兴似余坚曲输修的故城夫够送笑船占右财吃富春职觉汉画功巴跟虽杂飞检
-吸助升阳互初创抗考投坏策古径换未跑留钢曾端责站简述钱副尽帝射草冲承独令限阿宣环请
-超微让控州良轴找否纪剪益依优顶础载倒房突坐粉敌略客袁冷胜绝析块剂测丝协重诉念陈仍
-罗盐友洋错苦夜刑移频逐靠混母短皮终聚汽村云哪既距卫停烈央察烧迅行境若印测刻括激孔
-搞甚室待核校散侵吧甲游久菜昧旧模湖货损预阻毫普稳乙妈植息扩银语挥洒守拿序纸医缺雨
-吗针刘啊急唱误训愿审附获茶鲜粮斤孩脱硫肥善龙演父淅血欢械掌歌沙薯刚攻谓盾讨晚粒乱
-燃矛乎杀药宁鲁贵钟煤读班伯香介迫句丰培握兰担弦蛋沉假穿执答乐谁顺烟缩征脸喜松脚困
-异免背星福买染井概慢怕磁倍祖皇促静补评翻肉践尼衣宽扬棉希伤操垂秋宜氢套笔督振架亮
-末宪庆编牛触映雷销诗座居抓裂胞呼娘景威绿晶厚盟衡鸡孙延危胶还屋乡临陆顾掉呀灯岁措
-束耐剧玉赵跳哥季课觊胡额款绍卷齐伟蒸殖永宗苗川炉岩弱零杨奏沿露杆探滑镇饭浓航怀赶
-库夺伊灵税了途灭赛归召鼓播盘裁险康唯录菌纯借糖盖横符私努堂域枪润幅哈竟熟虫泽脑壤
-碳欧遍侧寨敢彻虑斜薄庭都纳弹饲伸折麦湿暗荷瓦塞床筑恶户访塔奇透梁刀旋迹卡氯遇份毒
-泥退洗摆灰彩卖耗夏择忙铜献硬予繁圈雪函亦抽篇阵阴丁尺追堆雄迎泛爸楼避谋吨野猪旗累
-偏典馆索秦脂潮爷豆忽托惊塑遗愈朱替纤米倾尚痛楚谢奋购磨君池旁碎骨监捕弟暴割贯殊释
-词亡壁顿宝午尘闻揭炮残冬桥妇警综招吴付浮遭徐您摇容赞箱隔订男吹乐园纷唐败宋玻巨耕
-坦荣闭湾键凡驻锅救恩剥凝碱齿截煤炼麻纺禁废盛版净睛昌婚涉筒嘴插岸朗庄街藏姑贸腐奴
-啦惯乘伙恢匀纱扎辩耳彪臣亿璃抵脉秀萨俄网舞店喷纵寸汗挂洪着贺闪柬爆烯津稻墙软勇像
-滚厘蒙芳肯坡柱荡腿仪旅尾轧冰贡登黎削钻勒逃障氨郭峰币港伏轨亩毕擦莫刺浪秘援株健售
-股岛甘泡睡童铸汤阀休汇舍牧绕炸哲磷绩朋淡尖启陷柴呈徒颜泪稍忘泵蓝拖洞授镜辛牡锋贫
-虚弯摩泰幼廷尊窗纲弄隶疑氏宫姐震瑞怪尤琴循描膜违夹腰缘珠穷森枝竹沟催绳忆邦剩幸浆
-栏拥牙贮礼滤钠绞弹罢拍咱喊袖埃勤罚焦潜伍墨欲缝姓刊饱仿奖铝鬼丽跨默挖链扫喝袋炭污
-幕诸弧励梅奶洁灾舟鉴苯讼抱毁率懂寒智埔寄届跃渡挑丹艰贝磁拔爹戴码梦芽熔赤渔哭敬颗
-奔藏铅熟仲虎稀妹乏珍申桌遵允隆螺仓魏锐晓氮兼隐碍赫拔忠肃缸牵抢博巧壳兄杜讯诚碧祥
-柯页巡矩悲灌龄伦票寻桂铺圣恐恰郑趣抬荒腾贴柔滴猛阔辆妻填撤储签闹扰紫砂递戏吊陶伐
-喂疗瓶婆抚臂摸忍虾蜡邻胸巩挤偶弃槽劲乳邓吉仁烂砖租乌舰伴瓜浅丙暂燥橡柳迷暖牌纤秧
-胆详簧踏瓷谱呆宾糊洛辉愤竞隙怒粘乃绪肩籍敏涂熙皆侦悬掘享纠醒狂锁淀恨牲霸爬赏逆玩
-陵祝秒浙貌役彼悉鸭着趋凤晨畜辈秩卵暑梯炎滩棋驱筛峡冒啥寿译浸泉帽迟硅疆贷漏稿冠嫩
-胁芯牢叛蚀奥鸣岭羊凭串塘绘酵融盆锡庙筹冻辅摄袭筋拒僚旱钾鸟漆沈眉疏添棒穗硝韩逼扭
-侨凉挺碗栽炒杯患镏劝豪辽勃鸿旦吏拜狗埋辊掩饮搬骂辞勾扣估蒋绒雾丈朵姆拟宇辑陕雕偿
-蓄崇剪倡厅咬驶薯刷斥番赋奉佛浇漫曼扇钙桃扶仔返俗亏腔鞋棱覆框悄叔撞骗勘旺沸孤粘吐
-孟渠屈疾妙惜仰狠胀谐抛霉桑岗嘛衰盗渗脏赖涌甜曹阅肌哩厉烃纬毅昨伪疰煮叹钉搭茎笼酷
-偷弓锥恒杰坑鼻翼纶叙狱逮罐络棚抑膨蔬寺骤穆冶柘册尸凸绅坯牺焰轰欣晋瘦御锭锦丧旬锻
-垄搜佛扑邀亭酯迈舒脆酶闲忧酚顽羽涨卸仗陪薄辟惩杭姚肚捉飘漂昆欺吾郎烷汁呵饰萧雅邮
-迁燕撒姻赴宴烦削债帐斑铃旨醇董饼雏姿拌傅腹妥揉贤拆歪葡胺丢浩徽昂垫挡览贪慰缴汪慌
-冯诺姜谊凶劣诬耀昏躺盈骑乔溪丛卢抹誉闷咨刮驾缆悟摘饵掷颇幻柄惠惨佳仇腊窝涤剑瞧堡
-*/
+ /*
+ 的一是在不了有和人这中大为上个国我以要他时来用们生到作地于出就分对成会可主发年动
+ 同工也能下过子说产种面而方后多定行学法所民得经十三之进着等部度家电力里如水化高自
+ 二理起小物现实加量都两体制机当使点从业本去把性好应开它合还因由其些然前外天政四日
+ 那社义事平形相全表间样与关各重新线内数正心反你明看原又么利比或但质气第向道命此变
+ 条只没结解问意建月公无系军很情者最立代想已通并提直题党程展五果料象员革位入常文总
+ 次品式活设及管特件长求老头基资边流路级少图山统按知较长将组见计别她手角期根论运农
+ 指几九区强放决西被干做必战先回则任取据处队南给色光门即保治北造百规热领七海地口东
+ 导器压志世金增争济阶油思术极交受联会认六共权收证改清己美再采转更单风切打白教速花
+ 带安场身车例真务具万每目至达走积示议声报斗完类八离华名确才科张信马节话米整空元况
+ 今集温传土许步群广石记需段研界拉林律叫且究观越织装影算低持音众书布复容儿须际商非
+ 验连断深难近矿千周委素技备半办青省列习响约支般史感劳便团往酸历市克何除消构府称太
+ 准精值号率族维划选标写存候毛亲快效斯院查江型眼王按格养易置派层片始却专状育厂京识
+ 适属圆包火住调满县局照参红细引听该铁价严首底液官德调随病苏失尔死讲配女黄推显谈罪
+ 神艺呢席含企望密批营项防举球英氧势告李台落木帮轮破亚师围注远字材排供河态封另施减
+ 树溶怎止案言士均武固叶鱼波视仅费紧爱左章早朝害续轻服试食充兵源判护司足某练差致板
+ 田降黑犯负击范继兴似余坚曲输修的故城夫够送笑船占右财吃富春职觉汉画功巴跟虽杂飞检
+ 吸助升阳互初创抗考投坏策古径换未跑留钢曾端责站简述钱副尽帝射草冲承独令限阿宣环请
+ 超微让控州良轴找否纪剪益依优顶础载倒房突坐粉敌略客袁冷胜绝析块剂测丝协重诉念陈仍
+ 罗盐友洋错苦夜刑移频逐靠混母短皮终聚汽村云哪既距卫停烈央察烧迅行境若印测刻括激孔
+ 搞甚室待核校散侵吧甲游久菜昧旧模湖货损预阻毫普稳乙妈植息扩银语挥洒守拿序纸医缺雨
+ 吗针刘啊急唱误训愿审附获茶鲜粮斤孩脱硫肥善龙演父淅血欢械掌歌沙薯刚攻谓盾讨晚粒乱
+ 燃矛乎杀药宁鲁贵钟煤读班伯香介迫句丰培握兰担弦蛋沉假穿执答乐谁顺烟缩征脸喜松脚困
+ 异免背星福买染井概慢怕磁倍祖皇促静补评翻肉践尼衣宽扬棉希伤操垂秋宜氢套笔督振架亮
+ 末宪庆编牛触映雷销诗座居抓裂胞呼娘景威绿晶厚盟衡鸡孙延危胶还屋乡临陆顾掉呀灯岁措
+ 束耐剧玉赵跳哥季课觊胡额款绍卷齐伟蒸殖永宗苗川炉岩弱零杨奏沿露杆探滑镇饭浓航怀赶
+ 库夺伊灵税了途灭赛归召鼓播盘裁险康唯录菌纯借糖盖横符私努堂域枪润幅哈竟熟虫泽脑壤
+ 碳欧遍侧寨敢彻虑斜薄庭都纳弹饲伸折麦湿暗荷瓦塞床筑恶户访塔奇透梁刀旋迹卡氯遇份毒
+ 泥退洗摆灰彩卖耗夏择忙铜献硬予繁圈雪函亦抽篇阵阴丁尺追堆雄迎泛爸楼避谋吨野猪旗累
+ 偏典馆索秦脂潮爷豆忽托惊塑遗愈朱替纤米倾尚痛楚谢奋购磨君池旁碎骨监捕弟暴割贯殊释
+ 词亡壁顿宝午尘闻揭炮残冬桥妇警综招吴付浮遭徐您摇容赞箱隔订男吹乐园纷唐败宋玻巨耕
+ 坦荣闭湾键凡驻锅救恩剥凝碱齿截煤炼麻纺禁废盛版净睛昌婚涉筒嘴插岸朗庄街藏姑贸腐奴
+ 啦惯乘伙恢匀纱扎辩耳彪臣亿璃抵脉秀萨俄网舞店喷纵寸汗挂洪着贺闪柬爆烯津稻墙软勇像
+ 滚厘蒙芳肯坡柱荡腿仪旅尾轧冰贡登黎削钻勒逃障氨郭峰币港伏轨亩毕擦莫刺浪秘援株健售
+ 股岛甘泡睡童铸汤阀休汇舍牧绕炸哲磷绩朋淡尖启陷柴呈徒颜泪稍忘泵蓝拖洞授镜辛牡锋贫
+ 虚弯摩泰幼廷尊窗纲弄隶疑氏宫姐震瑞怪尤琴循描膜违夹腰缘珠穷森枝竹沟催绳忆邦剩幸浆
+ 栏拥牙贮礼滤钠绞弹罢拍咱喊袖埃勤罚焦潜伍墨欲缝姓刊饱仿奖铝鬼丽跨默挖链扫喝袋炭污
+ 幕诸弧励梅奶洁灾舟鉴苯讼抱毁率懂寒智埔寄届跃渡挑丹艰贝磁拔爹戴码梦芽熔赤渔哭敬颗
+ 奔藏铅熟仲虎稀妹乏珍申桌遵允隆螺仓魏锐晓氮兼隐碍赫拔忠肃缸牵抢博巧壳兄杜讯诚碧祥
+ 柯页巡矩悲灌龄伦票寻桂铺圣恐恰郑趣抬荒腾贴柔滴猛阔辆妻填撤储签闹扰紫砂递戏吊陶伐
+ 喂疗瓶婆抚臂摸忍虾蜡邻胸巩挤偶弃槽劲乳邓吉仁烂砖租乌舰伴瓜浅丙暂燥橡柳迷暖牌纤秧
+ 胆详簧踏瓷谱呆宾糊洛辉愤竞隙怒粘乃绪肩籍敏涂熙皆侦悬掘享纠醒狂锁淀恨牲霸爬赏逆玩
+ 陵祝秒浙貌役彼悉鸭着趋凤晨畜辈秩卵暑梯炎滩棋驱筛峡冒啥寿译浸泉帽迟硅疆贷漏稿冠嫩
+ 胁芯牢叛蚀奥鸣岭羊凭串塘绘酵融盆锡庙筹冻辅摄袭筋拒僚旱钾鸟漆沈眉疏添棒穗硝韩逼扭
+ 侨凉挺碗栽炒杯患镏劝豪辽勃鸿旦吏拜狗埋辊掩饮搬骂辞勾扣估蒋绒雾丈朵姆拟宇辑陕雕偿
+ 蓄崇剪倡厅咬驶薯刷斥番赋奉佛浇漫曼扇钙桃扶仔返俗亏腔鞋棱覆框悄叔撞骗勘旺沸孤粘吐
+ 孟渠屈疾妙惜仰狠胀谐抛霉桑岗嘛衰盗渗脏赖涌甜曹阅肌哩厉烃纬毅昨伪疰煮叹钉搭茎笼酷
+ 偷弓锥恒杰坑鼻翼纶叙狱逮罐络棚抑膨蔬寺骤穆冶柘册尸凸绅坯牺焰轰欣晋瘦御锭锦丧旬锻
+ 垄搜佛扑邀亭酯迈舒脆酶闲忧酚顽羽涨卸仗陪薄辟惩杭姚肚捉飘漂昆欺吾郎烷汁呵饰萧雅邮
+ 迁燕撒姻赴宴烦削债帐斑铃旨醇董饼雏姿拌傅腹妥揉贤拆歪葡胺丢浩徽昂垫挡览贪慰缴汪慌
+ 冯诺姜谊凶劣诬耀昏躺盈骑乔溪丛卢抹誉闷咨刮驾缆悟摘饵掷颇幻柄惠惨佳仇腊窝涤剑瞧堡
+ */
