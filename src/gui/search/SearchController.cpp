@@ -270,7 +270,7 @@ void SearchController::removeSelectedC()
 				if (Client::Ref().DeleteSave(saves[i])!=RequestOkay)
 				{
  					std::wstringstream saveIDF;
-					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_DELETE_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_DELETE_MSG2 << format::StringToWString(Client::Ref().GetLastError());  //TODO: Globalize?
+					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_DELETE_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_DELETE_MSG2 << Client::Ref().GetWLastError();
 					notifyError(saveIDF.str());
 					c->Refresh();
 					return false;
@@ -355,7 +355,7 @@ void SearchController::unpublishSelectedC(bool publish)
 					if (publish) // uses html page so error message will be spam
 						error << TEXT_GUI_SAVE_BROWSE_ERR_PUB_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_PUB_MSG2;
 					else
-						error << TEXT_GUI_SAVE_BROWSE_ERR_UNPUB_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_UNPUB_MSG2 + format::StringToWString(Client::Ref().GetLastError());  //TODO: Globalize?
+						error << TEXT_GUI_SAVE_BROWSE_ERR_UNPUB_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_UNPUB_MSG2 + Client::Ref().GetWLastError();
 					notifyError(error.str());
 					c->Refresh();
 					return false;
@@ -388,7 +388,7 @@ void SearchController::FavouriteSelected()
 				if (Client::Ref().FavouriteSave(saves[i], true)!=RequestOkay)
 				{
 					std::wstringstream saveIDF;
-					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_FAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_FAV_MSG2 + format::StringToWString(Client::Ref().GetLastError());
+					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_FAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_FAV_MSG2 + Client::Ref().GetWLastError();
 					notifyError(saveIDF.str());
 					return false;
 				}
@@ -413,7 +413,7 @@ void SearchController::FavouriteSelected()
 				if (Client::Ref().FavouriteSave(saves[i], false)!=RequestOkay)
 				{
 					std::wstringstream saveIDF;
-					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG2 + format::StringToWString(Client::Ref().GetLastError());
+					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG2 + Client::Ref().GetWLastError();
 					notifyError(saveIDF.str());
 					return false;
 				}

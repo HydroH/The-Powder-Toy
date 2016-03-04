@@ -53,6 +53,8 @@
 #include "HTTP.h"
 #include "MD5.h"
 #include "Platform.h"
+#include "Format.h"
+#include "Lang.h"
 
 #ifdef WIN
 #define PERROR SOCKET_ERROR
@@ -771,141 +773,141 @@ char *http_simple_post(const char *uri, const char *data, int dlen, int *ret, in
 	return http_async_req_stop(ctx, ret, len);
 }
 
-const char *http_ret_text(int ret)
+const wchar_t *http_ret_wtext(int ret)
 {
 	switch (ret)
 	{
 	case 100:
-		return "Continue";
+		return TEXT_HTTP_STAT_100;
 	case 101:
-		return "Switching Protocols";
+		return TEXT_HTTP_STAT_101;
 	case 102:
-		return "Processing";
+		return TEXT_HTTP_STAT_102;
 
 	case 200:
-		return "OK";
+		return TEXT_HTTP_STAT_200;
 	case 201:
-		return "Created";
+		return TEXT_HTTP_STAT_201;
 	case 202:
-		return "Accepted";
+		return TEXT_HTTP_STAT_202;
 	case 203:
-		return "Non-Authoritative Information";
+		return TEXT_HTTP_STAT_203;
 	case 204:
-		return "No Content";
+		return TEXT_HTTP_STAT_204;
 	case 205:
-		return "Reset Content";
+		return TEXT_HTTP_STAT_205;
 	case 206:
-		return "Partial Content";
+		return TEXT_HTTP_STAT_206;
 	case 207:
-		return "Multi-Status";
+		return TEXT_HTTP_STAT_207;
 
 	case 300:
-		return "Multiple Choices";
+		return TEXT_HTTP_STAT_300;
 	case 301:
-		return "Moved Permanently";
+		return TEXT_HTTP_STAT_301;
 	case 302:
-		return "Found";
+		return TEXT_HTTP_STAT_302;
 	case 303:
-		return "See Other";
+		return TEXT_HTTP_STAT_303;
 	case 304:
-		return "Not Modified";
+		return TEXT_HTTP_STAT_304;
 	case 305:
-		return "Use Proxy";
+		return TEXT_HTTP_STAT_305;
 	case 306:
-		return "Switch Proxy";
+		return TEXT_HTTP_STAT_306;
 	case 307:
-		return "Temporary Redirect";
+		return TEXT_HTTP_STAT_307;
 
 	case 400:
-		return "Bad Request";
+		return TEXT_HTTP_STAT_400;
 	case 401:
-		return "Unauthorized";
+		return TEXT_HTTP_STAT_401;
 	case 402:
-		return "Payment Required";
+		return TEXT_HTTP_STAT_402;
 	case 403:
-		return "Forbidden";
+		return TEXT_HTTP_STAT_403;
 	case 404:
-		return "Not Found";
+		return TEXT_HTTP_STAT_404;
 	case 405:
-		return "Method Not Allowed";
+		return TEXT_HTTP_STAT_405;
 	case 406:
-		return "Not Acceptable";
+		return TEXT_HTTP_STAT_406;
 	case 407:
-		return "Proxy Authentication Required";
+		return TEXT_HTTP_STAT_407;
 	case 408:
-		return "Request Timeout";
+		return TEXT_HTTP_STAT_408;
 	case 409:
-		return "Conflict";
+		return TEXT_HTTP_STAT_409;
 	case 410:
-		return "Gone";
+		return TEXT_HTTP_STAT_410;
 	case 411:
-		return "Length Required";
+		return TEXT_HTTP_STAT_411;
 	case 412:
-		return "Precondition Failed";
+		return TEXT_HTTP_STAT_412;
 	case 413:
-		return "Request Entity Too Large";
+		return TEXT_HTTP_STAT_413;
 	case 414:
-		return "Request URI Too Long";
+		return TEXT_HTTP_STAT_414;
 	case 415:
-		return "Unsupported Media Type";
+		return TEXT_HTTP_STAT_415;
 	case 416:
-		return "Requested Range Not Satisfiable";
+		return TEXT_HTTP_STAT_416;
 	case 417:
-		return "Expectation Failed";
+		return TEXT_HTTP_STAT_417;
 	case 418:
-		return "I'm a teapot";
+		return TEXT_HTTP_STAT_418;
 	case 422:
-		return "Unprocessable Entity";
+		return TEXT_HTTP_STAT_422;
 	case 423:
-		return "Locked";
+		return TEXT_HTTP_STAT_423;
 	case 424:
-		return "Failed Dependency";
+		return TEXT_HTTP_STAT_424;
 	case 425:
-		return "Unordered Collection";
+		return TEXT_HTTP_STAT_425;
 	case 426:
-		return "Upgrade Required";
+		return TEXT_HTTP_STAT_426;
 	case 444:
-		return "No Response";
+		return TEXT_HTTP_STAT_444;
 	case 450:
-		return "Blocked by Windows Parental Controls";
+		return TEXT_HTTP_STAT_450;
 	case 499:
-		return "Client Closed Request";
+		return TEXT_HTTP_STAT_499;
 
 	case 500:
-		return "Internal Server Error";
+		return TEXT_HTTP_STAT_500;
 	case 501:
-		return "Not Implemented";
+		return TEXT_HTTP_STAT_501;
 	case 502:
-		return "Bad Gateway";
+		return TEXT_HTTP_STAT_502;
 	case 503:
-		return "Service Unavailable";
+		return TEXT_HTTP_STAT_503;
 	case 504:
-		return "Gateway Timeout";
+		return TEXT_HTTP_STAT_504;
 	case 505:
-		return "HTTP Version Not Supported";
+		return TEXT_HTTP_STAT_505;
 	case 506:
-		return "Variant Also Negotiates";
+		return TEXT_HTTP_STAT_506;
 	case 507:
-		return "Insufficient Storage";
+		return TEXT_HTTP_STAT_507;
 	case 509:
-		return "Bandwidth Limit Exceeded";
+		return TEXT_HTTP_STAT_509;
 	case 510:
-		return "Not Extended";
+		return TEXT_HTTP_STAT_510;
 
 	case 600:
-		return "Internal Client Error";
+		return TEXT_HTTP_STAT_600;
 	case 601:
-		return "Unsupported Protocol";
+		return TEXT_HTTP_STAT_601;
 	case 602:
-		return "Server Not Found";
+		return TEXT_HTTP_STAT_602;
 	case 603:
-		return "Malformed Response";
+		return TEXT_HTTP_STAT_603;
 	case 604:
-		return "Network Not Available";
+		return TEXT_HTTP_STAT_604;
 	case 605:
-		return "Request Timed Out";
+		return TEXT_HTTP_STAT_605;
 	default:
-		return "Unknown Status Code";
+		return TEXT_HTTP_STAT_UNKNOWN;
 	}
 }
 char *http_multipart_post(const char *uri, const char *const *names, const char *const *parts, size_t *plens, const char *user, const char *pass, const char *session_id, int *ret, int *len)
