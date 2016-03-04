@@ -98,7 +98,7 @@ private:
 	ValueType to;
 public:
 	InvalidConversionException(ValueType from_, ValueType to_):
-	GeneralException(TEXT_EXCEPT_CONV_1 + format::StringToWString(AnyType::TypeName(from_)) + TEXT_EXCEPT_CONV_2 + format::StringToWString(AnyType::TypeName(to_))), from(from_), to(to_) {
+	GeneralException(TEXT_EXCEPT_CONV_1 + format::StringToWString(AnyType::TypeName(from_)) + TEXT_EXCEPT_CONV_2 + format::StringToWString(AnyType::TypeName(to_)) + TEXT_EXCEPT_CONV_3), from(from_), to(to_) {
 	}
 };
 

@@ -1371,7 +1371,7 @@ void GameSave::readPSv(char * data, int dataLength)
 			if (d[(y-by0)*bw+(x-bx0)]==4||(ver>=44 && d[(y-by0)*bw+(x-bx0)]==O_WL_FAN))
 			{
 				if (p >= dataLength)
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				fanVelX[y][x] = (d[p++]-127.0f)/64.0f;
 			}
 	for (y=by0; y<by0+bh; y++)
@@ -1379,7 +1379,7 @@ void GameSave::readPSv(char * data, int dataLength)
 			if (d[(y-by0)*bw+(x-bx0)]==4||(ver>=44 && d[(y-by0)*bw+(x-bx0)]==O_WL_FAN))
 			{
 				if (p >= dataLength)
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				fanVelY[y][x] = (d[p++]-127.0f)/64.0f;
 			}
 
@@ -1391,7 +1391,7 @@ void GameSave::readPSv(char * data, int dataLength)
 		for (x=x0; x<x0+w; x++)
 		{
 			if (p >= dataLength)
-				throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+				throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 			j=d[p++];
 			if (j >= PT_NUM) {
 				//TODO: Possibly some server side translation
@@ -1426,7 +1426,7 @@ void GameSave::readPSv(char * data, int dataLength)
 		{
 			i--;
 			if (p+1 >= dataLength)
-				throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+				throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 			if (i < NPART)
 			{
 				particles[i].vx = (d[p++]-127.0f)/16.0f;
@@ -1443,7 +1443,7 @@ void GameSave::readPSv(char * data, int dataLength)
 		{
 			if (ver>=44) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				}
 				if (i <= NPART) {
 					ttv = (d[p++])<<8;
@@ -1454,7 +1454,7 @@ void GameSave::readPSv(char * data, int dataLength)
 				}
 			} else {
 				if (p >= dataLength)
-					throw ParseException(ParseException::Corrupt,TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt,MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				if (i <= NPART)
 					particles[i-1].life = d[p++]*4;
 				else
@@ -1469,7 +1469,7 @@ void GameSave::readPSv(char * data, int dataLength)
 			if (i)
 			{
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				}
 				if (i <= NPART) {
 					ttv = (d[p++])<<8;
@@ -1499,7 +1499,7 @@ void GameSave::readPSv(char * data, int dataLength)
 			if (i && (ty==PT_PBCN || (ty==PT_TRON && ver>=77)))
 			{
 				if (p >= dataLength)
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				if (i <= NPART)
 					particles[i-1].tmp2 = d[p++];
 				else
@@ -1515,7 +1515,7 @@ void GameSave::readPSv(char * data, int dataLength)
 		{
 			if (ver>=49) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				}
 				if (i <= NPART) {
 					particles[i-1].dcolour = d[p++]<<24;
@@ -1533,7 +1533,7 @@ void GameSave::readPSv(char * data, int dataLength)
 		{
 			if (ver>=49) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				}
 				if (i <= NPART) {
 					particles[i-1].dcolour |= d[p++]<<16;
@@ -1551,7 +1551,7 @@ void GameSave::readPSv(char * data, int dataLength)
 		{
 			if (ver>=49) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				}
 				if (i <= NPART) {
 					particles[i-1].dcolour |= d[p++]<<8;
@@ -1569,7 +1569,7 @@ void GameSave::readPSv(char * data, int dataLength)
 		{
 			if (ver>=49) {
 				if (p >= dataLength) {
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				}
 				if (i <= NPART) {
 					particles[i-1].dcolour |= d[p++];
@@ -1589,7 +1589,7 @@ void GameSave::readPSv(char * data, int dataLength)
 			{
 				if (p >= dataLength)
 				{
-					throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+					throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 				}
 				if (i <= NPART)
 				{
@@ -1768,7 +1768,7 @@ void GameSave::readPSv(char * data, int dataLength)
 	for (i=0; i<j; i++)
 	{
 		if (p+6 > dataLength)
-			throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+			throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 		x = d[p++];
 		x |= ((unsigned)d[p++])<<8;
 		tempSign.x = x+x0;
@@ -1779,7 +1779,7 @@ void GameSave::readPSv(char * data, int dataLength)
 		tempSign.ju = (sign::Justification)x;
 		x = d[p++];
 		if (p+x > dataLength)
-			throw ParseException(ParseException::Corrupt, TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 MTOS(__FILE__));
+			throw ParseException(ParseException::Corrupt, MTOS(__FILE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 MTOS(__LINE__) TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2);
 		if(x>254)
 			x = 254;
 		memcpy(tempSignText, d+p, x);
