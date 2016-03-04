@@ -37,6 +37,8 @@
 #include "LuaSlider.h"
 #include "LuaProgressBar.h"
 
+#include "Lang.h"
+
 #ifndef WIN
 #include <unistd.h>
 #endif
@@ -73,7 +75,7 @@ int tptParts, tptPartsMeta, tptElementTransitions, tptPartsCData, tptPartMeta, t
 
 int atPanic(lua_State *l)
 {
-	throw std::runtime_error("Unprotected lua panic: " + std::string(lua_tostring(l, -1)));
+	throw std::runtime_error(format::WStringToString(TEXT_EXCEPT_RUNTIME_LUA_PANIC) + std::string(lua_tostring(l, -1)));
 }
 
 int TptIndexClosure(lua_State *l)

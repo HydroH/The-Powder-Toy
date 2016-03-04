@@ -4,6 +4,8 @@
 #include <string>
 #include <typeinfo>
 #include "gui/interface/Point.h"
+#include "Format.h"
+#include "Lang.h"
 
 enum ValueType { TypeNumber, TypeFloat, TypePoint, TypeString, TypeNull, TypeFunction };
 typedef union { int num; float numf; std::string* str; ui::Point* pt; } ValueValue;
@@ -11,12 +13,18 @@ typedef union { int num; float numf; std::string* str; ui::Point* pt; } ValueVal
 class GeneralException
 {
 protected:
-	std::string exception;
+	std::wstring exception;
 public:
 	GeneralException(std::string message){
+		exception = format::StringToWString(message);
+	}
+	GeneralException(std::wstring message){
 		exception = message;
 	}
 	std::string GetExceptionMessage() {
+		return format::WStringToString(exception);
+	}
+	std::wstring GetWExceptionMessage() {
 		return exception;
 	}
 };
@@ -90,7 +98,7 @@ private:
 	ValueType to;
 public:
 	InvalidConversionException(ValueType from_, ValueType to_):
-	GeneralException("Invalid conversion from " + AnyType::TypeName(from_) + " to " + AnyType::TypeName(to_)), from(from_), to(to_) {
+	GeneralException(TEXT_EXCEPT_CONV_1 + format::StringToWString(AnyType::TypeName(from_)) + TEXT_EXCEPT_CONV_2 + format::StringToWString(AnyType::TypeName(to_))), from(from_), to(to_) {
 	}
 };
 

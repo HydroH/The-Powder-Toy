@@ -28,9 +28,9 @@ void PreviewModel::SetFavourite(bool favourite)
 		if (Client::Ref().FavouriteSave(save->id, favourite) == RequestOkay)
 			save->Favourite = favourite;
 		else if (favourite)
-			throw PreviewModelException("Error, could not fav. the save: " + Client::Ref().GetLastError()); //TODO: Chinese?
+			throw PreviewModelException(TEXT_EXCEPT_PREV_FAV + Client::Ref().GetWLastError());
 		else
-			throw PreviewModelException("Error, could not unfav. the save: " + Client::Ref().GetLastError());
+			throw PreviewModelException(TEXT_EXCEPT_PREV_UNFAV + Client::Ref().GetWLastError());
 		notifySaveChanged();
 	}
 }

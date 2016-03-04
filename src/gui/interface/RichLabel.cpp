@@ -7,16 +7,18 @@
 #include "gui/interface/Component.h"
 #include "graphics/Graphics.h"
 #include "Format.h"
+#include "Lang.h"
 
 using namespace ui;
 
 struct RichTextParseException: public std::exception {
-	std::string message;
+	std::wstring message;
 public:
-	RichTextParseException(std::string message_ = "Parse error"): message(message_) {}
+	RichTextParseException(std::string message_): message(format::StringToWString(message_)) {}
+	RichTextParseException(std::wstring message_ = TEXT_EXCEPT_RICHTEXT_DEFAULT): message(message_) {}
 	const char * what() const throw()
 	{
-		return message.c_str();
+		return format::WStringToString(message).c_str();
 	}
 	~RichTextParseException() throw() {};
 };
@@ -80,7 +82,7 @@ void RichLabel::updateRichText()
 					if(current == L'{')
 					{
 						if(stackPos > 255)
-							throw RichTextParseException("Too many nested regions");
+							throw RichTextParseException(TEXT_EXCEPT_RICHTEXT_NEST);
 						stackPos++;
 						regionsStack[stackPos].start = finalTextPos;
 						regionsStack[stackPos].finish = finalTextPos;
@@ -97,7 +99,7 @@ void RichLabel::updateRichText()
 						}
 						else
 						{
-							throw RichTextParseException("Unexpected '}'");
+							throw RichTextParseException(TEXT_EXCEPT_RICHTEXT_BRACE);
 						}
 					}
 					else
@@ -126,7 +128,7 @@ void RichLabel::updateRichText()
 				{
 					if(current != L':')
 					{
-						throw RichTextParseException("Expected ':'");
+						throw RichTextParseException(TEXT_EXCEPT_RICHTEXT_COLON);
 					}
 					state = ReadData;
 					currentDataPos = 0;
@@ -148,7 +150,7 @@ void RichLabel::updateRichText()
 			}
 
 			if(stackPos != -1)
-				throw RichTextParseException("Unclosed region");
+				throw RichTextParseException(TEXT_EXCEPT_RICHTEXT_UNCLOSED);
 
 			finalText[finalTextPos] = 0;
 			displayText = std::wstring(finalText);
