@@ -65,7 +65,7 @@
 #define TEXT_ELEM_AMTR_DESC L"反物质. 摧毁大部分物体. "
 #define TEXT_ELEM_ANAR_DESC L"反重力尘, 十分轻的粉尘, 它遵循相反的引力/压力/速度定律. "
 #define TEXT_ELEM_ARAY_DESC L"A射线发射器, 激活后发射射线. "
-#define TEXT_ELEM_BANG_DESC L"TNT, 瞬间爆炸! . "
+#define TEXT_ELEM_BANG_DESC L"TNT, 瞬间爆炸! "
 #define TEXT_ELEM_BCLN_DESC L"可以破坏的复制体. "
 #define TEXT_ELEM_BCOL_DESC L"煤渣, 重粉末, 只能用明火点燃, 缓慢燃烧. "
 #define TEXT_ELEM_BGLA_DESC L"玻璃渣, 熔化后能重新变回玻璃. "
@@ -76,7 +76,7 @@
 #define TEXT_ELEM_BMTL_DESC L"脆金属, 可以用做建筑材料. 可以被融化. 高压下被破坏. "
 #define TEXT_ELEM_BOMB_DESC L"炸弹, 摧毁大部分碰到它的物体, 爆炸时在8个像素的范围内产生9725.85 C的高温, 同时产生火花. "
 #define TEXT_ELEM_BOYL_DESC L"波义耳气, 加热时气压上升. "
-#define TEXT_ELEM_BRAY_DESC L"射线, 多个射线相遇时能变成固体."
+#define TEXT_ELEM_BRAY_DESC L"射线, 多个射线相遇时变成固体. "
 #define TEXT_ELEM_BRCK_DESC L"砖块, 易碎的建筑材料. "
 #define TEXT_ELEM_BREC_DESC L"电渣, 使用EMP摧毁电子设备留下的物质, 在高压下通电会形成奇异物质. "
 #define TEXT_ELEM_BRMT_DESC L"金属粉, 一些金属生锈或暴露在高压下能形成. "
@@ -147,7 +147,7 @@
 #define TEXT_ELEM_ISOZ_DESC L"同位素-Z, 放射性液体. 可以被光子(PHOT)或负压激发, 并释放出更多的光子. "
 #define TEXT_ELEM_ISZS_DESC L"同位素-Z的固体状态, 慢慢的衰变为光子(PHOT). "
 #define TEXT_ELEM_LAVA_DESC L"岩浆, 可以引燃可燃物. 低温时会凝固. "
-#define TEXT_ELEM_LCRY_DESC L"液晶, 激活时改变颜色（PSCN激活, NSCN关闭）. "
+#define TEXT_ELEM_LCRY_DESC L"液晶, 激活时改变颜色(PSCN激活, NSCN关闭). "
 #define TEXT_ELEM_LIFE_DESC L"生命游戏! 繁殖 3/存活 23. "
 #define TEXT_ELEM_LIGH_DESC L"仿真的闪电, 改变笔刷大小可以调整闪电大小和威力. 可以穿过墙. "
 #define TEXT_ELEM_LNTG_DESC L"液氮, 遇到比它热的物质后会消失. "
@@ -174,7 +174,7 @@
 #define TEXT_ELEM_PCLN_DESC L"可控复制体, 复制体(CLNE)的可控形式. "
 #define TEXT_ELEM_PHOT_DESC L"光子, 在玻璃中折射, 在石英中散射, 经过不同元素时会变成不同的颜色. 会点燃易燃物质. "
 #define TEXT_ELEM_PIPE_DESC L"动力管, 可用于移动物质. 放置后四周出现一圈砖块(BRCK), 擦去作为出口处的砖块之后动力管会自动形成. "
-#define TEXT_ELEM_PLEX_DESC L"C4炸药, 对压力敏感, 暴露在高压下、电脉冲或者温度达到爆炸点都可以引发爆炸. "
+#define TEXT_ELEM_PLEX_DESC L"C4炸药, 对压力敏感, 暴露在高压下, 电脉冲或者温度达到爆炸点都可以引发爆炸. "
 #define TEXT_ELEM_PLNT_DESC L"植物, 吸收水生长. "
 #define TEXT_ELEM_PLSM_DESC L"等离子体, 炽热的气体, 温度为9725.85 C. "
 #define TEXT_ELEM_PLUT_DESC L"钚, 裂变材料. 压力下产生中子. "
@@ -182,7 +182,7 @@
 #define TEXT_ELEM_PQRT_DESC L"石英砂, 石英(QRTZ)粉碎后形成. "
 #define TEXT_ELEM_PROT_DESC L"质子. 可以向物体传导热量, 并会移除电脉冲. "
 #define TEXT_ELEM_PRTI_DESC L"传送门入口, 可以传送物质和电脉冲, 也有温度形成的不同频道(和Wi-Fi相似). "
-#define TEXT_ELEM_PRTO_DESC L"传送门出口, 和传送门入口配套, 物质从这里出来, 也有温度形成的不同频道（和Wi-Fi类似）. "
+#define TEXT_ELEM_PRTO_DESC L"传送门出口, 和传送门入口配套, 物质从这里出来, 也有温度形成的不同频道(和Wi-Fi类似). "
 #define TEXT_ELEM_PSCN_DESC L"P型硅, 可以将电脉冲传导给任何导体. "
 #define TEXT_ELEM_PSNS_DESC L"压力传感器, 用温度工具(HEAT/COOL)改变其温度, 当周围压力大于其温度值时发出电脉冲. "
 #define TEXT_ELEM_PSTE_DESC L"浆糊, 受压时凝固. "
@@ -500,8 +500,8 @@
 #define TEXT_GUI_LOCAL_BROWSE_CONF_DELETE_WIN_TITLE L"删除对象中..."
 #define TEXT_GUI_LOCAL_BROWSE_CONF_RESCAN_TITLE L"刷新"
 #define TEXT_GUI_LOCAL_BROWSE_CONF_RESCAN_MSG L"重新扫描本地对象, 这一操作可能改变目前的排列顺序."
-#define TEXT_GUI_LOCAL_BROWSE_STAT_DELETE_MSG1 L"Deleting stamp ["
-#define TEXT_GUI_LOCAL_BROWSE_STAT_DELETE_MSG2 L"] ..."
+#define TEXT_GUI_LOCAL_BROWSE_STAT_DELETE_MSG1 L"删除对象 ["
+#define TEXT_GUI_LOCAL_BROWSE_STAT_DELETE_MSG2 L"]中 ..."
 
  //Search window.
 #define TEXT_GUI_SEARCH_BTN_NEXT L"下一页 \x95"
@@ -648,6 +648,9 @@
 #define TEXT_GUI_SAVE_PRE_REPORT_INFO_MSG L"举报已提交"
 #define TEXT_GUI_SAVE_PRE_REPORT_ERR_TITLE L"错误"
 #define TEXT_GUI_SAVE_PRE_REPORT_ERR_MSG L"无法举报: "
+#define TEXT_GUI_SAVE_PRE_COMM_ERR_TITLE L"错误"
+#define TEXT_GUI_SAVE_PRE_COMM_ERR_MSG L"评论过短"
+#define TEXT_GUI_SAVE_PRE_COMM_SUB_ERR_TITLE L"提交评论时发生错误"
 
  //Update window.
 #define TEXT_GUI_UPDATE_WIN_TITLE L"下载更新中..."
@@ -807,6 +810,138 @@
 #define TEXT_GAME_CONTROL_UPDATE_STABLE_NOTIFY L"发现新版本, 点击此处更新"
 #define TEXT_GAME_CONTROL_STAT_FAKE_MSG L"无效进程"
 
+ //Error notifications.
+#define TEXT_ERR_TITLE L"错误"
+#define TEXT_ERR_MSG_HTTP1 L"HTTP 错误 "
+#define TEXT_ERR_MSG_HTTP2 L": "
+#define TEXT_ERR_MSG_HTTP_RES L"无法读取回应: "
+#define TEXT_ERR_MSG_AUTH L"没有权限"
+#define TEXT_ERR_MSG_SAVE_EMPTY L"空白存档"
+#define TEXT_ERR_MSG_SAVE_UPLOAD L"上传存档失败"
+#define TEXT_ERR_MSG_SAVE_RETURN L"服务器没有返回存档ID"
+#define TEXT_ERR_MSG_SAVE_OPEN L"无法打开存档:\n"
+#define TEXT_ERR_MSG_OPEN L"无法打开存档"
+#define TEXT_ERR_MSG_READ L"无法读取存档"
+
+ //HTTP return status.
+#define TEXT_HTTP_STAT_100 L"继续"
+#define TEXT_HTTP_STAT_101 L"切换协议"
+#define TEXT_HTTP_STAT_102 L"处理中"
+#define TEXT_HTTP_STAT_200 L"请求成功,将返回数据"
+#define TEXT_HTTP_STAT_201 L"文档已创建,返回URL"
+#define TEXT_HTTP_STAT_202 L"请求接受,等待处理"
+#define TEXT_HTTP_STAT_203 L"返回副本信息"
+#define TEXT_HTTP_STAT_204 L"没有新内容"
+#define TEXT_HTTP_STAT_205 L"重置内容"
+#define TEXT_HTTP_STAT_206 L"局部内容请求"
+#define TEXT_HTTP_STAT_207 L"返回XML信息"
+#define TEXT_HTTP_STAT_300 L"找到多个来源,正在重定向"
+#define TEXT_HTTP_STAT_301 L"请求资源已被永久移动至新位置,正在重定向"
+#define TEXT_HTTP_STAT_302 L"资源已找到,正在重定向"
+#define TEXT_HTTP_STAT_303 L"发现其他来源,正在重定向"
+#define TEXT_HTTP_STAT_304 L"已最新,无需更改"
+#define TEXT_HTTP_STAT_305 L"通过代理服务器访问"
+#define TEXT_HTTP_STAT_306 L"切换代理服务器"
+#define TEXT_HTTP_STAT_307 L"临时重定向"
+#define TEXT_HTTP_STAT_400 L"请求失败,发现语法错误"
+#define TEXT_HTTP_STAT_401 L"没有权限"
+#define TEXT_HTTP_STAT_402 L"预留状态码"
+#define TEXT_HTTP_STAT_403 L"请求被拒绝"
+#define TEXT_HTTP_STAT_404 L"请求失败,没有找到被请求的资源"
+#define TEXT_HTTP_STAT_405 L"请求失败,错误的请求方法"
+#define TEXT_HTTP_STAT_406 L"无法访问,类型不一致"
+#define TEXT_HTTP_STAT_407 L"需要代理服务器验证"
+#define TEXT_HTTP_STAT_408 L"请求超时"
+#define TEXT_HTTP_STAT_409 L"发生冲突"
+#define TEXT_HTTP_STAT_410 L"请求的文档已被删除"
+#define TEXT_HTTP_STAT_411 L"需要数据长度信息"
+#define TEXT_HTTP_STAT_412 L"先决长度错误"
+#define TEXT_HTTP_STAT_413 L"请求数据过大"
+#define TEXT_HTTP_STAT_414 L"URI过长"
+#define TEXT_HTTP_STAT_415 L"不受支持的媒体格式"
+#define TEXT_HTTP_STAT_416 L"请求范围无法满足"
+#define TEXT_HTTP_STAT_417 L"期望失败"
+#define TEXT_HTTP_STAT_418 L"服务器连接失败,已连接到IETF办公室的茶壶"
+#define TEXT_HTTP_STAT_422 L"语义错误"
+#define TEXT_HTTP_STAT_423 L"资源被锁定"
+#define TEXT_HTTP_STAT_424 L"请求失败,之前的请求有错误"
+#define TEXT_HTTP_STAT_425 L"未排序的集合"
+#define TEXT_HTTP_STAT_426 L"需要TLS/1.0"
+#define TEXT_HTTP_STAT_444 L"无响应"
+#define TEXT_HTTP_STAT_450 L"被Windows家长控制拒绝"
+#define TEXT_HTTP_STAT_499 L"请求被远程服务器关闭"
+#define TEXT_HTTP_STAT_500 L"服务器发生未知错误"
+#define TEXT_HTTP_STAT_501 L"请求的功能不受支持"
+#define TEXT_HTTP_STAT_502 L"网关或代理错误"
+#define TEXT_HTTP_STAT_503 L"服务器暂时无法响应"
+#define TEXT_HTTP_STAT_504 L"网关或代理响应超时"
+#define TEXT_HTTP_STAT_505 L"不受支持的HTTP版本"
+#define TEXT_HTTP_STAT_506 L"服务器配置错误"
+#define TEXT_HTTP_STAT_507 L"服务器暂时无法存储需要的内容"
+#define TEXT_HTTP_STAT_509 L"服务器达到带宽限制"
+#define TEXT_HTTP_STAT_510 L"所需策略未被满足"
+#define TEXT_HTTP_STAT_600 L"客户机内部错误"
+#define TEXT_HTTP_STAT_601 L"不受支持的协议"
+#define TEXT_HTTP_STAT_602 L"服务器没有找到"
+#define TEXT_HTTP_STAT_603 L"响应格式不正确"
+#define TEXT_HTTP_STAT_604 L"网络不可用,检查网络连接"
+#define TEXT_HTTP_STAT_605 L"请求超时"
+#define TEXT_HTTP_STAT_UNKNOWN L"未知的状态代码"
+ //Exceptions.
+#define TEXT_EXCEPT_COORD_STACK_OVERFLOW L"多人协作数目已达上限"
+#define TEXT_EXCEPT_GAME_MODEL_VOTE L"评分失败: "
+#define TEXT_EXCEPT_RUNTIME_INVALID_NAME L"无效的区块名"
+#define TEXT_EXCEPT_RUNTIME_LUA_PANIC L"未保护的Lua崩溃: "
+#define TEXT_EXCEPT_RUNTIME_INVALID_LINK L"无效的存档链接"
+#define TEXT_EXCEPT_RUNTIME_NO_ID L"未找到存档ID"
+#define TEXT_EXCEPT_RUNTIME_INVALID_ID L"无效的存档ID"
+#define TEXT_EXCEPT_RUNTIME_LOAD_INFO L"无法加载存档信息"
+#define TEXT_EXCEPT_RUNTIME_LOAD_SAVE L"无法加载存档\n"
+#define TEXT_EXCEPT_PARSE_READ_WRONG_VER L"该存档由更新版本的游戏创建"
+#define TEXT_EXCEPT_PARSE_READ_CORRUPT_INVALID L"无效的存档格式"
+#define TEXT_EXCEPT_PARSE_READ_CORRUPT_NONE L"没有数据"
+#define TEXT_EXCEPT_PARSE_OPS_DIM_CELL L"不正确的CELL大小"
+#define TEXT_EXCEPT_PARSE_OPS_DIM_LARGE L"存档过大"
+#define TEXT_EXCEPT_PARSE_OPS_DIM_DATASIZE L"存档数据容量超出限制"
+#define TEXT_EXCEPT_PARSE_OPS_INTERN_ALLOC L"分配空间失败"
+#define TEXT_EXCEPT_PARSE_OPS_CORRUPT_DECOMP L"解压失败"
+#define TEXT_EXCEPT_PARSE_OPS_WRONG_VER L"存档由更新的游戏版本创建: 要求版本 "
+#define TEXT_EXCEPT_PARSE_OPS_CORRUPT_DATA L"存档已损坏"
+#define TEXT_EXCEPT_PARSE_PSV_CORRUPT_NONE L"没有找到存档数据"
+#define TEXT_EXCEPT_PARSE_PSV_CORRUPT_UNKNOWN L"未知的格式"
+#define TEXT_EXCEPT_PARSE_PSV_WRONG_VER L"存档由更新的游戏版本创建"
+#define TEXT_EXCEPT_PARSE_PSV_DIM_LARGE L"存档过大"
+#define TEXT_EXCEPT_PARSE_PSV_DIM_DATASIZE L"存档数据超出容量限制"
+#define TEXT_EXCEPT_PARSE_PSV_CORRUPT_ALLOC L"空间分配失败"
+#define TEXT_EXCEPT_PARSE_PSV_CORRUPT_DECOMP L"无法解压文件: "
+#define TEXT_EXCEPT_PARSE_PSV_CORRUPT_DATA L"已损坏的存档 (数据丢失)"
+#define TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING1 L"中的第"
+#define TEXT_EXCEPT_PARSE_PSV_CORRUPT_MISSING2 L"行数据不足"
+#define TEXT_EXCEPT_PREV_FAV L"错误, 无法收藏存档: "
+#define TEXT_EXCEPT_PREV_UNFAV L"E错误, 无法取消收藏存档: "
+#define TEXT_EXCEPT_RICHTEXT_DEFAULT L"语法错误"
+#define TEXT_EXCEPT_RICHTEXT_NEST L"括号层级太多"
+#define TEXT_EXCEPT_RICHTEXT_BRACE L"多余的 '}'"
+#define TEXT_EXCEPT_RICHTEXT_COLON L"需要 ':'"
+#define TEXT_EXCEPT_RICHTEXT_UNCLOSED L"括号不闭合"
+#define TEXT_EXCEPT_GENERAL_PROP L"无效属性"
+#define TEXT_EXCEPT_GENERAL_VALUE L"无效的发布数据"
+#define TEXT_EXCEPT_GENERAL_CAKE L"蛋糕是个谎言, 而不是元素"
+#define TEXT_EXCEPT_GENERAL_ELEM L"无效元素"
+#define TEXT_EXCEPT_GENERAL_POS L"无效位置"
+#define TEXT_EXCEPT_GENERAL_PART L"无效粒子"
+#define TEXT_EXCEPT_GENERAL_PART_TYPE L"无效的粒子种类"
+#define TEXT_EXCEPT_GENERAL_PART_PROP L"属性设置失败, 粒子不存在"
+#define TEXT_EXCEPT_GENERAL_PART_INDEX L"无效的粒子索引"
+#define TEXT_EXCEPT_GENERAL_PART_REF L"无效的粒子引用"
+#define TEXT_EXCEPT_GENERAL_SELECT L"无效的选择器"
+#define TEXT_EXCEPT_GENERAL_TYPE L"无效的类型"
+#define TEXT_EXCEPT_GENERAL_SAVEID L"无效的存档ID"
+#define TEXT_EXCEPT_GENERAL_COMM_RESET L"未知的重设命令"
+#define TEXT_EXCEPT_CONV_1 L"从"
+#define TEXT_EXCEPT_CONV_2 L"到"
+#define TEXT_EXCEPT_CONV_3 L"的转换无效"
+
  //System messages.
 #define TEXT_SYSTEM_DOUBLE_SCALE_TITLE L"检测到高分辨率显示屏"
 #define TEXT_SYSTEM_DOUBLE_SCALE_MSG1 L"你的屏幕分辨率足够大, 将自动切换到大窗口模式: 检测到 "
@@ -897,55 +1032,55 @@
 		"如果你发现有存档违反了以上条例, 可以通过举报功能向版主举报. 举报时请务必附上存档的存档ID以帮助版主快速定位到相应存档."
 
  //Common characters.
-/*
-的一是在不了有和人这中大为上个国我以要他时来用们生到作地于出就分对成会可主发年动
-同工也能下过子说产种面而方后多定行学法所民得经十三之进着等部度家电力里如水化高自
-二理起小物现实加量都两体制机当使点从业本去把性好应开它合还因由其些然前外天政四日
-那社义事平形相全表间样与关各重新线内数正心反你明看原又么利比或但质气第向道命此变
-条只没结解问意建月公无系军很情者最立代想已通并提直题党程展五果料象员革位入常文总
-次品式活设及管特件长求老头基资边流路级少图山统按知较长将组见计别她手角期根论运农
-指几九区强放决西被干做必战先回则任取据处队南给色光门即保治北造百规热领七海地口东
-导器压志世金增争济阶油思术极交受联会认六共权收证改清己美再采转更单风切打白教速花
-带安场身车例真务具万每目至达走积示议声报斗完类八离华名确才科张信马节话米整空元况
-今集温传土许步群广石记需段研界拉林律叫且究观越织装影算低持音众书布复容儿须际商非
-验连断深难近矿千周委素技备半办青省列习响约支般史感劳便团往酸历市克何除消构府称太
-准精值号率族维划选标写存候毛亲快效斯院查江型眼王按格养易置派层片始却专状育厂京识
-适属圆包火住调满县局照参红细引听该铁价严首底液官德调随病苏失尔死讲配女黄推显谈罪
-神艺呢席含企望密批营项防举球英氧势告李台落木帮轮破亚师围注远字材排供河态封另施减
-树溶怎止案言士均武固叶鱼波视仅费紧爱左章早朝害续轻服试食充兵源判护司足某练差致板
-田降黑犯负击范继兴似余坚曲输修的故城夫够送笑船占右财吃富春职觉汉画功巴跟虽杂飞检
-吸助升阳互初创抗考投坏策古径换未跑留钢曾端责站简述钱副尽帝射草冲承独令限阿宣环请
-超微让控州良轴找否纪剪益依优顶础载倒房突坐粉敌略客袁冷胜绝析块剂测丝协重诉念陈仍
-罗盐友洋错苦夜刑移频逐靠混母短皮终聚汽村云哪既距卫停烈央察烧迅行境若印测刻括激孔
-搞甚室待核校散侵吧甲游久菜昧旧模湖货损预阻毫普稳乙妈植息扩银语挥洒守拿序纸医缺雨
-吗针刘啊急唱误训愿审附获茶鲜粮斤孩脱硫肥善龙演父淅血欢械掌歌沙薯刚攻谓盾讨晚粒乱
-燃矛乎杀药宁鲁贵钟煤读班伯香介迫句丰培握兰担弦蛋沉假穿执答乐谁顺烟缩征脸喜松脚困
-异免背星福买染井概慢怕磁倍祖皇促静补评翻肉践尼衣宽扬棉希伤操垂秋宜氢套笔督振架亮
-末宪庆编牛触映雷销诗座居抓裂胞呼娘景威绿晶厚盟衡鸡孙延危胶还屋乡临陆顾掉呀灯岁措
-束耐剧玉赵跳哥季课觊胡额款绍卷齐伟蒸殖永宗苗川炉岩弱零杨奏沿露杆探滑镇饭浓航怀赶
-库夺伊灵税了途灭赛归召鼓播盘裁险康唯录菌纯借糖盖横符私努堂域枪润幅哈竟熟虫泽脑壤
-碳欧遍侧寨敢彻虑斜薄庭都纳弹饲伸折麦湿暗荷瓦塞床筑恶户访塔奇透梁刀旋迹卡氯遇份毒
-泥退洗摆灰彩卖耗夏择忙铜献硬予繁圈雪函亦抽篇阵阴丁尺追堆雄迎泛爸楼避谋吨野猪旗累
-偏典馆索秦脂潮爷豆忽托惊塑遗愈朱替纤米倾尚痛楚谢奋购磨君池旁碎骨监捕弟暴割贯殊释
-词亡壁顿宝午尘闻揭炮残冬桥妇警综招吴付浮遭徐您摇容赞箱隔订男吹乐园纷唐败宋玻巨耕
-坦荣闭湾键凡驻锅救恩剥凝碱齿截煤炼麻纺禁废盛版净睛昌婚涉筒嘴插岸朗庄街藏姑贸腐奴
-啦惯乘伙恢匀纱扎辩耳彪臣亿璃抵脉秀萨俄网舞店喷纵寸汗挂洪着贺闪柬爆烯津稻墙软勇像
-滚厘蒙芳肯坡柱荡腿仪旅尾轧冰贡登黎削钻勒逃障氨郭峰币港伏轨亩毕擦莫刺浪秘援株健售
-股岛甘泡睡童铸汤阀休汇舍牧绕炸哲磷绩朋淡尖启陷柴呈徒颜泪稍忘泵蓝拖洞授镜辛牡锋贫
-虚弯摩泰幼廷尊窗纲弄隶疑氏宫姐震瑞怪尤琴循描膜违夹腰缘珠穷森枝竹沟催绳忆邦剩幸浆
-栏拥牙贮礼滤钠绞弹罢拍咱喊袖埃勤罚焦潜伍墨欲缝姓刊饱仿奖铝鬼丽跨默挖链扫喝袋炭污
-幕诸弧励梅奶洁灾舟鉴苯讼抱毁率懂寒智埔寄届跃渡挑丹艰贝磁拔爹戴码梦芽熔赤渔哭敬颗
-奔藏铅熟仲虎稀妹乏珍申桌遵允隆螺仓魏锐晓氮兼隐碍赫拔忠肃缸牵抢博巧壳兄杜讯诚碧祥
-柯页巡矩悲灌龄伦票寻桂铺圣恐恰郑趣抬荒腾贴柔滴猛阔辆妻填撤储签闹扰紫砂递戏吊陶伐
-喂疗瓶婆抚臂摸忍虾蜡邻胸巩挤偶弃槽劲乳邓吉仁烂砖租乌舰伴瓜浅丙暂燥橡柳迷暖牌纤秧
-胆详簧踏瓷谱呆宾糊洛辉愤竞隙怒粘乃绪肩籍敏涂熙皆侦悬掘享纠醒狂锁淀恨牲霸爬赏逆玩
-陵祝秒浙貌役彼悉鸭着趋凤晨畜辈秩卵暑梯炎滩棋驱筛峡冒啥寿译浸泉帽迟硅疆贷漏稿冠嫩
-胁芯牢叛蚀奥鸣岭羊凭串塘绘酵融盆锡庙筹冻辅摄袭筋拒僚旱钾鸟漆沈眉疏添棒穗硝韩逼扭
-侨凉挺碗栽炒杯患镏劝豪辽勃鸿旦吏拜狗埋辊掩饮搬骂辞勾扣估蒋绒雾丈朵姆拟宇辑陕雕偿
-蓄崇剪倡厅咬驶薯刷斥番赋奉佛浇漫曼扇钙桃扶仔返俗亏腔鞋棱覆框悄叔撞骗勘旺沸孤粘吐
-孟渠屈疾妙惜仰狠胀谐抛霉桑岗嘛衰盗渗脏赖涌甜曹阅肌哩厉烃纬毅昨伪疰煮叹钉搭茎笼酷
-偷弓锥恒杰坑鼻翼纶叙狱逮罐络棚抑膨蔬寺骤穆冶柘册尸凸绅坯牺焰轰欣晋瘦御锭锦丧旬锻
-垄搜佛扑邀亭酯迈舒脆酶闲忧酚顽羽涨卸仗陪薄辟惩杭姚肚捉飘漂昆欺吾郎烷汁呵饰萧雅邮
-迁燕撒姻赴宴烦削债帐斑铃旨醇董饼雏姿拌傅腹妥揉贤拆歪葡胺丢浩徽昂垫挡览贪慰缴汪慌
-冯诺姜谊凶劣诬耀昏躺盈骑乔溪丛卢抹誉闷咨刮驾缆悟摘饵掷颇幻柄惠惨佳仇腊窝涤剑瞧堡
-*/
+ /*
+ 的一是在不了有和人这中大为上个国我以要他时来用们生到作地于出就分对成会可主发年动
+ 同工也能下过子说产种面而方后多定行学法所民得经十三之进着等部度家电力里如水化高自
+ 二理起小物现实加量都两体制机当使点从业本去把性好应开它合还因由其些然前外天政四日
+ 那社义事平形相全表间样与关各重新线内数正心反你明看原又么利比或但质气第向道命此变
+ 条只没结解问意建月公无系军很情者最立代想已通并提直题党程展五果料象员革位入常文总
+ 次品式活设及管特件长求老头基资边流路级少图山统按知较长将组见计别她手角期根论运农
+ 指几九区强放决西被干做必战先回则任取据处队南给色光门即保治北造百规热领七海地口东
+ 导器压志世金增争济阶油思术极交受联会认六共权收证改清己美再采转更单风切打白教速花
+ 带安场身车例真务具万每目至达走积示议声报斗完类八离华名确才科张信马节话米整空元况
+ 今集温传土许步群广石记需段研界拉林律叫且究观越织装影算低持音众书布复容儿须际商非
+ 验连断深难近矿千周委素技备半办青省列习响约支般史感劳便团往酸历市克何除消构府称太
+ 准精值号率族维划选标写存候毛亲快效斯院查江型眼王按格养易置派层片始却专状育厂京识
+ 适属圆包火住调满县局照参红细引听该铁价严首底液官德调随病苏失尔死讲配女黄推显谈罪
+ 神艺呢席含企望密批营项防举球英氧势告李台落木帮轮破亚师围注远字材排供河态封另施减
+ 树溶怎止案言士均武固叶鱼波视仅费紧爱左章早朝害续轻服试食充兵源判护司足某练差致板
+ 田降黑犯负击范继兴似余坚曲输修的故城夫够送笑船占右财吃富春职觉汉画功巴跟虽杂飞检
+ 吸助升阳互初创抗考投坏策古径换未跑留钢曾端责站简述钱副尽帝射草冲承独令限阿宣环请
+ 超微让控州良轴找否纪剪益依优顶础载倒房突坐粉敌略客袁冷胜绝析块剂测丝协重诉念陈仍
+ 罗盐友洋错苦夜刑移频逐靠混母短皮终聚汽村云哪既距卫停烈央察烧迅行境若印测刻括激孔
+ 搞甚室待核校散侵吧甲游久菜昧旧模湖货损预阻毫普稳乙妈植息扩银语挥洒守拿序纸医缺雨
+ 吗针刘啊急唱误训愿审附获茶鲜粮斤孩脱硫肥善龙演父淅血欢械掌歌沙薯刚攻谓盾讨晚粒乱
+ 燃矛乎杀药宁鲁贵钟煤读班伯香介迫句丰培握兰担弦蛋沉假穿执答乐谁顺烟缩征脸喜松脚困
+ 异免背星福买染井概慢怕磁倍祖皇促静补评翻肉践尼衣宽扬棉希伤操垂秋宜氢套笔督振架亮
+ 末宪庆编牛触映雷销诗座居抓裂胞呼娘景威绿晶厚盟衡鸡孙延危胶还屋乡临陆顾掉呀灯岁措
+ 束耐剧玉赵跳哥季课觊胡额款绍卷齐伟蒸殖永宗苗川炉岩弱零杨奏沿露杆探滑镇饭浓航怀赶
+ 库夺伊灵税了途灭赛归召鼓播盘裁险康唯录菌纯借糖盖横符私努堂域枪润幅哈竟熟虫泽脑壤
+ 碳欧遍侧寨敢彻虑斜薄庭都纳弹饲伸折麦湿暗荷瓦塞床筑恶户访塔奇透梁刀旋迹卡氯遇份毒
+ 泥退洗摆灰彩卖耗夏择忙铜献硬予繁圈雪函亦抽篇阵阴丁尺追堆雄迎泛爸楼避谋吨野猪旗累
+ 偏典馆索秦脂潮爷豆忽托惊塑遗愈朱替纤米倾尚痛楚谢奋购磨君池旁碎骨监捕弟暴割贯殊释
+ 词亡壁顿宝午尘闻揭炮残冬桥妇警综招吴付浮遭徐您摇容赞箱隔订男吹乐园纷唐败宋玻巨耕
+ 坦荣闭湾键凡驻锅救恩剥凝碱齿截煤炼麻纺禁废盛版净睛昌婚涉筒嘴插岸朗庄街藏姑贸腐奴
+ 啦惯乘伙恢匀纱扎辩耳彪臣亿璃抵脉秀萨俄网舞店喷纵寸汗挂洪着贺闪柬爆烯津稻墙软勇像
+ 滚厘蒙芳肯坡柱荡腿仪旅尾轧冰贡登黎削钻勒逃障氨郭峰币港伏轨亩毕擦莫刺浪秘援株健售
+ 股岛甘泡睡童铸汤阀休汇舍牧绕炸哲磷绩朋淡尖启陷柴呈徒颜泪稍忘泵蓝拖洞授镜辛牡锋贫
+ 虚弯摩泰幼廷尊窗纲弄隶疑氏宫姐震瑞怪尤琴循描膜违夹腰缘珠穷森枝竹沟催绳忆邦剩幸浆
+ 栏拥牙贮礼滤钠绞弹罢拍咱喊袖埃勤罚焦潜伍墨欲缝姓刊饱仿奖铝鬼丽跨默挖链扫喝袋炭污
+ 幕诸弧励梅奶洁灾舟鉴苯讼抱毁率懂寒智埔寄届跃渡挑丹艰贝磁拔爹戴码梦芽熔赤渔哭敬颗
+ 奔藏铅熟仲虎稀妹乏珍申桌遵允隆螺仓魏锐晓氮兼隐碍赫拔忠肃缸牵抢博巧壳兄杜讯诚碧祥
+ 柯页巡矩悲灌龄伦票寻桂铺圣恐恰郑趣抬荒腾贴柔滴猛阔辆妻填撤储签闹扰紫砂递戏吊陶伐
+ 喂疗瓶婆抚臂摸忍虾蜡邻胸巩挤偶弃槽劲乳邓吉仁烂砖租乌舰伴瓜浅丙暂燥橡柳迷暖牌纤秧
+ 胆详簧踏瓷谱呆宾糊洛辉愤竞隙怒粘乃绪肩籍敏涂熙皆侦悬掘享纠醒狂锁淀恨牲霸爬赏逆玩
+ 陵祝秒浙貌役彼悉鸭着趋凤晨畜辈秩卵暑梯炎滩棋驱筛峡冒啥寿译浸泉帽迟硅疆贷漏稿冠嫩
+ 胁芯牢叛蚀奥鸣岭羊凭串塘绘酵融盆锡庙筹冻辅摄袭筋拒僚旱钾鸟漆沈眉疏添棒穗硝韩逼扭
+ 侨凉挺碗栽炒杯患镏劝豪辽勃鸿旦吏拜狗埋辊掩饮搬骂辞勾扣估蒋绒雾丈朵姆拟宇辑陕雕偿
+ 蓄崇剪倡厅咬驶薯刷斥番赋奉佛浇漫曼扇钙桃扶仔返俗亏腔鞋棱覆框悄叔撞骗勘旺沸孤粘吐
+ 孟渠屈疾妙惜仰狠胀谐抛霉桑岗嘛衰盗渗脏赖涌甜曹阅肌哩厉烃纬毅昨伪疰煮叹钉搭茎笼酷
+ 偷弓锥恒杰坑鼻翼纶叙狱逮罐络棚抑膨蔬寺骤穆冶柘册尸凸绅坯牺焰轰欣晋瘦御锭锦丧旬锻
+ 垄搜佛扑邀亭酯迈舒脆酶闲忧酚顽羽涨卸仗陪薄辟惩杭姚肚捉飘漂昆欺吾郎烷汁呵饰萧雅邮
+ 迁燕撒姻赴宴烦削债帐斑铃旨醇董饼雏姿拌傅腹妥揉贤拆歪葡胺丢浩徽昂垫挡览贪慰缴汪慌
+ 冯诺姜谊凶劣诬耀昏躺盈骑乔溪丛卢抹誉闷咨刮驾缆悟摘饵掷颇幻柄惠惨佳仇腊窝涤剑瞧堡
+ */

@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include "Format.h"
 #include "graphics/Graphics.h"
+#include "Lang.h"
 
 using boost::locale::conv::utf_to_utf;
 
@@ -256,7 +257,7 @@ struct PNGChunk
 	PNGChunk(int length, std::string name)
 	{
 		if (name.length()!=4)
-			throw std::runtime_error("Invalid chunk name");
+			throw std::runtime_error(format::WStringToString(TEXT_EXCEPT_RUNTIME_INVALID_NAME));
 		std::copy(name.begin(), name.begin()+4, Name);
 		Length = length;
 		if (length)

@@ -629,7 +629,7 @@ void PreviewView::NotifyCommentsChanged(PreviewModel * sender)
 		}
 	}
 	//else if (sender->GetCommentsLoaded())
-	//	ErrorMessage::Blocking("Error loading comments", Client::Ref().GetLastError());
+	//	ErrorMessage::Blocking("Error loading comments", Client::Ref().GetWLastError());
 }
 
 PreviewView::~PreviewView()

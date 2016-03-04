@@ -3,15 +3,17 @@
 
 #include <string>
 #include <exception>
+#include "Format.h"
 using namespace std;
 
 struct PreviewModelException: public exception {
-	string message;
+	wstring message;
 public:
-	PreviewModelException(string message_): message(message_) {}
+	PreviewModelException(string message_): message(format::StringToWString(message_)) {}
+	PreviewModelException(wstring message_): message(message_) {}
 	const char * what() const throw()
 	{
-		return message.c_str();
+		return format::WStringToString(message).c_str();
 	}
 	~PreviewModelException() throw() {};
 };

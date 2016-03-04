@@ -931,7 +931,7 @@ int main(int argc, char * argv[])
 					std::vector<unsigned char> gameSaveData = Client::Ref().ReadFile(arguments["open"]);
 					if(!gameSaveData.size())
 					{
-						new ErrorMessage("Error", "Could not read file");
+						new ErrorMessage(TEXT_ERR_TITLE, TEXT_ERR_MSG_READ);
 					}
 					else
 					{
@@ -945,12 +945,12 @@ int main(int argc, char * argv[])
 				}
 				catch(std::exception & e)
 				{
-					new ErrorMessage("Error", "Could not open save file:\n"+std::string(e.what())) ;
+					new ErrorMessage(TEXT_ERR_TITLE, TEXT_ERR_MSG_SAVE_OPEN+format::StringToWString(e.what()));
 				}
 			}
 			else
 			{
-				new ErrorMessage("Error", "Could not open file");
+				new ErrorMessage(TEXT_ERR_TITLE, TEXT_ERR_MSG_OPEN);
 			}
 		}
 
@@ -972,7 +972,7 @@ int main(int argc, char * argv[])
 			try
 			{
 				if (ptsaveArg.find("ptsave:"))
-					throw std::runtime_error("Invalid save link");
+					throw std::runtime_error(format::WStringToString(TEXT_EXCEPT_RUNTIME_INVALID_LINK));
 
 				std::string saveIdPart = "";
 				int saveId;
@@ -986,20 +986,20 @@ int main(int argc, char * argv[])
 					saveIdPart = ptsaveArg.substr(7);
 				}
 				if (!saveIdPart.length())
-					throw std::runtime_error("No Save ID");
+					throw std::runtime_error(format::WStringToString(TEXT_EXCEPT_RUNTIME_NO_ID));
 #ifdef DEBUG
 				std::cout << "Got Ptsave: id: " <<  saveIdPart << std::endl;
 #endif
 				saveId = format::StringToNumber<int>(saveIdPart);
 				if (!saveId)
-					throw std::runtime_error("Invalid Save ID");
+					throw std::runtime_error(format::WStringToString(TEXT_EXCEPT_RUNTIME_INVALID_ID));
 
 				SaveInfo * newSave = Client::Ref().GetSave(saveId, 0);
 				if (!newSave)
-					throw std::runtime_error("Could not load save info");
+					throw std::runtime_error(format::WStringToString(TEXT_EXCEPT_RUNTIME_LOAD_INFO));
 				std::vector<unsigned char> saveData = Client::Ref().GetSaveData(saveId, 0);
 				if (!saveData.size())
-					throw std::runtime_error("Could not load save\n" + Client::Ref().GetLastError());
+					throw std::runtime_error(format::WStringToString(TEXT_EXCEPT_RUNTIME_LOAD_SAVE + Client::Ref().GetWLastError()));
 				GameSave * newGameSave = new GameSave(saveData);
 				newSave->SetGameSave(newGameSave);
 
@@ -1008,7 +1008,7 @@ int main(int argc, char * argv[])
 			}
 			catch (std::exception & e)
 			{
-				new ErrorMessage("Error", e.what());
+				new ErrorMessage(TEXT_ERR_TITLE, format::StringToWString(e.what()));
 			}
 		}
 

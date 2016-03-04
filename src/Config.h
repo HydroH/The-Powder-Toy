@@ -31,7 +31,7 @@
 #endif
 
 #ifndef CN_MINOR_VERSION
-#define CN_MINOR_VERSION 1
+#define CN_MINOR_VERSION 2
 #endif
 
 #ifndef CN_BUILD_NUM

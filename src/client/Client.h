@@ -15,6 +15,8 @@
 
 #include "requestbroker/RequestBroker.h"
 
+#include "Format.h"
+
 class Thumbnail;
 class SaveInfo;
 class SaveFile;
@@ -63,7 +65,7 @@ private:
 	bool updateAvailable;
 	UpdateInfo updateInfo;
 
-	std::string lastError;
+	std::wstring lastError;
 	bool firstRun;
 
 	std::list<std::string> stampIDs;
@@ -169,6 +171,9 @@ public:
 	std::list<std::string> * RemoveTag(int saveID, std::string tag); //TODO RequestStatus
 	std::list<std::string> * AddTag(int saveID, std::string tag);
 	std::string GetLastError() {
+		return format::WStringToString(lastError);
+	}
+	std::wstring GetWLastError() {
 		return lastError;
 	}
 	RequestStatus ParseServerReturn(char *result, int status, bool json);

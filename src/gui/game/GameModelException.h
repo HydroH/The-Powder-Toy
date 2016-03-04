@@ -3,15 +3,17 @@
 
 #include <string>
 #include <exception>
+#include "Format.h"
 using namespace std;
 
 struct GameModelException: public exception {
-	string message;
+	wstring message;
 public:
-	GameModelException(string message_): message(message_) {}
+	GameModelException(string message_): message(format::StringToWString(message_)) {}
+	GameModelException(wstring message_): message(message_) {}
 	const char * what() const throw()
 	{
-		return message.c_str();  //TODO: Chinese?
+		return format::WStringToString(message).c_str();
 	}
 	~GameModelException() throw() {};
 };

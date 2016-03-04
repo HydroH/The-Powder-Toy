@@ -3,13 +3,15 @@
 
 #include <string>
 #include <exception>
+#include "Format.h"
 using namespace std;
 
 class LocalBrowserModelException {
-	string message;
+	wstring message;
 public:
-	LocalBrowserModelException(string message_): message(message_) {};
-	const char * what() const throw() { return message.c_str(); };
+	LocalBrowserModelException(string message_): message(format::StringToWString(message_)) {};
+	LocalBrowserModelException(wstring message_): message(message_) {};
+	const char * what() const throw() { return format::WStringToString(message).c_str(); };
 	~LocalBrowserModelException() throw() {};
 };
 
