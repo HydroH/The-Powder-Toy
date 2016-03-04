@@ -34,7 +34,7 @@ void TagsModel::RemoveTag(std::string tag)
 		}
 		else
 		{
-			throw TagsModelException(Client::Ref().GetLastError());
+			throw TagsModelException(Client::Ref().GetWLastError());
 		}
 	}
 }
@@ -52,7 +52,7 @@ void TagsModel::AddTag(std::string tag)
 		}
 		else
 		{
-			throw TagsModelException(Client::Ref().GetLastError());
+			throw TagsModelException(Client::Ref().GetWLastError());
 		}
 	}
 }

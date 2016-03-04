@@ -408,7 +408,7 @@ void GameModel::SetVote(int direction)
 		}
 		else
 		{
-			throw GameModelException("Could not vote: "+Client::Ref().GetLastError());  //TODO: Globalize?
+			throw GameModelException(TEXT_EXCEPT_GAME_MODEL_VOTE+Client::Ref().GetWLastError());
 		}
 	}
 }

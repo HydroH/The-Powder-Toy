@@ -9,17 +9,20 @@
 #include "simulation/Sign.h"
 #include "simulation/Particle.h"
 
+#include "Format.h"
+
 //using namespace std;
 
 struct ParseException: public std::exception {
 	enum ParseResult { OK = 0, Corrupt, WrongVersion, InvalidDimensions, InternalError, MissingElement };
-	std::string message;
+	std::wstring message;
 	ParseResult result;
 public:
-	ParseException(ParseResult result, std::string message_): message(message_), result(result) {}
+	ParseException(ParseResult result, std::string message_): message(format::StringToWString(message_)), result(result) {}
+	ParseException(ParseResult result, std::wstring message_): message(message_), result(result) {}
 	const char * what() const throw()
 	{
-		return message.c_str();
+		return format::WStringToString(message).c_str();
 	}
 	~ParseException() throw() {}
 };

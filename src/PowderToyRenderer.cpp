@@ -16,6 +16,8 @@
 #include "client/GameSave.h"
 #include "simulation/Simulation.h"
 
+#include "Lang.h"
+
 
 void EngineProcess() {}
 void ClipboardPush(std::string) {}
@@ -86,7 +88,7 @@ int main(int argc, char *argv[])
 	catch (ParseException e)
 	{
 		//Render the save again later or something? I don't know
-		if (e.what() == "Save from newer version")
+		if (e.what() == format::WStringToString(TEXT_EXCEPT_PARSE_PSV_WRONG_VER))
 			throw e;
 	}
 

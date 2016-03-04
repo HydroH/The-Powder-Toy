@@ -18,6 +18,8 @@
 
 #include "Config.h" // for XRES and YRES
 #include <exception>
+#include "Format.h"
+#include "Lang.h"
 
 class CoordStackOverflowException: public std::exception
 {
@@ -25,7 +27,7 @@ public:
 	CoordStackOverflowException() { }
 	virtual const char* what() const throw()
 	{
-		return "Maximum number of entries in the coordinate stack was exceeded";
+		return format::WStringToString(TEXT_EXCEPT_COORD_STACK_OVERFLOW).c_str();
 	}
 	~CoordStackOverflowException() throw() {};
 };

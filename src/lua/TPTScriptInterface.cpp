@@ -264,7 +264,7 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 	FormatType propertyFormat;
 	int propertyOffset = GetPropertyOffset(property.Value(), propertyFormat);
 	if (propertyOffset == -1)
-		throw GeneralException("Invalid property");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_PROP);
 
 	//Selector
 	int newValue;
@@ -287,7 +287,7 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 			else if (newString.at(newString.length()-1) == 'F')
 				newValuef = (atof(newString.substr(0, newString.length()-1).c_str())-32.0f)*5/9+273.15f;
 			else
-				throw GeneralException("Invalid value for assignment");
+				throw GeneralException(TEXT_EXCEPT_GENERAL_VALUE);
 		}
 		else
 		{
@@ -296,15 +296,15 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 			{
 				// TODO: add element CAKE to invalidate this
 				if (!strcasecmp(((StringType)value).Value().c_str(),"cake"))
-					throw GeneralException("Cake is a lie, not an element");
-				throw GeneralException("Invalid element");
+					throw GeneralException(TEXT_EXCEPT_GENERAL_CAKE);
+				throw GeneralException(TEXT_EXCEPT_GENERAL_ELEM);
 			}
 		}
 	}
 	else
-		throw GeneralException("Invalid value for assignment");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_VALUE);
 	if (property.Value() == "type" && (newValue < 0 || newValue >= PT_NUM || !sim->elements[newValue].Enabled))
-		throw GeneralException("Invalid element");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_ELEM);
 
 	if (selector.GetType() == TypePoint || selector.GetType() == TypeNumber)
 	{
@@ -313,13 +313,13 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 		{
 			ui::Point tempPoint = ((PointType)selector).Value();
 			if(tempPoint.X<0 || tempPoint.Y<0 || tempPoint.Y >= YRES || tempPoint.X >= XRES)
-				throw GeneralException("Invalid position");
+				throw GeneralException(TEXT_EXCEPT_GENERAL_POS);
 
 		}
 		else
 			partIndex = ((NumberType)selector).Value();
 		if(partIndex<0 || partIndex>NPART || sim->parts[partIndex].type==0)
-			throw GeneralException("Invalid particle");
+			throw GeneralException(TEXT_EXCEPT_GENERAL_PART);
 
 		switch(propertyFormat)
 		{
@@ -384,9 +384,9 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 			type = GetParticleType(((StringType)selector).Value());
 
 		if (type<0 || type>=PT_NUM)
-			throw GeneralException("Invalid particle type");
+			throw GeneralException(TEXT_EXCEPT_GENERAL_PART_TYPE);
 		if (type==0)
-			throw GeneralException("Cannot set properties of particles that do not exist");
+			throw GeneralException(TEXT_EXCEPT_GENERAL_PART_PROP);
 		std::cout << propertyOffset << std::endl;
 		switch(propertyFormat)
 		{
@@ -425,7 +425,7 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 		}
 	}
 	else
-		throw GeneralException("Invalid selector");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_SELECT);
 	return NumberType(returnValue);
 }
 
@@ -443,14 +443,14 @@ AnyType TPTScriptInterface::tptS_create(std::deque<std::string> * words)
 	else if(createType.GetType() == TypeString)
 		type = GetParticleType(((StringType)createType).Value());
 	else
-		throw GeneralException("Invalid type");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_TYPE);
 
 	if(type == -1)
-		throw GeneralException("Invalid particle type");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_PART_TYPE);
 
 	ui::Point tempPoint = position.Value();
 	if(tempPoint.X<0 || tempPoint.Y<0 || tempPoint.Y >= YRES || tempPoint.X >= XRES)
-				throw GeneralException("Invalid position");
+				throw GeneralException(TEXT_EXCEPT_GENERAL_POS);
 
 	int v = -1;
 	if (type>>8)
@@ -474,18 +474,18 @@ AnyType TPTScriptInterface::tptS_delete(std::deque<std::string> * words)
 	{
 		ui::Point deletePoint = ((PointType)partRef).Value();
 		if(deletePoint.X<0 || deletePoint.Y<0 || deletePoint.Y >= YRES || deletePoint.X >= XRES)
-			throw GeneralException("Invalid position");
+			throw GeneralException(TEXT_EXCEPT_GENERAL_TYPE);
 		sim->delete_part(deletePoint.X, deletePoint.Y);
 	}
 	else if(partRef.GetType() == TypeNumber)
 	{
 		int partIndex = ((NumberType)partRef).Value();
 		if(partIndex < 0 || partIndex >= NPART)
-			throw GeneralException("Invalid particle index");
+			throw GeneralException(TEXT_EXCEPT_GENERAL_PART_INDEX);
 		sim->kill_part(partIndex);
 	}
 	else
-		throw GeneralException("Invalid particle reference");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_PART_REF);
 
 	return NumberType(0);
 }
@@ -501,7 +501,7 @@ AnyType TPTScriptInterface::tptS_load(std::deque<std::string> * words)
 		return NumberType(0);
 	}
 	else
-		throw GeneralException("Invalid save ID");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_SAVEID);
 }
 
 AnyType TPTScriptInterface::tptS_bubble(std::deque<std::string> * words)
@@ -511,7 +511,7 @@ AnyType TPTScriptInterface::tptS_bubble(std::deque<std::string> * words)
 	ui::Point bubblePos = bubblePosA.Value();
 
 	if(bubblePos.X<0 || bubblePos.Y<0 || bubblePos.Y >= YRES || bubblePos.X >= XRES)
-			throw GeneralException("Invalid position");
+			throw GeneralException(TEXT_EXCEPT_GENERAL_POS);
 
 	Simulation * sim = m->GetSimulation();
 
@@ -580,7 +580,7 @@ AnyType TPTScriptInterface::tptS_reset(std::deque<std::string> * words)
 	}
 	else
 	{
-		throw GeneralException("Unknown reset command");
+		throw GeneralException(TEXT_EXCEPT_GENERAL_COMM_RESET);
 	}
 
 	return NumberType(0);
