@@ -1,5 +1,6 @@
 #include "../data/font.h"
 #include <math.h>
+#include "Format.h"
 
 int PIXELMETHODS_CLASS::drawtext_outline(int x, int y, const char *s, int r, int g, int b, int a)
 {
@@ -25,123 +26,12 @@ int PIXELMETHODS_CLASS::drawtext_outline(int x, int y, const wchar_t *s, int r, 
 
 int PIXELMETHODS_CLASS::drawtext(int x, int y, const char *s, int r, int g, int b, int a)
 {
-	bool invert = false;
-	if(!strlen(s))
-		return 0;
-	int oR = r, oG = g, oB = b;
-	int width, height;
-	Graphics::textsize(s, width, height);
-	VideoBuffer texture(width, height);
-	int characterX = 0, characterY = 0;
-	int startX = characterX;
-	for (; *s; s++)
-	{
-		if (*s == '\n')
-		{
-			characterX = startX;
-			characterY += FONT_H+2;
-		}
-		else if (*s == '\x0F')
-		{
-			if(!s[1] || !s[2] || !s[3]) break;
-			oR = r;
-			oG = g;
-			oB = b;
-			r = (unsigned char)s[1];
-			g = (unsigned char)s[2];
-			b = (unsigned char)s[3];
-			s += 3;
-		}
-		else if (*s == '\x0E')
-		{
-			r = oR;
-			g = oG;
-			b = oB;
-		}
-		else if (*s == '\x01')
-		{
-			invert = !invert;
-			r = 255-r;
-			g = 255-g;
-			b = 255-b;
-		}
-		else if (*s == '\b')
-		{
-			if(!s[1]) break;
-			switch (s[1])
-			{
-			case 'w':
-				r = g = b = 255; 
-				break;
-			case 'g':
-				r = g = b = 192;
-				break;
-			case 'o':
-				r = 255;
-				g = 216;
-				b = 32;
-				break;
-			case 'r':
-				r = 255;
-				g = b = 0;
-				break;
-			case 'l':
-				r = 255;
-				g = b = 75;
-				break;
-			case 'b':
-				r = g = 0;
-				b = 255;
-				break;
-			case 't':
-				b = 255;
-				g = 170;
-				r = 32;
-				break;
-			}
-			if(invert)
-			{
-				r = 255-r;
-				g = 255-g;
-				b = 255-b;
-			}
-			s++;
-		}
-		else
-		{
-			characterX = texture.SetCharacter(characterX, characterY, *(unsigned char *)s, r, g, b, a);
-		}
-	}
-	glEnable(GL_TEXTURE_2D);
-
-	//Generate texture
-	glBindTexture(GL_TEXTURE_2D, textTexture);
-
-	//Draw texture
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, texture.Width, texture.Height, 0, GL_BGRA, GL_UNSIGNED_BYTE, texture.Buffer);
-
-    //glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, texture.Width, texture.Height, GL_BGRA, GL_UNSIGNED_BYTE, texture.Buffer);
-	glBegin(GL_QUADS);
-    glTexCoord2d(0, 0);
-    glVertex2f(x, y);
-    glTexCoord2d(1, 0);
-    glVertex2f(x+texture.Width, y);
-    glTexCoord2d(1, 1);
-    glVertex2f(x+texture.Width, y+texture.Height);
-    glTexCoord2d(0, 1);
-    glVertex2f(x, y+texture.Height);
-    glEnd();
-
-	glBindTexture(GL_TEXTURE_2D, 0);
-	glDisable(GL_TEXTURE_2D);
-
-	return x;
+	return drawtext(x, y, format::StringToWString(s), r, g, b, a);
 }
 
 int PIXELMETHODS_CLASS::drawtext(int x, int y, std::string s, int r, int g, int b, int a)
 {
-	return drawtext(x, y, s.c_str(), r, g, b, a);
+	return drawtext(x, y, format::StringToWString(s), r, g, b, a);
 }
 
 int PIXELMETHODS_CLASS::drawchar(int x, int y, int c, int r, int g, int b, int a)
