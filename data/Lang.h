@@ -67,7 +67,7 @@
 #define TEXT_ELEM_ARAY_DESC L"A射线发射器, 激活后发射射线. "
 #define TEXT_ELEM_BANG_DESC L"TNT, 瞬间爆炸! "
 #define TEXT_ELEM_BCLN_DESC L"可以破坏的复制体. "
-#define TEXT_ELEM_BCOL_DESC L"煤渣, 重粉末, 只能用明火点燃, 缓慢燃烧. "
+#define TEXT_ELEM_BCOL_DESC L"煤粉, 重粉末, 只能用明火点燃, 缓慢燃烧. "
 #define TEXT_ELEM_BGLA_DESC L"玻璃渣, 熔化后能重新变回玻璃. "
 #define TEXT_ELEM_BHOL_DESC L"吸气孔, 吸引并吞噬其他物质, 发出热量. "
 #define TEXT_ELEM_BIZR_DESC L"奇特液体, 高温时凝固, 低温时汽化, 还可以用于染色. "
