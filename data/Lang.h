@@ -59,7 +59,7 @@
 
  //Element descriptions.
 #define TEXT_ELEM_116_DESC L"惰性尘, 一个失败的实验产物. "
-#define TEXT_ELEM_146_DESC L"布莱恩 6 S6/B246/3. "
+#define TEXT_ELEM_146_DESC L"布莱恩-6: S6/B246/3. "
 #define TEXT_ELEM_ACEL_DESC L"加速器, 加速能量粒子. "
 #define TEXT_ELEM_ACID_DESC L"酸, 可以腐蚀几乎所有物质. "
 #define TEXT_ELEM_AMTR_DESC L"反物质. 摧毁大部分物体. "
@@ -145,7 +145,7 @@
 #define TEXT_ELEM_INWR_DESC L"绝缘线, 只能在P型硅(PSCN)与N型硅(NSCN)之间传递电脉冲. "
 #define TEXT_ELEM_IRON_DESC L"铸铁, 被盐等物质腐蚀, 可以电解水. "
 #define TEXT_ELEM_ISOZ_DESC L"同位素-Z, 放射性液体. 可以被光子(PHOT)或负压激发, 并释放出更多的光子. "
-#define TEXT_ELEM_ISZS_DESC L"同位素-Z的固体状态, 慢慢的衰变为光子(PHOT). "
+#define TEXT_ELEM_ISZS_DESC L"固态同位素-Z, 慢慢的衰变为光子(PHOT). "
 #define TEXT_ELEM_LAVA_DESC L"岩浆, 可以引燃可燃物. 低温时会凝固. "
 #define TEXT_ELEM_LCRY_DESC L"液晶, 激活时改变颜色(PSCN激活, NSCN关闭). "
 #define TEXT_ELEM_LIFE_DESC L"生命游戏! 繁殖 3/存活 23. "
