@@ -12,15 +12,15 @@
 
 //VersionInfoStart
 #ifndef SAVE_VERSION
-#define SAVE_VERSION 90
+#define SAVE_VERSION 91
 #endif
 
 #ifndef MINOR_VERSION
-#define MINOR_VERSION 2
+#define MINOR_VERSION 1
 #endif
 
 #ifndef BUILD_NUM
-#define BUILD_NUM 322
+#define BUILD_NUM 325
 #endif
 
 #ifndef SNAPSHOT_ID
@@ -30,7 +30,9 @@
 
 //#define IGNORE_UPDATES //uncomment this for mods, to not get any update notifications
 
+#if !(defined(MACOSX) && defined(DEBUG))
 #define HIGH_QUALITY_RESAMPLE			//High quality image resampling, slower but much higher quality than my terribad linear interpolation
+#endif
 
 #if defined(SNAPSHOT)
 #define IDENT_RELTYPE "S"
@@ -170,12 +172,6 @@
 #define TPT_INLINE
 #else
 #define TPT_INLINE inline
-#endif
-
-#if defined(WIN) && defined(__GNUC__)
-#define TH_ENTRY_POINT __attribute__((force_align_arg_pointer)) 
-#else
-#define TH_ENTRY_POINT
 #endif
 
 // old Platform.h stuff, maybe we should have a file for these kinds of things
