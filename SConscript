@@ -183,7 +183,7 @@ if GetOption("msvc"):
 	env.Append(CPPPATH=['includes/'])
 	
 if GetOption("zhcn"):
-	env.Append(CPPPATH = "C:/Boost/boost_1_60_0/")
+	env.Append(CPPPATH=['C:/Boost/boost_1_60_0/'])
 	env.Append(CCFLAGS=['-finput-charset=UTF-8'])
 	
 #Check 32/64 bit

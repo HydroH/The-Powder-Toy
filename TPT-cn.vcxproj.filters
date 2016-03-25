@@ -1742,6 +1742,9 @@
     <ClInclude Include="src\debug\ParticleDebug.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\common\tpt-thread.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\graphics\OpenGLDrawMethods.inl">

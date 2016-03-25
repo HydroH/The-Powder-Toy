@@ -575,6 +575,7 @@
     <ClInclude Include="src\client\SaveInfo.h" />
     <ClInclude Include="src\client\User.h" />
     <ClInclude Include="src\client\UserInfo.h" />
+    <ClInclude Include="src\common\tpt-thread.h" />
     <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\Controller.h" />
     <ClInclude Include="src\debug\DebugInfo.h" />

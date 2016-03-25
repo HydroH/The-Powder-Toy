@@ -819,12 +819,16 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 						int betaMajor = betaVersion["Major"].asInt();
 						int betaMinor = betaVersion["Minor"].asInt();
 						int betaBuild = betaVersion["Build"].asInt();
+						int betaCNMajor = betaVersion["CN-Major"].asInt();
+						int betaCNMinor = betaVersion["CN-Minor"].asInt();
+						int betaCNBuild = betaVersion["CN-Build"].asInt();
+						std::string betaCNStage = betaVersion["CN-Stage"].asString();
 						std::string betaFile = betaVersion["File"].asString();
 						std::string betaChangelog = betaVersion["Changelog"].asString();
-						if (betaMajor > SAVE_VERSION || (betaMinor > MINOR_VERSION && betaMajor == SAVE_VERSION) || betaBuild > BUILD_NUM)
+						if (betaCNMajor > SAVE_VERSION || (betaCNMinor > MINOR_VERSION && betaCNMajor == SAVE_VERSION) || betaCNBuild > BUILD_NUM)
 						{
 							updateAvailable = true;
-							updateInfo = UpdateInfo(betaMajor, betaMinor, betaBuild, betaFile, betaChangelog, UpdateInfo::Beta);
+							updateInfo = UpdateInfo(betaMajor, betaMinor, betaBuild, betaCNMajor, betaCNMinor, betaCNBuild, betaCNStage, betaFile, betaChangelog, UpdateInfo::Beta);
 						}
 					}
 
