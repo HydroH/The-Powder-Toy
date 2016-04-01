@@ -92,7 +92,7 @@
 
 #define SERVER "powdertoy.co.uk"
 #define STATICSERVER "static.powdertoy.co.uk"
-#define UPDATESERVER "hydroh.xyz/powder"
+#define UPDATESERVER "hydroh.xyz/test"
 
 #define LOCAL_SAVE_DIR "Saves"
 
