@@ -792,6 +792,7 @@ public:
 	Element_AMTR();
 	virtual ~Element_AMTR();
 	static int update(UPDATE_FUNC_ARGS);
+	static int graphics(GRAPHICS_FUNC_ARGS);
 };
 
 class Element_BCOL: public Element

@@ -195,10 +195,78 @@ void blit()
 	SDL_GL_SwapBuffers();
 }
 #else
+int mousex = 0, mousey = 0;
+void DrawPixel(pixel * vid, pixel color, int x, int y)
+{
+	if (x >= 0 && x < WINDOWW && y >= 0 && y < WINDOWH)
+		vid[x+y*WINDOWW] = color;
+}
+// draws a custom cursor, used to make 3D mode work properly (normal cursor ruins the effect)
+void DrawCursor(pixel * vid)
+{
+	for (int j = 0; j <= 9; j++)
+	{
+		for (int i = 0; i <= j; i++)
+		{
+			if (i == 0 || i == j)
+				DrawPixel(vid, 0xFFFFFFFF, mousex+i, mousey+j);
+			else
+				DrawPixel(vid, 0xFF000000, mousex+i, mousey+j);
+		}
+	}
+	DrawPixel(vid, 0xFFFFFFFF, mousex, mousey+10);
+	for (int i = 0; i < 5; i++)
+	{
+		DrawPixel(vid, 0xFF000000, mousex+1+i, mousey+10);
+		DrawPixel(vid, 0xFFFFFFFF, mousex+6+i, mousey+10);
+	}
+	DrawPixel(vid, 0xFFFFFFFF, mousex, mousey+11);
+	DrawPixel(vid, 0xFF000000, mousex+1, mousey+11);
+	DrawPixel(vid, 0xFF000000, mousex+2, mousey+11);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+3, mousey+11);
+	DrawPixel(vid, 0xFF000000, mousex+4, mousey+11);
+	DrawPixel(vid, 0xFF000000, mousex+5, mousey+11);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+6, mousey+11);
+
+	DrawPixel(vid, 0xFFFFFFFF, mousex, mousey+12);
+	DrawPixel(vid, 0xFF000000, mousex+1, mousey+12);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+2, mousey+12);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+4, mousey+12);
+	DrawPixel(vid, 0xFF000000, mousex+5, mousey+12);
+	DrawPixel(vid, 0xFF000000, mousex+6, mousey+12);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+7, mousey+12);
+
+	DrawPixel(vid, 0xFFFFFFFF, mousex, mousey+13);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+1, mousey+13);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+4, mousey+13);
+	DrawPixel(vid, 0xFF000000, mousex+5, mousey+13);
+	DrawPixel(vid, 0xFF000000, mousex+6, mousey+13);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+7, mousey+13);
+
+	DrawPixel(vid, 0xFFFFFFFF, mousex, mousey+14);
+	for (int i = 0; i < 2; i++)
+	{
+		DrawPixel(vid, 0xFFFFFFFF, mousex+5, mousey+14+i);
+		DrawPixel(vid, 0xFF000000, mousex+6, mousey+14+i);
+		DrawPixel(vid, 0xFF000000, mousex+7, mousey+14+i);
+		DrawPixel(vid, 0xFFFFFFFF, mousex+8, mousey+14+i);
+
+		DrawPixel(vid, 0xFFFFFFFF, mousex+6, mousey+16+i);
+		DrawPixel(vid, 0xFF000000, mousex+7, mousey+16+i);
+		DrawPixel(vid, 0xFF000000, mousex+8, mousey+16+i);
+		DrawPixel(vid, 0xFFFFFFFF, mousex+9, mousey+16+i);
+	}
+
+	DrawPixel(vid, 0xFFFFFFFF, mousex+7, mousey+18);
+	DrawPixel(vid, 0xFFFFFFFF, mousex+8, mousey+18);
+}
 void blit(pixel * vid)
 {
-	if(sdl_scrn)
+	if (sdl_scrn)
 	{
+		int depth3d = ui::Engine::Ref().Get3dDepth();
+		if (depth3d)
+			DrawCursor(vid);
 		pixel * src = vid;
 		int j, x = 0, y = 0, w = WINDOWW, h = WINDOWH, pitch = WINDOWW;
 		pixel *dst;
@@ -208,18 +276,37 @@ void blit(pixel * vid)
 		dst=(pixel *)sdl_scrn->pixels+y*sdl_scrn->pitch/PIXELSIZE+x;
 		if (SDL_MapRGB(sdl_scrn->format,0x33,0x55,0x77)!=PIXPACK(0x335577))
 		{
-			//pixel format conversion
+			//pixel format conversion, used for strange formats (OS X specifically)
 			int i;
-			pixel px;
+			unsigned int red, green, blue;
+			pixel px, lastpx, nextpx;
 			SDL_PixelFormat *fmt = sdl_scrn->format;
 			for (j=0; j<h; j++)
 			{
 				for (i=0; i<w; i++)
 				{
-					px = src[i];
-					dst[i] = ((PIXR(px)>>fmt->Rloss)<<fmt->Rshift)|
-							((PIXG(px)>>fmt->Gloss)<<fmt->Gshift)|
-							((PIXB(px)>>fmt->Bloss)<<fmt->Bshift);
+					if (depth3d)
+					{
+						lastpx = i >= depth3d && i < w+depth3d ? src[i-depth3d] : 0;
+						nextpx = i >= -depth3d && i < w-depth3d ? src[i+depth3d] : 0;
+						int redshift = PIXB(lastpx) + PIXG(lastpx);
+						if (redshift > 255)
+							redshift = 255;
+						int blueshift = PIXR(nextpx) + PIXG(nextpx);
+						if (blueshift > 255)
+							blueshift = 255;
+						red = ((int)(PIXR(lastpx)*.69f+redshift*.3f)>>fmt->Rloss)<<fmt->Rshift;
+						green = ((int)(PIXG(nextpx)*.3f)>>fmt->Gloss)<<fmt->Gshift;
+						blue = ((int)(PIXB(nextpx)*.69f+blueshift*.3f)>>fmt->Bloss)<<fmt->Bshift;
+					}
+					else
+					{
+						px = src[i];
+						red = (PIXR(px)>>fmt->Rloss)<<fmt->Rshift;
+						green = (PIXG(px)>>fmt->Gloss)<<fmt->Gshift;
+						blue = (PIXB(px)>>fmt->Bloss)<<fmt->Bshift;
+					}
+					dst[i] = red|green|blue;
 				}
 				dst+=sdl_scrn->pitch/PIXELSIZE;
 				src+=pitch;
@@ -227,9 +314,27 @@ void blit(pixel * vid)
 		}
 		else
 		{
+			int i;
 			for (j=0; j<h; j++)
 			{
-				memcpy(dst, src, w*PIXELSIZE);
+				if (depth3d)
+				{
+					pixel lastpx, nextpx;
+					for (i=0; i<w; i++)
+					{
+						lastpx = i >= depth3d && i < w+depth3d ? src[i-depth3d] : 0;
+						nextpx = i >= -depth3d && i < w-depth3d ? src[i+depth3d] : 0;
+						int redshift = PIXB(lastpx) + PIXG(lastpx);
+						if (redshift > 255)
+							redshift = 255;
+						int blueshift = PIXR(nextpx) + PIXG(nextpx);
+						if (blueshift > 255)
+							blueshift = 255;
+						dst[i] = PIXRGB((int)(PIXR(lastpx)*.69f+redshift*.3f), (int)(PIXG(nextpx)*.3f), (int)(PIXB(nextpx)*.69f+blueshift*.3f));
+					}
+				}
+				else
+					memcpy(dst, src, w*PIXELSIZE);
 				dst+=sdl_scrn->pitch/PIXELSIZE;
 				src+=pitch;
 			}
@@ -241,11 +346,15 @@ void blit(pixel * vid)
 }
 void blit2(pixel * vid, int currentScale)
 {
-	if(sdl_scrn)
+	if (sdl_scrn)
 	{
+		int depth3d = ui::Engine::Ref().Get3dDepth();
+		if (depth3d)
+			DrawCursor(vid);
 		pixel * src = vid;
 		int j, x = 0, y = 0, w = WINDOWW, h = WINDOWH, pitch = WINDOWW;
 		pixel *dst;
+		pixel px, lastpx, nextpx;
 		int i,k;
 		if (SDL_MUSTLOCK(sdl_scrn))
 			if (SDL_LockSurface(sdl_scrn)<0)
@@ -254,20 +363,37 @@ void blit2(pixel * vid, int currentScale)
 		if (SDL_MapRGB(sdl_scrn->format,0x33,0x55,0x77)!=PIXPACK(0x335577))
 		{
 			//pixel format conversion
-			pixel px;
 			SDL_PixelFormat *fmt = sdl_scrn->format;
+			int red, green, blue;
 			for (j=0; j<h; j++)
 			{
 				for (k=0; k<currentScale; k++)
 				{
 					for (i=0; i<w; i++)
 					{
-						px = src[i];
-						px = ((PIXR(px)>>fmt->Rloss)<<fmt->Rshift)|
-							((PIXG(px)>>fmt->Gloss)<<fmt->Gshift)|
-							((PIXB(px)>>fmt->Bloss)<<fmt->Bshift);
-						dst[i*2]=px;
-						dst[i*2+1]=px;
+						if (depth3d)
+						{
+							lastpx = i >= depth3d && i < w+depth3d ? src[i-depth3d] : 0;
+							nextpx = i >= -depth3d && i < w-depth3d ? src[i+depth3d] : 0;
+							int redshift = PIXB(lastpx) + PIXG(lastpx);
+							if (redshift > 255)
+								redshift = 255;
+							int blueshift = PIXR(nextpx) + PIXG(nextpx);
+							if (blueshift > 255)
+								blueshift = 255;
+							red = ((int)(PIXR(lastpx)*.69f+redshift*.3f)>>fmt->Rloss)<<fmt->Rshift;
+							green = ((int)(PIXG(nextpx)*.3f)>>fmt->Gloss)<<fmt->Gshift;
+							blue = ((int)(PIXB(nextpx)*.69f+blueshift*.3f)>>fmt->Bloss)<<fmt->Bshift;
+						}
+						else
+						{
+							px = src[i];
+							red = (PIXR(px)>>fmt->Rloss)<<fmt->Rshift;
+							green = (PIXG(px)>>fmt->Gloss)<<fmt->Gshift;
+							blue = (PIXB(px)>>fmt->Bloss)<<fmt->Bshift;
+						}
+						dst[i*2] = red|green|blue;
+						dst[i*2+1] = red|green|blue;
 					}
 					dst+=sdl_scrn->pitch/PIXELSIZE;
 				}
@@ -282,8 +408,21 @@ void blit2(pixel * vid, int currentScale)
 				{
 					for (i=0; i<w; i++)
 					{
-						dst[i*2]=src[i];
-						dst[i*2+1]=src[i];
+						px = src[i];
+						if (depth3d)
+						{
+							lastpx = i >= depth3d && i < w+depth3d ? src[i-depth3d] : 0;
+							nextpx = i >= -depth3d && i < w-depth3d ? src[i+depth3d] : 0;
+							int redshift = PIXB(lastpx) + PIXG(lastpx);
+							if (redshift > 255)
+								redshift = 255;
+							int blueshift = PIXR(nextpx) + PIXG(nextpx);
+							if (blueshift > 255)
+								blueshift = 255;
+							px = PIXRGB((int)(PIXR(lastpx)*.69f+redshift*.3f), (int)(PIXG(nextpx)*.3f), (int)(PIXB(nextpx)*.69f+blueshift*.3f));
+						}
+						dst[i*2] = px;
+						dst[i*2+1] = px;
 					}
 					dst+=sdl_scrn->pitch/PIXELSIZE;
 				}
@@ -359,6 +498,11 @@ SDL_Surface * SDLSetScreen(int newScale, bool newFullscreen)
 	surface = SDL_SetVideoMode(WINDOWW * newScale, WINDOWH * newScale, 32, SDL_OPENGL | SDL_RESIZABLE | (newFullscreen?SDL_FULLSCREEN:0));
 #endif
 	return surface;
+}
+
+void SetCursorEnabled(int enabled)
+{
+	SDL_ShowCursor(enabled);
 }
 
 std::map<std::string, std::string> readArguments(int argc, char * argv[])
@@ -490,6 +634,8 @@ void EventProcess(SDL_Event event)
 		break;
 	case SDL_MOUSEMOTION:
 		engine->onMouseMove(event.motion.x*inputScale, event.motion.y*inputScale);
+		mousex = event.motion.x*inputScale;
+		mousey = event.motion.y*inputScale;
 		break;
 	case SDL_MOUSEBUTTONDOWN:
 		if (event.button.button == SDL_BUTTON_WHEELUP)
@@ -504,10 +650,14 @@ void EventProcess(SDL_Event event)
 		{
 			engine->onMouseClick(event.motion.x*inputScale, event.motion.y*inputScale, event.button.button);
 		}
+		mousex = event.motion.x*inputScale;
+		mousey = event.motion.y*inputScale;
 		break;
 	case SDL_MOUSEBUTTONUP:
 		if (event.button.button != SDL_BUTTON_WHEELUP && event.button.button != SDL_BUTTON_WHEELDOWN)
 			engine->onMouseUnclick(event.motion.x*inputScale, event.motion.y*inputScale, event.button.button);
+		mousex = event.motion.x*inputScale;
+		mousey = event.motion.y*inputScale;
 		break;
 #ifdef OGLI
 	case SDL_VIDEORESIZE:
@@ -593,6 +743,7 @@ void DoubleScreenDialog()
 #endif
 	}
 }
+
 void EngineProcess()
 {
 	double frameTimeAvg = 0.0f, correctedFrameTimeAvg = 0.0f;
@@ -1030,6 +1181,7 @@ int main(int argc, char * argv[])
 	}
 #endif
 	
+	Client::Ref().SetPref("Scale", ui::Engine::Ref().GetScale());
 	ui::Engine::Ref().CloseWindow();
 	delete gameController;
 	delete ui::Engine::Ref().g;

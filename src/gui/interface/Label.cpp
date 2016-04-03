@@ -105,6 +105,7 @@ void Label::updateMultiline()
 	int lines = 1;
 	if (text.length()>0)
 	{
+		textLines = text;
 		wchar_t * rawText = new wchar_t[text.length()+1];
 		std::copy(text.begin(), text.end(), rawText);
 		rawText[text.length()] = 0;
@@ -114,7 +115,10 @@ void Label::updateMultiline()
 
 		int wordWidth = 0;
 		int lineWidth = 0;
+		int wordStartPos = 0;
 		wchar_t * wordStart = NULL;
+
+		int inserted = 0;
 		while ((c = rawText[charIndex++]))
 		{
 			switch(c)
@@ -126,27 +130,30 @@ void Label::updateMultiline()
 					break;
 				case L'\n':
 					lineWidth = wordWidth = 0;
+					wordStart = 0;
 					lines++;
 					break;
 				default:
 					wordWidth += Graphics::CharWidth((wchar_t)c);
 					break;
 			}
-			if (pc == L' ')
+			if (c != L'\n' && pc == L' ')
 			{
 				wordStart = &rawText[charIndex-2];
+				wordStartPos = charIndex - 2;
 			}
-			if ((c != L' ' || pc == L' ') && lineWidth + wordWidth >= Size.X-(Appearance.Margin.Left+Appearance.Margin.Right))
+			if ((c != L' ' || pc == L' ') && (lineWidth + wordWidth >= Size.X-(Appearance.Margin.Left+Appearance.Margin.Right)))
 			{
 				if (wordStart && *wordStart)
 				{
-					*wordStart = L'\n';
+					textLines.replace(wordStartPos + inserted, 1, L"\n");
 					if (lineWidth != 0)
 						lineWidth = wordWidth;
 				}
 				else if (!wordStart)
 				{
-					rawText[charIndex-1] = L'\n';
+					textLines.insert(charIndex + inserted - 1, L"\n");
+					inserted++;
 					lineWidth = 0;
 				}
 				wordWidth = 0;
@@ -159,7 +166,6 @@ void Label::updateMultiline()
 		{
 			Size.Y = lines*12+3;
 		}
-		textLines = std::wstring(rawText);
 		delete[] rawText;
 		/*int currentWidth = 0;
 		char * lastSpace = NULL;

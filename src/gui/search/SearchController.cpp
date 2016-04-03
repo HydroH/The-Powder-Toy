@@ -21,9 +21,9 @@ public:
 	OpenCallback(SearchController * cc_) { cc = cc_; }
 	virtual void ControllerExit()
 	{
-		if(cc->activePreview->GetDoOpen() && cc->activePreview->GetSave())
+		if(cc->activePreview->GetDoOpen() && cc->activePreview->GetSaveInfo())
 		{
-			cc->searchModel->SetLoadedSave(cc->activePreview->GetSave());
+			cc->searchModel->SetLoadedSave(cc->activePreview->GetSaveInfo());
 		}
 		else
 		{

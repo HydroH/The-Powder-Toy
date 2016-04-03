@@ -813,19 +813,24 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 					}
 #endif
 
-#ifdef BETA
-					Json::Value betaVersion = versions["Beta"];
-					int betaMajor = betaVersion["Major"].asInt();
-					int betaMinor = betaVersion["Minor"].asInt();
-					int betaBuild = betaVersion["Build"].asInt();
-					std::string betaFile = betaVersion["File"].asString();
-					std::string betaChangelog = betaVersion["Changelog"].asString();
-					if (betaMajor > SAVE_VERSION || (betaMinor > MINOR_VERSION && betaMajor == SAVE_VERSION) || betaBuild > BUILD_NUM)
+					if (!updateAvailable)
 					{
-						updateAvailable = true;
-						updateInfo = UpdateInfo(betaMajor, betaMinor, betaBuild, betaFile, betaChangelog, UpdateInfo::Beta);
+						Json::Value betaVersion = versions["Beta"];
+						int betaMajor = betaVersion["Major"].asInt();
+						int betaMinor = betaVersion["Minor"].asInt();
+						int betaBuild = betaVersion["Build"].asInt();
+						int betaCNMajor = betaVersion["CN-Major"].asInt();
+						int betaCNMinor = betaVersion["CN-Minor"].asInt();
+						int betaCNBuild = betaVersion["CN-Build"].asInt();
+						std::string betaCNStage = betaVersion["CN-Stage"].asString();
+						std::string betaFile = betaVersion["File"].asString();
+						std::string betaChangelog = betaVersion["Changelog"].asString();
+						if (betaCNMajor > SAVE_VERSION || (betaCNMinor > MINOR_VERSION && betaCNMajor == SAVE_VERSION) || betaCNBuild > BUILD_NUM)
+						{
+							updateAvailable = true;
+							updateInfo = UpdateInfo(betaMajor, betaMinor, betaBuild, betaCNMajor, betaCNMinor, betaCNBuild, betaCNStage, betaFile, betaChangelog, UpdateInfo::Beta);
+						}
 					}
-#endif
 
 #ifdef SNAPSHOT
 					Json::Value snapshotVersion = versions["Snapshot"];
@@ -1968,7 +1973,7 @@ Json::Value Client::GetPref(Json::Value root, std::string prop, Json::Value defa
 {
 	try
 	{
-		int dot = prop.find('.');
+		size_t dot = prop.find('.');
 		if (dot == prop.npos)
 			return root.get(prop, defaultValue);
 		else
@@ -2046,7 +2051,7 @@ std::vector<std::string> Client::GetPrefStringArray(std::string prop)
 	{
 		std::vector<std::string> ret;
 		Json::Value arr = GetPref(preferences, prop);
-		for (int i = 0; i < arr.size(); i++)
+		for (int i = 0; i < (int)arr.size(); i++)
 			ret.push_back(arr[i].asString());
 		return ret;
 	}
@@ -2063,7 +2068,7 @@ std::vector<double> Client::GetPrefNumberArray(std::string prop)
 	{
 		std::vector<double> ret;
 		Json::Value arr = GetPref(preferences, prop);
-		for (int i = 0; i < arr.size(); i++)
+		for (int i = 0; i < (int)arr.size(); i++)
 			ret.push_back(arr[i].asDouble());
 		return ret;
 	}
@@ -2080,7 +2085,7 @@ std::vector<int> Client::GetPrefIntegerArray(std::string prop)
 	{
 		std::vector<int> ret;
 		Json::Value arr = GetPref(preferences, prop);
-		for (int i = 0; i < arr.size(); i++)
+		for (int i = 0; i < (int)arr.size(); i++)
 			ret.push_back(arr[i].asInt());
 		return ret;
 	}
@@ -2097,7 +2102,7 @@ std::vector<unsigned int> Client::GetPrefUIntegerArray(std::string prop)
 	{
 		std::vector<unsigned int> ret;
 		Json::Value arr = GetPref(preferences, prop);
-		for (int i = 0; i < arr.size(); i++)
+		for (int i = 0; i < (int)arr.size(); i++)
 			ret.push_back(arr[i].asUInt());
 		return ret;
 	}
@@ -2114,7 +2119,7 @@ std::vector<bool> Client::GetPrefBoolArray(std::string prop)
 	{
 		std::vector<bool> ret;
 		Json::Value arr = GetPref(preferences, prop);
-		for (int i = 0; i < arr.size(); i++)
+		for (int i = 0; i < (int)arr.size(); i++)
 			ret.push_back(arr[i].asBool());
 		return ret;
 	}
@@ -2132,7 +2137,7 @@ std::vector<bool> Client::GetPrefBoolArray(std::string prop)
 // and return it to SetPref to do the actual setting
 Json::Value Client::SetPrefHelper(Json::Value root, std::string prop, Json::Value value)
 {
-	int dot = prop.find(".");
+	size_t dot = prop.find(".");
 	if (dot == prop.npos)
 		root[prop] = value;
 	else
@@ -2148,7 +2153,7 @@ void Client::SetPref(std::string prop, Json::Value value)
 {
 	try
 	{
-		int dot = prop.find(".");
+		size_t dot = prop.find(".");
 		if (dot == prop.npos)
 			preferences[prop] = value;
 		else
@@ -2167,7 +2172,7 @@ void Client::SetPref(std::string prop, std::vector<Json::Value> value)
 	try
 	{
 		Json::Value arr;
-		for (int i = 0; i < value.size(); i++)
+		for (int i = 0; i < (int)value.size(); i++)
 		{
 			arr.append(value[i]);
 		}

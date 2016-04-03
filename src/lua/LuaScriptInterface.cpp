@@ -53,7 +53,7 @@ extern "C"
 #include "socket/luasocket.h"
 }
 #include "socket/socket.lua.h"
-
+// TODO: Tons of errors need to be globalized!
 GameModel * luacon_model;
 GameController * luacon_controller;
 Simulation * luacon_sim;
@@ -2021,6 +2021,7 @@ void LuaScriptInterface::initRendererAPI()
 		{"decorations", renderer_decorations}, //renderer_debugHUD
 		{"grid", renderer_grid},
 		{"debugHUD", renderer_debugHUD},
+		{"depth3d", renderer_depth3d},
 		{NULL, NULL}
 	};
 	luaL_register(l, "renderer", rendererAPIMethods);
@@ -2199,6 +2200,21 @@ int LuaScriptInterface::renderer_debugHUD(lua_State * l)
 	}
 	int debug = luaL_optint(l, 1, -1);
 	luacon_controller->SetDebugHUD(debug);
+	return 0;
+}
+
+int LuaScriptInterface::renderer_depth3d(lua_State * l)
+{
+	int acount = lua_gettop(l);
+	if (acount == 0)
+	{
+		lua_pushnumber(l, ui::Engine::Ref().Get3dDepth());
+		return 1;
+	}
+	int depth3d = luaL_optint(l, 1, -3);
+	if (depth3d < -30 || depth3d > 30)
+		return luaL_error(l, "3D depth is too large");
+	ui::Engine::Ref().Set3dDepth(depth3d);
 	return 0;
 }
 

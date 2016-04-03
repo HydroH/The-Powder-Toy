@@ -612,6 +612,7 @@
 #define TEXT_GUI_SIM_OPT_QUIT_LABEL L"\bg- 点击关闭按钮时总是完全退出游戏"
 #define TEXT_GUI_SIM_OPT_AVATAR_CHECK L"显示头像"
 #define TEXT_GUI_SIM_OPT_AVATAR_LABEL L"\bg- 禁用此项以提升在差网络环境下的加载速度"
+#define TEXT_GUI_SIM_OPT_DEPTH_LABEL L"\bg- 更改3D眼镜效果的深度"
 #define TEXT_GUI_SIM_OPT_FOLDER_BTN L"打开游戏根目录"
 #define TEXT_GUI_SIM_OPT_FOLDER_LABEL L"\bg- 打开游戏程序和存档目录"
 #define TEXT_GUI_SIM_OPT_BTN_OK L"确定"
@@ -824,6 +825,7 @@
 #define TEXT_ERR_MSG_READ L"无法读取存档"
 
  //HTTP return status.
+#define TEXT_HTTP_STAT_0 L"状态码0 (bug?)"
 #define TEXT_HTTP_STAT_100 L"继续"
 #define TEXT_HTTP_STAT_101 L"切换协议"
 #define TEXT_HTTP_STAT_102 L"处理中"
