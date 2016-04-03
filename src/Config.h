@@ -16,11 +16,11 @@
 #endif
 
 #ifndef MINOR_VERSION
-#define MINOR_VERSION 1
+#define MINOR_VERSION 3
 #endif
 
 #ifndef BUILD_NUM
-#define BUILD_NUM 325
+#define BUILD_NUM 328
 #endif
 
 #ifndef SNAPSHOT_ID
