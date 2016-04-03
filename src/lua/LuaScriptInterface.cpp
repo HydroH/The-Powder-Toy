@@ -53,7 +53,7 @@ extern "C"
 #include "socket/luasocket.h"
 }
 #include "socket/socket.lua.h"
-
+// TODO: Tons of errors need to be globalized!
 GameModel * luacon_model;
 GameController * luacon_controller;
 Simulation * luacon_sim;

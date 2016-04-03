@@ -165,6 +165,8 @@
     <ClCompile Include="generated\ToolClasses.cpp" />
     <ClCompile Include="src\bson\BSON.cpp" />
     <ClCompile Include="src\client\Client.cpp" />
+    <ClCompile Include="src\client\Download.cpp" />
+    <ClCompile Include="src\client\DownloadManager.cpp" />
     <ClCompile Include="src\client\GameSave.cpp" />
     <ClCompile Include="src\client\HTTP.cpp" />
     <ClCompile Include="src\client\MD5.cpp" />
@@ -561,6 +563,8 @@
     <ClInclude Include="src\bson\BSON.h" />
     <ClInclude Include="src\client\Client.h" />
     <ClInclude Include="src\client\ClientListener.h" />
+    <ClInclude Include="src\client\Download.h" />
+    <ClInclude Include="src\client\DownloadManager.h" />
     <ClInclude Include="src\client\GameSave.h" />
     <ClInclude Include="src\client\HTTP.h" />
     <ClInclude Include="src\client\MD5.h" />

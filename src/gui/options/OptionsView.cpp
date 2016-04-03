@@ -231,7 +231,7 @@ OptionsView::OptionsView():
 	depthTextbox->SetActionCallback(new DepthAction(this));
 	AddComponent(depthTextbox);
 
-	tempLabel = new ui::Label(ui::Point(depthTextbox->Position.X+depthTextbox->Size.X+3, depthTextbox->Position.Y), ui::Point(Size.X-28, 16), "\bg- Change the depth of the 3d glasses effect");
+	tempLabel = new ui::Label(ui::Point(depthTextbox->Position.X+depthTextbox->Size.X+3, depthTextbox->Position.Y), ui::Point(Size.X-28, 16), TEXT_GUI_SIM_OPT_DEPTH_LABEL);
 	tempLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	tempLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
 

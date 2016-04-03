@@ -800,7 +800,7 @@ const wchar_t *http_ret_wtext(int ret)
 	switch (ret)
 	{
 	case 0:
-		return "Status code 0 (bug?)";
+		return TEXT_HTTP_STAT_0;
 
 	case 100:
 		return TEXT_HTTP_STAT_100;
