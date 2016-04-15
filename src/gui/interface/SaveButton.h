@@ -29,9 +29,9 @@ class SaveButton : public Component, public RequestListener
 	SaveInfo * save;
 	VideoBuffer * thumbnail;
 	std::string name;
-	std::string votesString;
-	std::string votesBackground;
-	std::string votesBackground2;
+	std::wstring votesString;
+	std::wstring votesBackground;
+	std::wstring votesBackground2;
 	int voteBarHeightUp;
 	int voteBarHeightDown;
 	bool wantsDraw;
