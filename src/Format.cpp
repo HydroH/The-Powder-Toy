@@ -1,6 +1,6 @@
 #include <ctime>
-#include <boost/locale/encoding_utf.hpp>
 #include <string>
+#include <boost/locale/encoding_utf.hpp>
 #include <stdexcept>
 #include <iostream>
 #include <iterator>

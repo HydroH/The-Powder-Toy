@@ -825,7 +825,7 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 						std::string betaCNStage = betaVersion["CN-Stage"].asString();
 						std::string betaFile = betaVersion["File"].asString();
 						std::string betaChangelog = betaVersion["Changelog"].asString();
-						if (betaCNMajor > SAVE_VERSION || (betaCNMinor > MINOR_VERSION && betaCNMajor == SAVE_VERSION) || betaCNBuild > BUILD_NUM)
+						if (betaCNMajor > CN_SAVE_VERSION || (betaCNMinor > CN_MINOR_VERSION && betaCNMajor == CN_SAVE_VERSION) || betaCNBuild > CN_BUILD_NUM)
 						{
 							updateAvailable = true;
 							updateInfo = UpdateInfo(betaMajor, betaMinor, betaBuild, betaCNMajor, betaCNMinor, betaCNBuild, betaCNStage, betaFile, betaChangelog, UpdateInfo::Beta);
