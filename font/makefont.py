@@ -7,6 +7,10 @@ from PIL import Image
 reload(sys)
 sys.setdefaultencoding('UTF-8')
 
+font_path = "C:\\\\Windows\\\\Fonts\\\\ZpixEX2_EX.ttf"
+cmd_coding = 'cp936'
+lang_regex = ur"[^\u4e00-\u9fa5]"
+
 
 # Get absolute path from relative path to ensure running in batch
 def open_file(filename, mode='r'):
@@ -23,9 +27,9 @@ def bit_reduce(x):
     if x == 0: return 3
 
 
-# Remain only Chinese characters with regex
+# Remain only Foreign characters with regex
 lang_str = open_file('../data/Lang.h', 'r').read().decode("UTF-8")
-lang_str = re.sub(ur"[^\u4e00-\u9fa5]", "", lang_str)
+lang_str = re.sub(lang_regex, "", lang_str)
 
 # Deduplication
 lang_str = "".join(set(lang_str))
@@ -45,20 +49,21 @@ contents = fontfile.readlines()
 fontfile.close()
 
 print char_list
+char_len = char_list.__len__()
 
 for char in char_list:
     charindex += 1
 
     # New converting method with anti-aliasing
     cmd = "convert -size 10x10 -gravity center -pointsize 10 -depth 2 "
-    cmd += "-font \"C:\\\\Windows\\\\Fonts\\\\ZpixEX2_EX.ttf\" label:\""
+    cmd += "-font \"" + font_path + "\" label:\""
     cmd += char
     cmd += "\" result.png"
     print cmd
-    if os.system(cmd.decode('UTF-8').encode('cp936')):
-        print('IM process failed!')
+    if os.system(cmd.decode('UTF-8').encode(cmd_coding)):
+        print('IM process failed! %d of %d done.' % (charindex, char_len))
     else:
-        print('IM process success.')
+        print('IM process success. %d of %d done.' % (charindex, char_len))
 
     # png file to TPT font encoding
     charimg = Image.open('result.png')
