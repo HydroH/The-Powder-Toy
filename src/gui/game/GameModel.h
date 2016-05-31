@@ -40,7 +40,7 @@ private:
 	//unsigned char * clipboardData;
 	GameSave * clipboard;
 	GameSave * placeSave;
-	deque<string> consoleLog;
+	deque<wstring> consoleLog;
 	vector<GameView*> observers;
 	vector<Tool*> toolList;
 
@@ -95,6 +95,7 @@ private:
 	void notifyColourActivePresetChanged();
 	void notifyNotificationsChanged();
 	void notifyLogChanged(string entry);
+	void notifyLogChanged(wstring entry);
 	void notifyInfoTipChanged();
 	void notifyToolTipChanged();
 	void notifyQuickOptionsChanged();
@@ -192,7 +193,8 @@ public:
 	void SetClipboard(GameSave * save);
 	void SetPlaceSave(GameSave * save);
 	void Log(string message, bool printToFile);
-	deque<string> GetLog();
+	void Log(wstring message, bool printToFile);
+	deque<wstring> GetWLog();
 	GameSave * GetClipboard();
 	GameSave * GetPlaceSave();
 

@@ -366,7 +366,7 @@ void LuaScriptInterface::Init()
 		if(luaL_loadfile(l, "autorun.lua") || lua_pcall(l, 0, 0, 0))
 			luacon_ci->Log(CommandInterface::LogError, luacon_geterror());
 		else
-			luacon_ci->Log(CommandInterface::LogWarning, "Loaded autorun.lua");
+			luacon_ci->Log(CommandInterface::LogWarning, TEXT_LOG_WARN_LOAD_AUTORUN);
 	}
 }
 

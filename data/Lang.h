@@ -897,6 +897,7 @@
 #define TEXT_HTTP_STAT_604 L"网络不可用,检查网络连接"
 #define TEXT_HTTP_STAT_605 L"请求超时"
 #define TEXT_HTTP_STAT_UNKNOWN L"未知的状态代码"
+
  //Exceptions.
 #define TEXT_EXCEPT_COORD_STACK_OVERFLOW L"多人协作数目已达上限"
 #define TEXT_EXCEPT_GAME_MODEL_VOTE L"评分失败: "
@@ -971,6 +972,9 @@
 #define TEXT_LUA_INSTALL_BTN_INST L"安装"
 #define TEXT_LUA_OVERWRITE_TITLE L"发现同名文档, 确认替换吗?"
 #define TEXT_LUA_OVERWRITE_BTN_WRITE L"保存并替换"
+
+ //Logs
+#define TEXT_LOG_WARN_LOAD_AUTORUN L"已载入autorun.lua"
 
  //Intro text.
 #define TEXT_BLOCK_INTRO_TEXT \

@@ -20,6 +20,7 @@ public:
 	int GetPropertyOffset(std::string key, FormatType & format);
 	int GetParticleType(std::string type);
 	void Log(LogType type, std::string message);
+	void Log(LogType type, std::wstring message);
 	//void AttachGameModel(GameModel * m);
 	virtual bool OnActiveToolChanged(int toolSelection, Tool * tool) {return true;}
 	virtual bool OnMouseMove(int x, int y, int dx, int dy) {return true;}

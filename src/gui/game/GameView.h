@@ -79,7 +79,7 @@ private:
 	vector<ui::Button*> menuButtons;
 	vector<ToolButton*> toolButtons;
 	vector<ui::Component*> notificationComponents;
-	deque<std::pair<std::string, int> > logEntries;
+	deque<std::pair<std::wstring, int> > logEntries;
 	ui::Button * scrollBar;
 	ui::Button * searchButton;
 	ui::Button * reloadButton;
@@ -176,6 +176,7 @@ public:
 	void NotifyPlaceSaveChanged(GameModel * sender);
 	void NotifyNotificationsChanged(GameModel * sender);
 	void NotifyLogChanged(GameModel * sender, string entry);
+	void NotifyLogChanged(GameModel * sender, wstring entry);
 	void NotifyToolTipChanged(GameModel * sender);
 	void NotifyInfoTipChanged(GameModel * sender);
 	void NotifyQuickOptionsChanged(GameModel * sender);

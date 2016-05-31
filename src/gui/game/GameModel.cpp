@@ -921,15 +921,24 @@ GameSave * GameModel::GetPlaceSave()
 
 void GameModel::Log(string message, bool printToFile)
 {
-	consoleLog.push_front(message);
+	consoleLog.push_front(format::StringToWString(message));
 	if(consoleLog.size()>100)
 		consoleLog.pop_back();
 	notifyLogChanged(message);
 	if (printToFile)
 		std::cout << message << std::endl;
 }
+void GameModel::Log(wstring message, bool printToFile)
+{
+	consoleLog.push_front(message);
+	if(consoleLog.size()>100)
+		consoleLog.pop_back();
+	notifyLogChanged(message);
+	if (printToFile)
+		std::cout << format::WStringToString(message) << std::endl;
+}
 
-deque<string> GameModel::GetLog()
+deque<wstring> GameModel::GetWLog()
 {
 	return consoleLog;
 }
@@ -1140,6 +1149,13 @@ void GameModel::notifyPlaceSaveChanged()
 }
 
 void GameModel::notifyLogChanged(string entry)
+{
+	for (size_t i = 0; i < observers.size(); i++)
+	{
+		observers[i]->NotifyLogChanged(this, entry);
+	}
+}
+void GameModel::notifyLogChanged(wstring entry)
 {
 	for (size_t i = 0; i < observers.size(); i++)
 	{
