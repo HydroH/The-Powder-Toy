@@ -523,12 +523,12 @@ void GameSave::readOPS(char * data, int dataLength)
 							bson_iterator signiter;
 							bson_iterator_subiterator(&subiter, &signiter);
 
-							sign tempSign("", 0, 0, sign::Left);
+							sign tempSign(L"", 0, 0, sign::Left);
 							while(bson_iterator_next(&signiter))
 							{
 								if(strcmp(bson_iterator_key(&signiter), "text")==0 && bson_iterator_type(&signiter)==BSON_STRING)
 								{
-									tempSign.text = format::CleanString(bson_iterator_string(&signiter), true, true, true).substr(0, 45);
+									tempSign.text = format::StringToWString(format::CleanString(bson_iterator_string(&signiter), true, true, true).substr(0, 45));
 								}
 								else if(strcmp(bson_iterator_key(&signiter), "justification")==0 && bson_iterator_type(&signiter)==BSON_INT)
 								{
@@ -1784,7 +1784,7 @@ void GameSave::readPSv(char * data, int dataLength)
 			x = 254;
 		memcpy(tempSignText, d+p, x);
 		tempSignText[x] = 0;
-		tempSign.text = format::CleanString(tempSignText, true, true, true).substr(0, 45);
+		tempSign.text = format::StringToWString(format::CleanString(tempSignText, true, true, true).substr(0, 45));
 		tempSigns.push_back(tempSign);
 		p += x;
 	}
@@ -2232,7 +2232,7 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 			if(signs[i].text.length() && signs[i].x>=0 && signs[i].x<=fullW && signs[i].y>=0 && signs[i].y<=fullH)
 			{
 				bson_append_start_object(&b, "sign");
-				bson_append_string(&b, "text", signs[i].text.c_str());
+				bson_append_string(&b, "text", format::WStringToString(signs[i].text).c_str());
 				bson_append_int(&b, "justification", signs[i].ju);
 				bson_append_int(&b, "x", signs[i].x);
 				bson_append_int(&b, "y", signs[i].y);

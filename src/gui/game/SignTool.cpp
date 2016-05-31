@@ -42,11 +42,11 @@ public:
 			ui::Engine::Ref().CloseWindow();		
 			if(prompt->signID==-1 && prompt->textField->GetText().length())
 			{
-				prompt->sim->signs.push_back(sign(prompt->textField->GetText(), prompt->signPosition.X, prompt->signPosition.Y, (sign::Justification)prompt->justification->GetOption().second));
+				prompt->sim->signs.push_back(sign(prompt->textField->GetWText(), prompt->signPosition.X, prompt->signPosition.Y, (sign::Justification)prompt->justification->GetOption().second));
 			}
 			else if(prompt->signID!=-1 && prompt->textField->GetText().length())
 			{
-				prompt->sim->signs[prompt->signID] = sign(sign(prompt->textField->GetText(), prompt->signPosition.X, prompt->signPosition.Y, (sign::Justification)prompt->justification->GetOption().second));
+				prompt->sim->signs[prompt->signID] = sign(sign(prompt->textField->GetWText(), prompt->signPosition.X, prompt->signPosition.Y, (sign::Justification)prompt->justification->GetOption().second));
 			}
 			prompt->SelfDestruct();
 		}
@@ -76,7 +76,7 @@ public:
 		{
 			if(prompt->signID!=-1)
 			{
-				prompt->sim->signs[prompt->signID].text = sender->GetText();
+				prompt->sim->signs[prompt->signID].text = sender->GetWText();
 				prompt->sim->signs[prompt->signID].ju = (sign::Justification)prompt->justification->GetOption().second;
 			}
 		}
@@ -182,16 +182,16 @@ void SignWindow::DoDraw()
 	{
 		sign & currentSign = *iter;
 		int x, y, w, h, dx, dy;
-		char type = 0;
+		wchar_t type = 0;
 		Graphics * g = ui::Engine::Ref().g;
-		std::string text = currentSign.getText(sim);
+		std::wstring text = currentSign.getWText(sim);
 		sign::splitsign(currentSign.text.c_str(), &type);
 		currentSign.pos(text, x, y, w, h);
 		g->clearrect(x, y, w+1, h);
 		g->drawrect(x, y, w+1, h, 192, 192, 192, 255);
 		if (!type)
 			g->drawtext(x+3, y+3, text, 255, 255, 255, 255);
-		else if(type == 'b')
+		else if(type == L'b')
 			g->drawtext(x+3, y+3, text, 211, 211, 40, 255);
 		else
 			g->drawtext(x+3, y+3, text, 0, 191, 255, 255);
@@ -279,7 +279,7 @@ void SignTool::Click(Simulation * sim, Brush * brush, ui::Point position)
 	int signX, signY, signW, signH, signIndex = -1;
 	for (size_t i = 0; i < sim->signs.size(); i++)
 	{
-		sim->signs[i].pos(sim->signs[i].getText(sim), signX, signY, signW, signH);
+		sim->signs[i].pos(sim->signs[i].getWText(sim), signX, signY, signW, signH);
 		if (position.X > signX && position.X < signX+signW && position.Y > signY && position.Y < signY+signH)
 		{
 			signIndex = i;

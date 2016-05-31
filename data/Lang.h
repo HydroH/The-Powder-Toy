@@ -679,6 +679,13 @@
 #define TEXT_GUI_ELEM_SEARCH_BTN_CLOSE L"取消"
 #define TEXT_GUI_ELEM_SEARCH_BTN_OK L"确定"
 
+ //Signs.
+#define TEXT_GUI_SIGN_PRESS L"压力: %3.2f"
+#define TEXT_GUI_SIGN_AHEAT L"%3.2f"
+#define TEXT_GUI_SIGN_TEMP L"温度: %4.2f"
+#define TEXT_GUI_SIGN_TEMPNONE L"温度: 0.00"
+
+
  //Sign tool.
 #define TEXT_GUI_SIGN_TOOL_TITLE L"新建标识"
 #define TEXT_GUI_SIGN_TOOL_BTN_OK L"确定"
