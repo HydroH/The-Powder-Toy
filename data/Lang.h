@@ -397,9 +397,10 @@
 #define TEXT_GUI_STAMP_TIP L"\x0F\xEF\xEF\020鼠标拖动以创建对象(右键取消)"
 #define TEXT_GUI_COPY_TIP L"\x0F\xEF\xEF\020鼠标拖动以选择复制区域(右键取消)"
 #define TEXT_GUI_CUT_TIP L"\x0F\xEF\xEF\020鼠标拖动以选择剪切区域(右键取消)"
-#define TEXT_GUI_SIGN_SAVE_TIP L"打开ID为的存档"
-#define TEXT_GUI_SIGN_THREAD_TIP1 L"在浏览器中打开 "
-#define TEXT_GUI_SIGN_THREAD_TIP2 L" 主题"
+#define TEXT_GUI_SIGN_SAVE_TIP1 L"打开ID为"
+#define TEXT_GUI_SIGN_SAVE_TIP2 L"的存档"
+#define TEXT_GUI_SIGN_THREAD_TIP1 L"在浏览器中打开主题 "
+#define TEXT_GUI_SIGN_THREAD_TIP2 L""
 #define TEXT_GUI_SIGN_SEARCH_TIP L"搜索 "
 
  //Dialogs.

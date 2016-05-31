@@ -1696,7 +1696,7 @@ void GameView::OnTick(float dt)
 			switch (type)
 			{
 			case L'c':
-				tooltip << TEXT_GUI_SIGN_SAVE_TIP << buff;
+				tooltip << TEXT_GUI_SIGN_SAVE_TIP1 << buff << TEXT_GUI_SIGN_SAVE_TIP2;
 				break;
 			case L't':
 				tooltip << TEXT_GUI_SIGN_THREAD_TIP1 << buff << TEXT_GUI_SIGN_THREAD_TIP2;
