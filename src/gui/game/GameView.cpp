@@ -1684,25 +1684,25 @@ void GameView::OnTick(float dt)
 	sign * foundSign = c->GetSignAt(mousePosition.X, mousePosition.Y);
 	if (foundSign)
 	{
-		const char* str = foundSign->text.c_str();
-		char type;
+		const wchar_t* str = foundSign->text.c_str();
+		wchar_t type;
 		int pos = sign::splitsign(str, &type);
-		if (type == 'c' || type == 't' || type == 's')
+		if (type == L'c' || type == L't' || type == L's')
 		{
-			char buff[256];
-			strcpy(buff, str+3);
+			wchar_t buff[256];
+			wcscpy(buff, str+3);
 			buff[pos-3] = 0;
 			std::wstringstream tooltip;
 			switch (type)
 			{
-			case 'c':
-				tooltip << TEXT_GUI_SIGN_SAVE_TIP << format::StringToWString(buff);
+			case L'c':
+				tooltip << TEXT_GUI_SIGN_SAVE_TIP1 << buff << TEXT_GUI_SIGN_SAVE_TIP2;
 				break;
-			case 't':
-				tooltip << TEXT_GUI_SIGN_THREAD_TIP1 << format::StringToWString(buff) << TEXT_GUI_SIGN_THREAD_TIP2;
+			case L't':
+				tooltip << TEXT_GUI_SIGN_THREAD_TIP1 << buff << TEXT_GUI_SIGN_THREAD_TIP2;
 				break;
-			case 's':
-				tooltip << TEXT_GUI_SIGN_SEARCH_TIP << format::StringToWString(buff);
+			case L's':
+				tooltip << TEXT_GUI_SIGN_SEARCH_TIP << buff;
 				break;
 			}
 			ToolTip(ui::Point(0, Size.Y), tooltip.str());
@@ -1927,7 +1927,13 @@ void GameView::NotifyZoomChanged(GameModel * sender)
 
 void GameView::NotifyLogChanged(GameModel * sender, string entry)
 {
-	logEntries.push_front(std::pair<std::string, int>(entry, 600));
+	logEntries.push_front(std::pair<std::wstring, int>(format::StringToWString(entry), 600));
+	if (logEntries.size() > 20)
+		logEntries.pop_back();
+}
+void GameView::NotifyLogChanged(GameModel * sender, wstring entry)
+{
+	logEntries.push_front(std::pair<std::wstring, int>(entry, 600));
 	if (logEntries.size() > 20)
 		logEntries.pop_back();
 }
@@ -2234,10 +2240,10 @@ void GameView::OnDraw()
 		{
 			int startX = 20;
 			int startY = YRES-20;
-			deque<std::pair<std::string, int> >::iterator iter;
+			deque<std::pair<std::wstring, int> >::iterator iter;
 			for(iter = logEntries.begin(); iter != logEntries.end(); iter++)
 			{
-				string message = (*iter).first;
+				wstring message = (*iter).first;
 				int alpha = std::min((*iter).second, 255);
 				if (alpha <= 0) //erase this and everything older
 				{
@@ -2245,7 +2251,7 @@ void GameView::OnDraw()
 					break;
 				}
 				startY -= 14;
-				g->fillrect(startX-3, startY-3, Graphics::textwidth((char*)message.c_str())+6, 14, 0, 0, 0, 100);
+				g->fillrect(startX-3, startY-3, Graphics::textwidth((wchar_t*)message.c_str())+6, 14, 0, 0, 0, 100);
 				g->drawtext(startX, startY, message.c_str(), 255, 255, 255, alpha);
 				(*iter).second -= 3;
 			}

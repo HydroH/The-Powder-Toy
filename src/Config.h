@@ -31,11 +31,11 @@
 #endif
 
 #ifndef CN_MINOR_VERSION
-#define CN_MINOR_VERSION 6
+#define CN_MINOR_VERSION 7
 #endif
 
 #ifndef CN_BUILD_NUM
-#define CN_BUILD_NUM 19
+#define CN_BUILD_NUM 20
 #endif
 
 #ifndef CN_STAGE
@@ -92,7 +92,7 @@
 
 #define SERVER "powdertoy.co.uk"
 #define STATICSERVER "static.powdertoy.co.uk"
-#define UPDATESERVER "hydroh.xyz/powder"
+#define UPDATESERVER "tptcn.org"
 
 #define LOCAL_SAVE_DIR "Saves"
 

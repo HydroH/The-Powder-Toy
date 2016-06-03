@@ -366,7 +366,7 @@ void LuaScriptInterface::Init()
 		if(luaL_loadfile(l, "autorun.lua") || lua_pcall(l, 0, 0, 0))
 			luacon_ci->Log(CommandInterface::LogError, luacon_geterror());
 		else
-			luacon_ci->Log(CommandInterface::LogWarning, "Loaded autorun.lua");
+			luacon_ci->Log(CommandInterface::LogWarning, TEXT_LOG_WARN_LOAD_AUTORUN);
 	}
 }
 
@@ -557,7 +557,7 @@ int LuaScriptInterface::simulation_signIndex(lua_State *l)
 	}
 
 	if (!key.compare("text"))
-		return lua_pushstring(l, luacon_sim->signs[id].text.c_str()), 1;
+		return lua_pushstring(l, format::WStringToString(luacon_sim->signs[id].text.c_str()).c_str()), 1;
 	else if (!key.compare("displayText"))
 		return lua_pushstring(l, luacon_sim->signs[id].getText(luacon_sim).c_str()), 1;
 	else if (!key.compare("justification"))
@@ -620,7 +620,7 @@ int LuaScriptInterface::simulation_signNewIndex(lua_State *l)
 	if (!key.compare("text"))
 	{
 		const char *temp = luaL_checkstring(l, 3);
-		luacon_sim->signs[id].text = format::CleanString(temp, false, true, true).substr(0, 45);
+		luacon_sim->signs[id].text = format::StringToWString(format::CleanString(temp, false, true, true).substr(0, 45));
 		return 0;
 	}
 	else if (!key.compare("justification"))

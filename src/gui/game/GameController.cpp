@@ -589,36 +589,36 @@ bool GameController::MouseUp(int x, int y, unsigned button, char type)
 			sign * foundSign = GetSignAt(x, y);
 			if (foundSign)
 			{
-				const char* str = foundSign->text.c_str();
-				char type;
+				const wchar_t* str = foundSign->text.c_str();
+				wchar_t type;
 				int pos = sign::splitsign(str, &type);
 				if (pos)
 				{
 					ret = false;
-					if (type == 'c' || type == 't' || type == 's')
+					if (type == L'c' || type == L't' || type == L's')
 					{
-						char buff[256];
-						strcpy(buff, str+3);
+						wchar_t buff[256];
+						wcscpy(buff, str+3);
 						buff[pos-3] = 0;
 						switch (type)
 						{
-						case 'c':
+						case L'c':
 						{
-							int saveID = format::StringToNumber<int>(std::string(buff));
+							int saveID = format::StringToNumber<int>(format::WStringToString(buff));
 							if (saveID)
 								OpenSavePreview(saveID, 0, false);
 							break;
 						}
-						case 't':
+						case L't':
 						{
 							// buff is already confirmed to be a number by sign::splitsign
 							std::stringstream uri;
-							uri << "http://powdertoy.co.uk/Discussions/Thread/View.html?Thread=" << buff;
+							uri << "http://powdertoy.co.uk/Discussions/Thread/View.html?Thread=" << format::WStringToString(buff);
 							Platform::OpenURI(uri.str());
 							break;
 						}
-						case 's':
-							OpenSearch(buff);
+						case L's':
+							OpenSearch(format::WStringToString(buff));
 							break;
 						}
 					}

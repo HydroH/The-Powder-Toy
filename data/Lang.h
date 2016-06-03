@@ -397,9 +397,10 @@
 #define TEXT_GUI_STAMP_TIP L"\x0F\xEF\xEF\020鼠标拖动以创建对象(右键取消)"
 #define TEXT_GUI_COPY_TIP L"\x0F\xEF\xEF\020鼠标拖动以选择复制区域(右键取消)"
 #define TEXT_GUI_CUT_TIP L"\x0F\xEF\xEF\020鼠标拖动以选择剪切区域(右键取消)"
-#define TEXT_GUI_SIGN_SAVE_TIP L"打开ID为的存档"
-#define TEXT_GUI_SIGN_THREAD_TIP1 L"在浏览器中打开 "
-#define TEXT_GUI_SIGN_THREAD_TIP2 L" 主题"
+#define TEXT_GUI_SIGN_SAVE_TIP1 L"打开ID为"
+#define TEXT_GUI_SIGN_SAVE_TIP2 L"的存档"
+#define TEXT_GUI_SIGN_THREAD_TIP1 L"在浏览器中打开主题 "
+#define TEXT_GUI_SIGN_THREAD_TIP2 L""
 #define TEXT_GUI_SIGN_SEARCH_TIP L"搜索 "
 
  //Dialogs.
@@ -679,6 +680,13 @@
 #define TEXT_GUI_ELEM_SEARCH_BTN_CLOSE L"取消"
 #define TEXT_GUI_ELEM_SEARCH_BTN_OK L"确定"
 
+ //Signs.
+#define TEXT_GUI_SIGN_PRESS L"压力: %3.2f"
+#define TEXT_GUI_SIGN_AHEAT L"%3.2f"
+#define TEXT_GUI_SIGN_TEMP L"温度: %4.2f"
+#define TEXT_GUI_SIGN_TEMPNONE L"温度: 0.00"
+
+
  //Sign tool.
 #define TEXT_GUI_SIGN_TOOL_TITLE L"新建标识"
 #define TEXT_GUI_SIGN_TOOL_BTN_OK L"确定"
@@ -889,6 +897,7 @@
 #define TEXT_HTTP_STAT_604 L"网络不可用,检查网络连接"
 #define TEXT_HTTP_STAT_605 L"请求超时"
 #define TEXT_HTTP_STAT_UNKNOWN L"未知的状态代码"
+
  //Exceptions.
 #define TEXT_EXCEPT_COORD_STACK_OVERFLOW L"多人协作数目已达上限"
 #define TEXT_EXCEPT_GAME_MODEL_VOTE L"评分失败: "
@@ -964,6 +973,9 @@
 #define TEXT_LUA_OVERWRITE_TITLE L"发现同名文档, 确认替换吗?"
 #define TEXT_LUA_OVERWRITE_BTN_WRITE L"保存并替换"
 
+ //Logs
+#define TEXT_LOG_WARN_LOAD_AUTORUN L"已载入autorun.lua"
+
  //Intro text.
 #define TEXT_BLOCK_INTRO_TEXT \
 	L"\blThe Powder Toy - Version " MTOS(SAVE_VERSION) "." MTOS(MINOR_VERSION) " - " "\bo汉化版 V" MTOS(CN_SAVE_VERSION) "." MTOS(CN_MINOR_VERSION) " " CN_STAGE "\bl - http://powdertoy.co.uk, irc.freenode.net #powder\n" \
@@ -1005,7 +1017,7 @@
 		"\bt私人的存档\bw不会出现在云沙盘更新中. 这些存档也不会影响你的平均评分. 尽管设置为私人, 但别人仍然可以通过存档ID来访问他们. 因此, 你可以通过存档ID来向你的朋友分享存档.\n" \
 		"\n" \
 		"打开存档并点击存档名左侧的按钮\bt'重新上传当前存档'\bw, 可以快速更改已经上传的存档. 如果你希望更改存档描述或存档属性, 你可以点击右侧按钮\bt'修改存档属性'\bw. 注意你不能更改存档名称; 这会重新创建一个全新的存档.\n" \
-		"你可能希望发布一个设置为私人的存档, 或将以前发布过的存档设置为私人. 打开存档, 选择 '修改存档属性' 按钮, 在弹出的对话框中修改属性. 你也可以在'个人存档'页面中选择你所需要的存档来\bt删除存档或转为私人\bw.\n" \
+		"你可能希望发布一个设置为私人的存档, 或将以前发布过的存档设置为私人. 打开存档, 选择 '修改存档属性' 按钮, 在弹出的对话框中修改属性. 你也可以在 '个人存档' 页面中选择你所需要的存档来\bt删除存档或转为私人\bw.\n" \
 		"如果存档已经发布了一个星期并拥有较高人气, 它会自动出现在\bt首页\bw上. 只有设置为公开的存档才有机会登上首页. 版主同样有权限使某个存档在首页上显示, 但这种情况非常少见. 如果某存档被认为触犯了条例或不适合放在首页, 他们同样有权限撤下它.\n" \
 		"当一个存档上传后, 你可以不限次数的修改它. 服务器会保存一个简短的\bt存档历史\bw, 在存档浏览器中右键你的存档并选择 '查看历史' 就能找到它. 这一功能可以帮助你找回以前的版本并修复错误.\n"
 

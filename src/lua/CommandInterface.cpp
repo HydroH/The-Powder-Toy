@@ -38,6 +38,10 @@ void CommandInterface::Log(LogType type, std::string message)
 {
 	m->Log(message, type == LogError || type == LogNotice);
 }
+void CommandInterface::Log(LogType type, std::wstring message)
+{
+	m->Log(message, type == LogError || type == LogNotice);
+}
 
 int CommandInterface::GetPropertyOffset(std::string key, FormatType & format)
 {

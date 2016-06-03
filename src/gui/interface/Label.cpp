@@ -115,12 +115,17 @@ void Label::updateMultiline()
 
 		int wordWidth = 0;
 		int lineWidth = 0;
-		int wordStartPos = 0;
-		wchar_t * wordStart = NULL;
+		int wordWrapPos = 0;
 
 		int inserted = 0;
 		while ((c = rawText[charIndex++]))
 		{
+			if (c == L'\b' || pc == L'\b')
+			{
+				pc = c;
+				continue;
+			}
+
 			switch(c)
 			{
 				case L' ':
@@ -130,34 +135,37 @@ void Label::updateMultiline()
 					break;
 				case L'\n':
 					lineWidth = wordWidth = 0;
-					wordStart = 0;
 					lines++;
 					break;
 				default:
-					wordWidth += Graphics::CharWidth((wchar_t)c);
+					if (isalnum(c))
+					{
+						wordWidth += Graphics::CharWidth((wchar_t)c);
+					}
+					else
+					{
+						lineWidth += wordWidth;
+						wordWidth = Graphics::CharWidth((wchar_t)c);
+					}
 					break;
 			}
-			if (c != L'\n' && pc == L' ')
+			if ((pc == L' ') || (!isalnum(c)) || (!isalnum(pc)))
 			{
-				wordStart = &rawText[charIndex-2];
-				wordStartPos = charIndex - 2;
+				wordWrapPos = charIndex + inserted - 1;
 			}
-			if ((c != L' ' || pc == L' ') && (lineWidth + wordWidth >= Size.X-(Appearance.Margin.Left+Appearance.Margin.Right)))
+			if (lineWidth + wordWidth >= Size.X-(Appearance.Margin.Left+Appearance.Margin.Right))
 			{
-				if (wordStart && *wordStart)
+				if (wordWidth < Size.X-(Appearance.Margin.Left+Appearance.Margin.Right))
 				{
-					textLines.replace(wordStartPos + inserted, 1, L"\n");
-					if (lineWidth != 0)
-						lineWidth = wordWidth;
+					textLines.insert(wordWrapPos, L"\n");
 				}
-				else if (!wordStart)
+				else
 				{
 					textLines.insert(charIndex + inserted - 1, L"\n");
-					inserted++;
-					lineWidth = 0;
+					wordWidth = Graphics::CharWidth((wchar_t)c);
 				}
-				wordWidth = 0;
-				wordStart = 0;
+				lineWidth = 0;
+				inserted++;
 				lines++;
 			}
 			pc = c;
