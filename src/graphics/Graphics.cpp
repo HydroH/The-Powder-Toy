@@ -788,7 +788,6 @@ int Graphics::PositionAtCharIndex(char *s, int charIndex, int & positionX, int &
 			lines++;
 			x = 0;
 			y += FONT_H+2;
-			charIndex--;
 			continue;
 		} else if(*s =='\b') {
 			if(!s[1]) break;
@@ -820,7 +819,6 @@ int Graphics::PositionAtCharIndex(wchar_t *s, int charIndex, int & positionX, in
 			lines++;
 			x = 0;
 			y += FONT_H+2;
-			charIndex--;
 			continue;
 		} else if(*s ==L'\b') {
 			if(!s[1]) break;
@@ -849,7 +847,6 @@ int Graphics::CharIndexAtPosition(char *s, int positionX, int positionY)
 		if(*s == '\n') {
 			x = 0;
 			y += FONT_H+2;
-			charIndex++;
 			continue;
 		} else if(*s == '\b') {
 			if(!s[1]) break;
@@ -879,7 +876,6 @@ int Graphics::CharIndexAtPosition(wchar_t *s, int positionX, int positionY)
 		if(*s == L'\n') {
 			x = 0;
 			y += FONT_H+2;
-			charIndex++;
 			continue;
 		} else if(*s == L'\b') {
 			if(!s[1]) break;
