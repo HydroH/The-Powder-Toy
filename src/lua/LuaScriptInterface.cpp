@@ -188,6 +188,8 @@ LuaScriptInterface::LuaScriptInterface(GameController * c, GameModel * m):
 		{"newtonian_gravity", &luatpt_gravity},
 		{"ambient_heat", &luatpt_airheat},
 		{"active_menu", &luatpt_active_menu},
+		{"menu_enabled", &luatpt_menu_enabled},
+		{"num_menus", &luatpt_num_menus},
 		{"decorations_enable", &luatpt_decorations_enable},
 		{"display_mode", &luatpt_cmode_set},
 		{"throw_error", &luatpt_error},
@@ -237,12 +239,14 @@ LuaScriptInterface::LuaScriptInterface(GameController * c, GameModel * m):
 	lua_setfield(l, tptPropertiesVersion, "minor");
 	lua_pushinteger(l, BUILD_NUM);
 	lua_setfield(l, tptPropertiesVersion, "build");
-#ifdef SNAPSHOT
+#if defined(SNAPSHOT) || MOD_ID > 0
 	lua_pushinteger(l, SNAPSHOT_ID);
 #else
 	lua_pushinteger(l, 0);
 #endif
 	lua_setfield(l, tptPropertiesVersion, "snapshot");
+	lua_pushinteger(l, MOD_ID);
+	lua_setfield(l, tptPropertiesVersion, "modid");
 	lua_setfield(l, tptProperties, "version");
 
 	lua_sethook(l, &luacon_hook, LUA_MASKCOUNT, 200);
@@ -3333,7 +3337,7 @@ bool LuaScriptInterface::OnKeyRelease(int key, Uint16 character, bool shift, boo
 		modifiers |= 0x040;
 	if(alt)
 		modifiers |= 0x100;
-	return luacon_keyevent(key, character, modifiers, LUACON_KUP);
+	return luacon_keyevent(key, key < 256 ? key : 0, modifiers, LUACON_KUP);
 }
 
 bool LuaScriptInterface::OnMouseTick()

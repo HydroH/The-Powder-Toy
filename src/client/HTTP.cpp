@@ -22,16 +22,17 @@
 
 #include <string>
 #include <sstream>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <cctype>
 #ifndef WIN
 #include <sys/param.h>
 #endif
 #if !defined(MACOSX) && !defined(BSD)
 #include <malloc.h>
 #endif
-#include <time.h>
+#include <ctime>
 #ifdef WIN
 #define _WIN32_WINNT 0x0501
 //#include <iphlpapi.h>
@@ -194,7 +195,7 @@ void http_init(char *proxy)
 	}
 	std::stringstream userAgentBuilder;
 	userAgentBuilder << "PowderToy/" << SAVE_VERSION << "." << MINOR_VERSION << " ";
-	userAgentBuilder << "(" << IDENT_PLATFORM << "; " << IDENT_BUILD << "; M0) ";
+	userAgentBuilder << "(" << IDENT_PLATFORM << "; " << IDENT_BUILD << "; M" << MOD_ID << ") ";
 	userAgentBuilder << "TPTPP/" << SAVE_VERSION << "." << MINOR_VERSION << "." << BUILD_NUM << IDENT_RELTYPE << "." << SNAPSHOT_ID;
 	std::string newUserAgent = userAgentBuilder.str();
 	userAgent = new char[newUserAgent.length()+1];
@@ -352,7 +353,7 @@ static void process_header(struct http_ctx *cx, char *str)
 			cx->state = HTS_DONE;
 		return;
 	}
-	if (!strncmp(str, "HTTP/", 5))
+	if (!strncmp(str, "http/", 5))
 	{
 		p = strchr(str, ' ');
 		if (!p)
@@ -365,13 +366,13 @@ static void process_header(struct http_ctx *cx, char *str)
 		cx->ret = atoi(p);
 		return;
 	}
-	if (!strncmp(str, "Content-Length: ", 16))
+	if (!strncmp(str, "content-length: ", 16))
 	{
 		str = eatwhitespace(str+16);
 		cx->contlen = atoi(str);
 		return;
 	}
-	if (!strncmp(str, "Transfer-Encoding: ", 19))
+	if (!strncmp(str, "transfer-encoding: ", 19))
 	{
 		str = eatwhitespace(str+19);
 		if(!strncmp(str, "chunked", 8))
@@ -380,7 +381,7 @@ static void process_header(struct http_ctx *cx, char *str)
 		}
 		return;
 	}
-	if (!strncmp(str, "Connection: ", 12))
+	if (!strncmp(str, "connection: ", 12))
 	{
 		str = eatwhitespace(str+12);
 		if(!strncmp(str, "close", 6))
@@ -427,7 +428,7 @@ static void process_byte(struct http_ctx *cx, char ch)
 				cx->hlen *= 2;
 				cx->hbuf = (char *)realloc(cx->hbuf, cx->hlen);
 			}
-			cx->hbuf[cx->hptr++] = ch;
+			cx->hbuf[cx->hptr++] = tolower(ch);
 		}
 	}
 }
@@ -946,7 +947,7 @@ std::string FindBoundary(std::map<std::string, std::string> parts, std::string b
 	for (std::map<std::string, std::string>::iterator iter = parts.begin(); iter != parts.end(); iter++)
 	{
 		// loop through every character in each part and search for the substring, adding 1 to map for every character found (character after the substring)
-		for (ssize_t j = 0; j < (ssize_t)((*iter).second.length())-blen; j++)
+		for (ssize_t j = 0; j < (ssize_t)((*iter).second.length()-blen); j++)
 			if (!blen || (*iter).second.substr(j, blen) == boundary)
 			{
 				unsigned char ch = (*iter).second[j+blen];

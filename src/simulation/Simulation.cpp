@@ -167,7 +167,7 @@ int Simulation::Load(int fullX, int fullY, GameSave * save)
 		}
 	}
 	parts_lastActiveIndex = NPART-1;
-	force_stacking_check = 1;
+	force_stacking_check = true;
 	Element_PPIP::ppip_changed = 1;
 	for (size_t i = 0; i < save->signs.size() && signs.size() < MAXSIGNS; i++)
 	{
@@ -332,8 +332,9 @@ Snapshot * Simulation::CreateSnapshot()
 
 void Simulation::Restore(const Snapshot & snap)
 {
-	parts_lastActiveIndex = NPART-1; 
+	parts_lastActiveIndex = NPART-1;
 	elementRecount = true;
+	force_stacking_check = true;
 
 	std::copy(snap.AirPressure.begin(), snap.AirPressure.end(), &pv[0][0]);
 	std::copy(snap.AirVelocityX.begin(), snap.AirVelocityX.end(), &vx[0][0]);
@@ -342,10 +343,13 @@ void Simulation::Restore(const Snapshot & snap)
 	std::copy(snap.Particles.begin(), snap.Particles.end(), parts);
 	std::copy(snap.PortalParticles.begin(), snap.PortalParticles.end(), &portalp[0][0][0]);
 	std::copy(snap.WirelessData.begin(), snap.WirelessData.end(), &wireless[0][0]);
-	std::copy(snap.GravVelocityX.begin(), snap.GravVelocityX.end(), gravx);
-	std::copy(snap.GravVelocityY.begin(), snap.GravVelocityY.end(), gravy);
-	std::copy(snap.GravValue.begin(), snap.GravValue.end(), gravp);
-	std::copy(snap.GravMap.begin(), snap.GravMap.end(), gravmap);
+	if (grav->ngrav_enable)
+	{
+		std::copy(snap.GravVelocityX.begin(), snap.GravVelocityX.end(), gravx);
+		std::copy(snap.GravVelocityY.begin(), snap.GravVelocityY.end(), gravy);
+		std::copy(snap.GravValue.begin(), snap.GravValue.end(), gravp);
+		std::copy(snap.GravMap.begin(), snap.GravMap.end(), gravmap);
+	}
 	std::copy(snap.BlockMap.begin(), snap.BlockMap.end(), &bmap[0][0]);
 	std::copy(snap.ElecMap.begin(), snap.ElecMap.end(), &emap[0][0]);
 	std::copy(snap.FanVelocityX.begin(), snap.FanVelocityX.end(), &fvx[0][0]);
@@ -1916,8 +1920,10 @@ void Simulation::clear_sim(void)
 	fighcount = 0;
 	player.spwn = 0;
 	player.spawnID = -1;
+	player.rocketBoots = false;
 	player2.spwn = 0;
 	player2.spawnID = -1;
+	player2.rocketBoots = false;
 	//memset(pers_bg, 0, WINDOWW*YRES*PIXELSIZE);
 	//memset(fire_r, 0, sizeof(fire_r));
 	//memset(fire_g, 0, sizeof(fire_g));
@@ -2843,6 +2849,8 @@ int Simulation::create_part(int p, int x, int y, int t, int v)
 		{
 			//If an element has the PROP_DRAWONCTYPE property, and the element being drawn to it does not have PROP_NOCTYPEDRAW (Also some special cases), set the element's ctype
 			int drawOn = pmap[y][x]&0xFF;
+			if (drawOn == t)
+				return -1;
 			if (((elements[drawOn].Properties & PROP_DRAWONCTYPE) ||
 				 (drawOn == PT_STOR && !(elements[t].Properties & TYPE_SOLID)) ||
 				 (drawOn == PT_PCLN && t != PT_PSCN && t != PT_NSCN) ||
@@ -2858,7 +2866,7 @@ int Simulation::create_part(int p, int x, int y, int t, int v)
 						parts[pmap[y][x]>>8].tmp = v;
 				}
 			}
-			else if ((drawOn == PT_DTEC || (drawOn == PT_PSTN && t != PT_FRME) || drawOn == PT_DRAY) && drawOn != t)
+			else if (drawOn == PT_DTEC || (drawOn == PT_PSTN && t != PT_FRME) || drawOn == PT_DRAY)
 			{
 				parts[pmap[y][x]>>8].ctype = t;
 				if (t == PT_LIFE && v >= 0 && v < NGOL)
@@ -2869,7 +2877,7 @@ int Simulation::create_part(int p, int x, int y, int t, int v)
 						parts[pmap[y][x]>>8].ctype |= v<<8;
 				}
 			}
-			else if (drawOn == PT_CRAY && drawOn != t)
+			else if (drawOn == PT_CRAY)
 			{
 				parts[pmap[y][x]>>8].ctype = t;
 				if (t == PT_LIFE && v >= 0 && v < NGOL)
@@ -4717,7 +4725,7 @@ void Simulation::SimulateGoL()
 void Simulation::CheckStacking()
 {
 	bool excessive_stacking_found = false;
-	force_stacking_check = 0;
+	force_stacking_check = false;
 	for (int y = 0; y < YRES; y++)
 	{
 		for (int x = 0; x < XRES; x++)
@@ -5074,7 +5082,7 @@ Simulation::Simulation():
 	replaceModeFlags(0),
 	debug_currentParticle(0),
 	ISWIRE(0),
-	force_stacking_check(0),
+	force_stacking_check(false),
 	emp_decor(0),
 	emp_trigger_count(0),
 	etrd_count_valid(false),

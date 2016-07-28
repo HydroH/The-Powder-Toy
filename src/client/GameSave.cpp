@@ -2115,6 +2115,15 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 				partsData[fieldDescLoc] = fieldDesc;
 				partsData[fieldDescLoc+1] = fieldDesc>>8;
 
+				if (particles[i].type == PT_RPEL && particles[i].ctype)
+				{
+					RESTRICTVERSION(91, 4);
+				}
+				else if (particles[i].type == PT_NWHL && particles[i].tmp)
+				{
+					RESTRICTVERSION(91, 5);
+				}
+
 				//Get the pmap entry for the next particle in the same position
 				i = partsPosLink[i];
 			}
@@ -2174,6 +2183,7 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 	bson_append_int(&b, "minorVersion", MINOR_VERSION);
 	bson_append_int(&b, "buildNum", BUILD_NUM);
 	bson_append_int(&b, "snapshotId", SNAPSHOT_ID);
+	bson_append_int(&b, "modId", MOD_ID);
 	bson_append_string(&b, "releaseType", IDENT_RELTYPE);
 	bson_append_string(&b, "platform", IDENT_PLATFORM);
 	bson_append_string(&b, "builtType", IDENT_BUILD);

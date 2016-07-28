@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #ifdef WIN
 	#include <direct.h>
 	#define getcwd _getcwd
@@ -104,19 +104,19 @@ OptionsView::OptionsView():
 	airMode->AddOption(std::pair<std::string, int>("Off", 3));
 	airMode->AddOption(std::pair<std::string, int>("No Update", 4));
 	airMode->SetActionCallback(new AirModeChanged(this));
-		
+
 	tempLabel = new ui::Label(ui::Point(8, 146), ui::Point(Size.X-96, 16), "Air Simulation Mode");
 	tempLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	tempLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
-		
+
 	class GravityModeChanged: public ui::DropDownAction
 	{
 		OptionsView * v;
 	public:
 		GravityModeChanged(OptionsView * v): v(v) { }
 		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::string, int> option) { v->c->SetGravityMode(option.second); }
-	};	
-		
+	};
+
 	gravityMode = new ui::DropDown(ui::Point(Size.X-88, 166), ui::Point(80, 16));
 	AddComponent(gravityMode);
 	gravityMode->AddOption(std::pair<std::string, int>("Vertical", 0));
@@ -134,7 +134,7 @@ OptionsView::OptionsView():
 	public:
 		EdgeModeChanged(OptionsView * v): v(v) { }
 		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::string, int> option) { v->c->SetEdgeMode(option.second); }
-	};	
+	};
 
 	edgeMode = new ui::DropDown(ui::Point(Size.X-88, 186), ui::Point(80, 16));
 	AddComponent(edgeMode);
@@ -172,7 +172,7 @@ OptionsView::OptionsView():
 		{
 #ifdef USE_SDL
 #if defined(MACOSX) && !SDL_VERSION_ATLEAST(1, 2, 15)
-			ErrorMessage::Blocking("Error", "fullscreen doesn't work on OS X");
+			ErrorMessage::Blocking("Information", "Fullscreen doesn't work on OS X");
 #else
 			v->c->SetFullscreen(sender->GetChecked());
 #endif
@@ -230,7 +230,7 @@ OptionsView::OptionsView():
 	depthTextbox->SetActionCallback(new DepthAction(this));
 	AddComponent(depthTextbox);
 
-	tempLabel = new ui::Label(ui::Point(depthTextbox->Position.X+depthTextbox->Size.X+3, depthTextbox->Position.Y), ui::Point(Size.X-28, 16), "\bg- Change the depth of the 3d glasses effect");
+	tempLabel = new ui::Label(ui::Point(depthTextbox->Position.X+depthTextbox->Size.X+3, depthTextbox->Position.Y), ui::Point(Size.X-28, 16), "\bg- Change the depth of the 3D anaglyph effect");
 	tempLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	tempLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
 
@@ -317,4 +317,3 @@ void OptionsView::OnTryExit(ExitMethod method)
 
 OptionsView::~OptionsView() {
 }
-

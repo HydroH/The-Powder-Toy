@@ -1,5 +1,6 @@
 #include <sstream>
 #include <iomanip>
+#include <algorithm>
 
 #include "Config.h"
 #include "gui/Style.h"
@@ -9,6 +10,7 @@
 #include "gui/interface/Button.h"
 #include "gui/interface/Colour.h"
 #include "gui/interface/Keys.h"
+#include "gui/interface/Mouse.h"
 #include "gui/interface/Slider.h"
 #include "gui/search/Thumbnail.h"
 #include "simulation/SaveRenderer.h"
@@ -19,6 +21,7 @@
 #include "QuickOptions.h"
 #include "IntroText.h"
 #include "DecorationTool.h"
+#include "Favorite.h"
 
 
 class SplitButton;
@@ -536,11 +539,26 @@ public:
 	void ActionCallback(ui::Button * sender_)
 	{
 		ToolButton *sender = (ToolButton*)sender_;
-		if (v->CtrlBehaviour() && v->AltBehaviour() && !v->ShiftBehaviour())
-			if (tool->GetIdentifier().find("DEFAULT_PT_") != tool->GetIdentifier().npos)
-				sender->SetSelectionState(3);
-		if(sender->GetSelectionState() >= 0 && sender->GetSelectionState() <= 3)
-			v->c->SetActiveTool(sender->GetSelectionState(), tool);
+		if (v->ShiftBehaviour() && v->CtrlBehaviour() && !v->AltBehaviour())
+		{
+			if (Favorite::Ref().IsFavorite(tool->GetIdentifier()) && sender->GetSelectionState() == 1)
+				Favorite::Ref().RemoveFavorite(tool->GetIdentifier());
+			else if (sender->GetSelectionState() == 0)
+				Favorite::Ref().AddFavorite(tool->GetIdentifier());
+			else if (sender->GetSelectionState() == 2)
+				v->c->SetActiveMenu(SC_FAVORITES);
+
+			v->c->RebuildFavoritesMenu();
+		}
+		else
+		{
+			if (v->CtrlBehaviour() && v->AltBehaviour() && !v->ShiftBehaviour())
+				if (tool->GetIdentifier().find("DEFAULT_PT_") != tool->GetIdentifier().npos)
+					sender->SetSelectionState(3);
+
+			if (sender->GetSelectionState() >= 0 && sender->GetSelectionState() <= 3)
+				v->c->SetActiveTool(sender->GetSelectionState(), tool);
+		}
 	}
 };
 
@@ -587,15 +605,21 @@ void GameView::NotifyMenuListChanged(GameModel * sender)
 	vector<Menu*> menuList = sender->GetMenuList();
 	for (int i = (int)menuList.size()-1; i >= 0; i--)
 	{
-		std::string tempString = "";
-		tempString += menuList[i]->GetIcon();
-		ui::Button * tempButton = new ui::Button(ui::Point(WINDOWW-16, currentY), ui::Point(15, 15), tempString, menuList[i]->GetDescription());
-		tempButton->Appearance.Margin = ui::Border(0, 2, 3, 2);
-		tempButton->SetTogglable(true);
-		tempButton->SetActionCallback(new MenuAction(this, i));
-		currentY-=16;
-		AddComponent(tempButton);
-		menuButtons.push_back(tempButton);
+		if (menuList[i]->GetVisible())
+		{
+			std::string tempString = "";
+			tempString += menuList[i]->GetIcon();
+			std::string description = menuList[i]->GetDescription();
+			if (i == SC_FAVORITES && Favorite::Ref().AnyFavorites())
+				description += " (Use ctrl+shift+click to favorite an element)";
+			ui::Button * tempButton = new ui::Button(ui::Point(WINDOWW-16, currentY), ui::Point(15, 15), tempString, description);
+			tempButton->Appearance.Margin = ui::Border(0, 2, 3, 2);
+			tempButton->SetTogglable(true);
+			tempButton->SetActionCallback(new MenuAction(this, i));
+			currentY-=16;
+			AddComponent(tempButton);
+			menuButtons.push_back(tempButton);
+		}
 	}
 }
 
@@ -710,7 +734,6 @@ void GameView::NotifyLastToolChanged(GameModel * sender)
 
 void GameView::NotifyToolListChanged(GameModel * sender)
 {
-	lastOffset = 0;
 	int currentX = WINDOWW-56;
 	for (size_t i = 0; i < menuButtons.size(); i++)
 	{
@@ -740,9 +763,9 @@ void GameView::NotifyToolListChanged(GameModel * sender)
 			tempTexture = ((DecorationTool*)toolList[i])->GetIcon(toolList[i]->GetToolID(), 26, 14);
 
 		if(tempTexture)
-			tempButton = new ToolButton(ui::Point(currentX, YRES+1), ui::Point(30, 18), "", toolList[i]->GetDescription());
+			tempButton = new ToolButton(ui::Point(currentX, YRES+1), ui::Point(30, 18), "", toolList[i]->GetIdentifier(), toolList[i]->GetDescription());
 		else
-			tempButton = new ToolButton(ui::Point(currentX, YRES+1), ui::Point(30, 18), toolList[i]->GetName(), toolList[i]->GetDescription());
+			tempButton = new ToolButton(ui::Point(currentX, YRES+1), ui::Point(30, 18), toolList[i]->GetName(), toolList[i]->GetIdentifier(), toolList[i]->GetDescription());
 
 		//currentY -= 17;
 		currentX -= 31;
@@ -777,6 +800,11 @@ void GameView::NotifyToolListChanged(GameModel * sender)
 	}
 	if (sender->GetActiveMenu() != SC_DECO)
 		lastMenu = sender->GetActiveMenu();
+
+	// don't reset scroll back to 0
+	int origOffset = lastOffset;
+	lastOffset = 0;
+	setToolButtonOffset(origOffset);
 }
 
 void GameView::NotifyColourSelectorVisibilityChanged(GameModel * sender)
@@ -832,7 +860,7 @@ void GameView::NotifyColourPresetsChanged(GameModel * sender)
 	int i = 0;
 	for(std::vector<ui::Colour>::iterator iter = colours.begin(), end = colours.end(); iter != end; ++iter)
 	{
-		ToolButton * tempButton = new ToolButton(ui::Point(currentX, YRES+1), ui::Point(30, 18), "", "Decoration Presets.");
+		ToolButton * tempButton = new ToolButton(ui::Point(currentX, YRES+1), ui::Point(30, 18), "", "", "Decoration Presets.");
 		tempButton->Appearance.BackgroundInactive = *iter;
 		tempButton->SetActionCallback(new ColourPresetAction(this, i));
 
@@ -1115,13 +1143,13 @@ void GameView::OnMouseDown(int x, int y, unsigned button)
 {
 	currentMouse = ui::Point(x, y);
 	if (altBehaviour && !shiftBehaviour && !ctrlBehaviour)
-		button = BUTTON_MIDDLE;
+		button = SDL_BUTTON_MIDDLE;
 	if  (!(zoomEnabled && !zoomCursorFixed))
 	{
 		if (selectMode != SelectNone)
 		{
 			isMouseDown = true;
-			if (button == BUTTON_LEFT && selectPoint1.X == -1)
+			if (button == SDL_BUTTON_LEFT && selectPoint1.X == -1)
 			{
 				selectPoint1 = c->PointTranslate(currentMouse);
 				selectPoint2 = selectPoint1;
@@ -1131,11 +1159,11 @@ void GameView::OnMouseDown(int x, int y, unsigned button)
 		if (currentMouse.X >= 0 && currentMouse.X < XRES && currentMouse.Y >= 0 && currentMouse.Y < YRES)
 		{
 			// update tool index, set new "last" tool so GameView can detect certain tools properly
-			if (button == BUTTON_LEFT)
+			if (button == SDL_BUTTON_LEFT)
 				toolIndex = 0;
-			if (button == BUTTON_RIGHT)
+			if (button == SDL_BUTTON_RIGHT)
 				toolIndex = 1;
-			if (button == BUTTON_MIDDLE)
+			if (button == SDL_BUTTON_MIDDLE)
 				toolIndex = 2;
 			Tool *lastTool = c->GetActiveTool(toolIndex);
 			c->SetLastTool(lastTool);
@@ -1174,7 +1202,7 @@ void GameView::OnMouseUp(int x, int y, unsigned button)
 		isMouseDown = false;
 		if (selectMode != SelectNone)
 		{
-			if (button == BUTTON_LEFT && selectPoint1.X != -1 && selectPoint1.Y != -1 && selectPoint2.X != -1 && selectPoint2.Y != -1)
+			if (button == SDL_BUTTON_LEFT && selectPoint1.X != -1 && selectPoint1.Y != -1 && selectPoint2.X != -1 && selectPoint2.Y != -1)
 			{
 				if (selectMode == PlaceSave)
 				{
@@ -1249,7 +1277,7 @@ void GameView::OnMouseUp(int x, int y, unsigned button)
 		}
 	}
 	// this shouldn't happen, but do this just in case
-	else if (selectMode != SelectNone && button != BUTTON_LEFT)
+	else if (selectMode != SelectNone && button != SDL_BUTTON_LEFT)
 		selectMode = SelectNone;
 
 	// update the drawing mode for the next line
@@ -1342,16 +1370,16 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 		{
 			switch (key)
 			{
-			case KEY_RIGHT:
+			case SDLK_RIGHT:
 				c->TranslateSave(ui::Point(1, 0));
 				return;
-			case KEY_LEFT:
+			case SDLK_LEFT:
 				c->TranslateSave(ui::Point(-1, 0));
 				return;
-			case KEY_UP:
+			case SDLK_UP:
 				c->TranslateSave(ui::Point(0, -1));
 				return;
-			case KEY_DOWN:
+			case SDLK_DOWN:
 				c->TranslateSave(ui::Point(0, 1));
 				return;
 			case 'r':
@@ -1376,16 +1404,16 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 	}
 	switch(key)
 	{
-	case KEY_LALT:
-	case KEY_RALT:
+	case SDLK_LALT:
+	case SDLK_RALT:
 		enableAltBehaviour();
 		break;
-	case KEY_LCTRL:
-	case KEY_RCTRL:
+	case SDLK_LCTRL:
+	case SDLK_RCTRL:
 		enableCtrlBehaviour();
 		break;
-	case KEY_LSHIFT:
-	case KEY_RSHIFT:
+	case SDLK_LSHIFT:
+	case SDLK_RSHIFT:
 		enableShiftBehaviour();
 		break;
 	case ' ': //Space
@@ -1405,20 +1433,20 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 			c->SetZoomEnabled(true);
 		}
 		break;
-	case KEY_TAB: //Tab
+	case SDLK_TAB: //Tab
 		c->ChangeBrush();
 		break;
 	case '`':
 		c->ShowConsole();
 		break;
 	case 'p':
-	case KEY_F2:
+	case SDLK_F2:
 		screenshot();
 		break;
-	case KEY_F3:
+	case SDLK_F3:
 		SetDebugHUD(!GetDebugHUD());
 		break;
-	case KEY_F5:
+	case SDLK_F5:
 		c->ReloadSim();
 		break;
 	case 'r':
@@ -1434,7 +1462,7 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 		if (ctrl)
 		{
 			Tool *active = c->GetActiveTool(0);
-			if (active->GetIdentifier().find("_PT_") == active->GetIdentifier().npos || ren->findingElement == active->GetToolID())
+			if (active->GetIdentifier().find("_PT_") == active->GetIdentifier().npos || ren->findingElement == active->GetToolID()%256)
 				ren->findingElement = 0;
 			else
 				ren->findingElement = active->GetToolID()%256;
@@ -1450,7 +1478,7 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 		else
 			c->AdjustGridSize(1);
 		break;
-	case KEY_F1:
+	case SDLK_F1:
 		if(!introText)
 			introText = 8047;
 		else
@@ -1483,7 +1511,7 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 	case 'y':
 		c->SwitchAir();
 		break;
-	case KEY_ESCAPE:
+	case SDLK_ESCAPE:
 	case 'q':
 		ExitPrompt();
 		break;
@@ -1492,6 +1520,7 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 		break;
 	case 'n':
 		c->ToggleNewtonianGravity();
+		break;
 	case '=':
 		if(ctrl)
 			c->ResetSpark();
@@ -1569,10 +1598,10 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 			break;
 		}
 		//fancy case switch without break
-	case KEY_INSERT:
+	case SDLK_INSERT:
 		c->SetReplaceModeFlags(c->GetReplaceModeFlags()^REPLACE_MODE);
 		break;
-	case KEY_DELETE:
+	case SDLK_DELETE:
 		c->SetReplaceModeFlags(c->GetReplaceModeFlags()^SPECIFIC_DELETE);
 		break;
 	}
@@ -1589,16 +1618,16 @@ void GameView::OnKeyRelease(int key, Uint16 character, bool shift, bool ctrl, bo
 {
 	switch(key)
 	{
-	case KEY_LALT:
-	case KEY_RALT:
+	case SDLK_LALT:
+	case SDLK_RALT:
 		disableAltBehaviour();
 		break;
-	case KEY_LCTRL:
-	case KEY_RCTRL:
+	case SDLK_LCTRL:
+	case SDLK_RCTRL:
 		disableCtrlBehaviour();
 		break;
-	case KEY_LSHIFT:
-	case KEY_RSHIFT:
+	case SDLK_LSHIFT:
+	case SDLK_RSHIFT:
 		disableShiftBehaviour();
 		break;
 	case 'z':
