@@ -31,11 +31,11 @@
 #endif
 
 #ifndef CN_MINOR_VERSION
-#define CN_MINOR_VERSION 7
+#define CN_MINOR_VERSION 8
 #endif
 
 #ifndef CN_BUILD_NUM
-#define CN_BUILD_NUM 20
+#define CN_BUILD_NUM 21
 #endif
 
 #ifndef CN_STAGE

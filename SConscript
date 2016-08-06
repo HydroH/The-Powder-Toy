@@ -475,7 +475,10 @@ elif GetOption('release'):
 			env.Append(CCFLAGS=['-funsafe-loop-optimizations'])
 
 if GetOption('static'):
-	if platform == "Windows":
+    if not msvc:
+		env.Append(CCFLAGS=['-static-libgcc', '-static-libstdc++'])
+		env.Append(LINKFLAGS=['-static-libgcc', '-static-libstdc++'])
+    if platform == "Windows":
 		env.Append(CPPDEFINES=['PTW32_STATIC_LIB'])
 		if not msvc:
 			env.Append(LINKFLAGS=['-Wl,-Bstatic'])
