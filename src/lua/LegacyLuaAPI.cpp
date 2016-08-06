@@ -17,6 +17,7 @@
 #include "gui/dialogues/TextPrompt.h"
 #include "gui/dialogues/ConfirmPrompt.h"
 #include "gui/game/GameModel.h"
+#include "gui/interface/Keys.h"
 #include "simulation/Simulation.h"
 
 #include "Lang.h"
@@ -458,7 +459,10 @@ int luacon_keyevent(int key, Uint16 character, int modifier, int event)
 	for (int i = 1; i <= len && kycontinue; i++)
 	{
 		lua_rawgeti(l, -1, i);
-		lua_pushlstring(l, (const char*)&character, 1);
+		if ((modifier & KMOD_CTRL) && (character < ' ' || character > '~') && key < 256)
+			lua_pushlstring(l, (const char*)&key, 1);
+		else
+			lua_pushlstring(l, (const char*)&character, 1);
 		lua_pushinteger(l, key);
 		lua_pushinteger(l, modifier);
 		lua_pushinteger(l, event);
@@ -1796,6 +1800,37 @@ int luatpt_active_menu(lua_State* l)
 	else
 		return luaL_error(l, "Invalid menu");
 	return 0;
+}
+
+int luatpt_menu_enabled(lua_State* l)
+{
+	int menusection = luaL_checkint(l, 1);
+	if (menusection < 0 || menusection >= SC_TOTAL)
+		return luaL_error(l, "Invalid menu");
+	int acount = lua_gettop(l);
+	if (acount == 1)
+	{
+		lua_pushboolean(l, luacon_sim->msections[menusection].doshow);
+		return 1;
+	}
+	luaL_checktype(l, 2, LUA_TBOOLEAN);
+	int enabled = lua_toboolean(l, 2);
+	luacon_sim->msections[menusection].doshow = enabled;
+	luacon_model->BuildMenus();
+	return 0;
+}
+
+int luatpt_num_menus(lua_State* l)
+{
+	int acount = lua_gettop(l);
+	bool onlyEnabled = true;
+	if (acount > 0)
+	{
+		luaL_checktype(l, 1, LUA_TBOOLEAN);
+		onlyEnabled = lua_toboolean(l, 1);
+	}
+	lua_pushinteger(l, luacon_controller->GetNumMenus(onlyEnabled));
+	return 1;
 }
 
 int luatpt_decorations_enable(lua_State* l)

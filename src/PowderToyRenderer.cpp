@@ -1,6 +1,6 @@
 #if defined(RENDERER)
 
-#include <time.h>
+#include <ctime>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -24,6 +24,7 @@ void ClipboardPush(std::string) {}
 std::string ClipboardPull() { return ""; }
 int GetModifiers() { return 0; }
 void SetCursorEnabled(int enabled) {}
+unsigned int GetTicks() { return 0; }
 
 void readFile(std::string filename, std::vector<char> & storage)
 {

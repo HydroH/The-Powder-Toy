@@ -194,7 +194,7 @@ PreviewView::PreviewView():
 	viewsLabel->Appearance.HorizontalAlign = ui::Appearance::AlignRight;
 	viewsLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(viewsLabel);
-	
+
 	pageInfo = new ui::Label(ui::Point((XRES/2) + 85, Size.Y+1), ui::Point(70, 16), TEXT_GUI_SAVE_PRE_PAGE_INFO);
 	pageInfo->Appearance.HorizontalAlign = ui::Appearance::AlignCentre;
 	AddComponent(pageInfo);
@@ -216,7 +216,7 @@ void PreviewView::AttachController(PreviewController * controller)
 	textWidth = Graphics::textwidth(format::NumberToString<int>(c->SaveID()).c_str());
 	saveIDLabel2 = new ui::Label(ui::Point((Size.X-textWidth-20)/2-37, Size.Y+22), ui::Point(40, 16), TEXT_GUI_SAVE_PRE_ID_LABEL);
 	AddComponent(saveIDLabel2);
-	
+
 	saveIDButton = new ui::CopyTextButton(ui::Point((Size.X-textWidth-10)/2, Size.Y+20), ui::Point(textWidth+10, 18), format::NumberToString<int>(c->SaveID()), saveIDLabel);
 	AddComponent(saveIDButton);
 }
@@ -410,7 +410,7 @@ void PreviewView::OnMouseUp(int x, int y, unsigned int button)
 
 void PreviewView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool alt)
 {
-	if ((key == KEY_ENTER || key == KEY_RETURN) && (!addCommentBox || !addCommentBox->IsFocused()))
+	if ((key == SDLK_KP_ENTER || key == SDLK_RETURN) && (!addCommentBox || !addCommentBox->IsFocused()))
 		openButton->DoAction();
 }
 
@@ -646,4 +646,3 @@ PreviewView::~PreviewView()
 	}
 	delete savePreview;
 }
-

@@ -215,8 +215,8 @@ void SignWindow::DoDraw()
 				x+=dx;
 				y+=dy;
 			}
-		}
 #endif
+		}
 	}
 	if(!signMoving)
 	{

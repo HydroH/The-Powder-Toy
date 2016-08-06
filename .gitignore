@@ -25,6 +25,7 @@ Debug/*
 Release/*
 generate
 tags
+.vscode
 Makefile.me
 *.xcodeproj
 .DS_Store

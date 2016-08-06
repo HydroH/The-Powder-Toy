@@ -1,12 +1,12 @@
-#include <stdlib.h>
+#include <cstdlib>
 #include <iostream>
 #include <sstream>
 #include <string>
 #include <vector>
 #include <map>
 #include <iomanip>
-#include <time.h>
-#include <stdio.h>
+#include <ctime>
+#include <cstdio>
 #include <deque>
 #include <fstream>
 #include <dirent.h>
@@ -349,6 +349,7 @@ bool Client::DoInstallation()
 #elif defined(LIN)
 	#include "icondoc.h"
 
+	int success = 1;
 	std::string filename = Platform::ExecutableName(), pathname = filename.substr(0, filename.rfind('/'));
 	for (size_t i = 0; i < filename.size(); i++)
 	{
@@ -392,7 +393,7 @@ bool Client::DoInstallation()
 		return 0;
 	fwrite(protocolfiledata.str().c_str(), 1, strlen(protocolfiledata.str().c_str()), f);
 	fclose(f);
-	system("xdg-desktop-menu install powdertoy-tpt-ptsave.desktop");
+	success = system("xdg-desktop-menu install powdertoy-tpt-ptsave.desktop");
 
 	const char *desktopfiledata_tmp =
 "[Desktop Entry]\n"
@@ -409,8 +410,8 @@ bool Client::DoInstallation()
 		return 0;
 	fwrite(desktopfiledata.str().c_str(), 1, strlen(desktopfiledata.str().c_str()), f);
 	fclose(f);
-	system("xdg-mime install powdertoy-save.xml");
-	system("xdg-desktop-menu install powdertoy-tpt.desktop");
+	success = system("xdg-mime install powdertoy-save.xml") && success;
+	success = system("xdg-desktop-menu install powdertoy-tpt.desktop") && success;
 	f = fopen("powdertoy-save-32.png", "wb");
 	if (!f)
 		return 0;
@@ -421,17 +422,17 @@ bool Client::DoInstallation()
 		return 0;
 	fwrite(icon_doc_16_png, 1, sizeof(icon_doc_16_png), f);
 	fclose(f);
-	system("xdg-icon-resource install --noupdate --context mimetypes --size 32 powdertoy-save-32.png application-vnd.powdertoy.save");
-	system("xdg-icon-resource install --noupdate --context mimetypes --size 16 powdertoy-save-16.png application-vnd.powdertoy.save");
-	system("xdg-icon-resource forceupdate");
-	system("xdg-mime default powdertoy-tpt.desktop application/vnd.powdertoy.save");
-	system("xdg-mime default powdertoy-tpt-ptsave.desktop x-scheme-handler/ptsave");
+	success = system("xdg-icon-resource install --noupdate --context mimetypes --size 32 powdertoy-save-32.png application-vnd.powdertoy.save") && success;
+	success = system("xdg-icon-resource install --noupdate --context mimetypes --size 16 powdertoy-save-16.png application-vnd.powdertoy.save") && success;
+	success = system("xdg-icon-resource forceupdate") && success;
+	success = system("xdg-mime default powdertoy-tpt.desktop application/vnd.powdertoy.save") && success;
+	success = system("xdg-mime default powdertoy-tpt-ptsave.desktop x-scheme-handler/ptsave") && success;
 	unlink("powdertoy-save-32.png");
 	unlink("powdertoy-save-16.png");
 	unlink("powdertoy-save.xml");
 	unlink("powdertoy-tpt.desktop");
 	unlink("powdertoy-tpt-ptsave.desktop");
-	return true;
+	return !success;
 #elif defined MACOSX
 	return false;
 #endif
@@ -832,7 +833,7 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 						}
 					}
 
-#ifdef SNAPSHOT
+#if defined(SNAPSHOT) || MOD_ID > 0
 					Json::Value snapshotVersion = versions["Snapshot"];
 					int snapshotSnapshot = snapshotVersion["Snapshot"].asInt();
 					std::string snapshotFile = snapshotVersion["File"].asString();

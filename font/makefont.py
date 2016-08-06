@@ -41,7 +41,7 @@ char_list.sort()
 # Exporting character figure with imagemagick
 charindex = 0
 ptrcount = 256
-ptrindex = 4615
+ptrindex = 4627
 lastchar = 255
 ptrline = ""
 fontfile = open_file('fontsample.h', 'r')
@@ -72,7 +72,7 @@ for char in char_list:
 
     # Insert font data into Font.h
     i = 0
-    line = "    0x0A, "
+    line = "    0x0A,   "
     while i < 100:
         bitslice = bit[i:i + 4]
         byte = 0
@@ -80,7 +80,7 @@ for char in char_list:
             byte = byte << 2 | bitslice[k]
         line += "0x" + format(byte, '02X') + ", "
         i += 4
-    contents.insert(charindex + 260, line + "\n")
+    contents.insert(charindex + 261, line + "\n")
 
     # Insert font pointer data into Font.h, 0x0000 for unused characters
     currchar = int(repr(char)[4:8], 16)
@@ -89,7 +89,7 @@ for char in char_list:
             ptrline = "    "
         ptrline += "0x0000, "
         if ptrcount % 8 == 7:
-            contents.insert(charindex + 262 + ((ptrcount + 1) / 8), ptrline + "\n")
+            contents.insert(charindex + 263 + ((ptrcount + 1) / 8), ptrline + "\n")
         ptrcount += 1
     lastchar = currchar
 
@@ -98,11 +98,11 @@ for char in char_list:
         ptrline = "    "
     ptrline += "0x" + format(ptrindex, '0002X') + ", "
     if ptrcount % 8 == 7:
-        contents.insert(charindex + 262 + ((ptrcount + 1) / 8), ptrline + "\n")
+        contents.insert(charindex + 263 + ((ptrcount + 1) / 8), ptrline + "\n")
     ptrcount += 1
 
 if ptrcount % 8:
-    contents.insert(charindex + 263 + ((ptrcount + 1) / 8), ptrline + "\n")
+    contents.insert(charindex + 264 + ((ptrcount + 1) / 8), ptrline + "\n")
 
 fontfile = open_file('../data/font.h', 'w')
 fontfile.writelines(contents)

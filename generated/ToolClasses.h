@@ -8,6 +8,7 @@
 #define TOOL_AIR 2
 #define TOOL_COOL 1
 #define TOOL_HEAT 0
+#define TOOL_MIX 6
 #define TOOL_NGRV 5
 #define TOOL_PGRV 4
 #define TOOL_VAC 3
@@ -25,6 +26,14 @@ class Tool_Vac: public SimTool
 public:
 	Tool_Vac();
 	virtual ~Tool_Vac();
+	virtual int Perform(Simulation * sim, Particle * cpart, int x, int y, float strength);
+};
+
+class Tool_Mix: public SimTool
+{
+public:
+	Tool_Mix();
+	virtual ~Tool_Mix();
 	virtual int Perform(Simulation * sim, Particle * cpart, int x, int y, float strength);
 };
 

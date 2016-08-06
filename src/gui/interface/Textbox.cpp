@@ -7,6 +7,7 @@
 #include "gui/interface/Point.h"
 #include "gui/interface/Textbox.h"
 #include "gui/interface/Keys.h"
+#include "gui/interface/Mouse.h"
 #include "ContextMenu.h"
 #include "Lang.h"
 
@@ -387,25 +388,25 @@ void Textbox::OnVKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 	{
 		switch(key)
 		{
-		case KEY_HOME:
+		case SDLK_HOME:
 			cursor = 0;
 			ClearSelection();
 			break;
-		case KEY_END:
+		case SDLK_END:
 			cursor = backingText.length();
 			ClearSelection();
 			break;
-		case KEY_LEFT:
+		case SDLK_LEFT:
 			if(cursor > 0)
 				cursor--;
 			ClearSelection();
 			break;
-		case KEY_RIGHT:
+		case SDLK_RIGHT:
 			if (cursor < (int)backingText.length())
 				cursor++;
 			ClearSelection();
 			break;
-		case KEY_DELETE:
+		case SDLK_DELETE:
 			if(ReadOnly)
 				break;
 			if (HasSelection())
@@ -426,7 +427,7 @@ void Textbox::OnVKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 			}
 			ClearSelection();
 			break;
-		case KEY_BACKSPACE:
+		case SDLK_BACKSPACE:
 			if (ReadOnly)
 				break;
 			if (HasSelection())
@@ -453,7 +454,7 @@ void Textbox::OnVKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 			}
 			ClearSelection();
 			break;
-		case KEY_RETURN:
+		case SDLK_RETURN:
 			character = '\n';
 		default:
 			if (CharacterValid(character) && !ReadOnly)
@@ -539,7 +540,7 @@ void Textbox::OnVKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 void Textbox::OnMouseClick(int x, int y, unsigned button)
 {
 
-	if(button != BUTTON_RIGHT)
+	if (button != SDL_BUTTON_RIGHT)
 	{
 		mouseDown = true;
 		cursor = Graphics::CharIndexAtPosition(multiline?((wchar_t*)textLines.c_str()):((wchar_t*)text.c_str()), x-textPosition.X, y-textPosition.Y);

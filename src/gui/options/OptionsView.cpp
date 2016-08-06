@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <cstdio>
 #ifdef WIN
 	#include <direct.h>
 	#define getcwd _getcwd
@@ -105,19 +105,19 @@ OptionsView::OptionsView():
 	airMode->AddOption(std::pair<std::wstring, int>(TEXT_GUI_SIM_OPT_AIRMODE_OPT_OFF, 3));
 	airMode->AddOption(std::pair<std::wstring, int>(TEXT_GUI_SIM_OPT_AIRMODE_OPT_NOUPD, 4));
 	airMode->SetActionCallback(new AirModeChanged(this));
-		
+
 	tempLabel = new ui::Label(ui::Point(8, 146), ui::Point(Size.X-96, 16), TEXT_GUI_SIM_OPT_AIRMODE_LABEL);
 	tempLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;	tempLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
-		
+
 	class GravityModeChanged: public ui::DropDownAction
 	{
 		OptionsView * v;
 	public:
 		GravityModeChanged(OptionsView * v): v(v) { }
 		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::wstring, int> option) { v->c->SetGravityMode(option.second); }
-	};	
-		
+	};
+
 	gravityMode = new ui::DropDown(ui::Point(Size.X-88, 166), ui::Point(80, 16));
 	AddComponent(gravityMode);
 	gravityMode->AddOption(std::pair<std::wstring, int>(TEXT_GUI_SIM_OPT_GRAVMODE_OPT_VER, 0));
@@ -135,7 +135,7 @@ OptionsView::OptionsView():
 	public:
 		EdgeModeChanged(OptionsView * v): v(v) { }
 		virtual void OptionChanged(ui::DropDown * sender, std::pair<std::wstring, int> option) { v->c->SetEdgeMode(option.second); }
-	};	
+	};
 
 	edgeMode = new ui::DropDown(ui::Point(Size.X-88, 186), ui::Point(80, 16));
 	AddComponent(edgeMode);
@@ -318,4 +318,3 @@ void OptionsView::OnTryExit(ExitMethod method)
 
 OptionsView::~OptionsView() {
 }
-
