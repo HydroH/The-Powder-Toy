@@ -31,7 +31,7 @@ Element_RPEL::Element_RPEL()
 	HeatConduct = 0;
 	Description = TEXT_ELEM_RPEL_DESC;
 
-	Properties = TYPE_SOLID;
+	Properties = TYPE_SOLID | PROP_DRAWONCTYPE;
 
 	LowPressure = IPL;
 	LowPressureTransition = NT;
@@ -59,9 +59,11 @@ int Element_RPEL::update(UPDATE_FUNC_ARGS)
 			if (!r)
 				r = sim->photons[y+ry][x+rx];
 
-			if (r && !(sim->elements[r&0xFF].Properties & TYPE_SOLID)){
-				parts[r>>8].vx += isign(rx)*((parts[i].temp-273.15)/10.0f);
-				parts[r>>8].vy += isign(ry)*((parts[i].temp-273.15)/10.0f);
+			if (r && !(sim->elements[r&0xFF].Properties & TYPE_SOLID)) {
+				if (!parts[i].ctype || parts[i].ctype == parts[r>>8].type) {
+					parts[r>>8].vx += isign(rx)*((parts[i].temp-273.15)/10.0f);
+					parts[r>>8].vy += isign(ry)*((parts[i].temp-273.15)/10.0f);
+				}
 			}
 		}
 	}

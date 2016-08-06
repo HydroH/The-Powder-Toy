@@ -158,6 +158,7 @@ menu_section * LoadMenus(int & menuCount)
 		{L"\xCC", TEXT_MENU_NAME_SPEC, 0, 1},
 		{L"\xD2", TEXT_MENU_NAME_GOL, 0, 1},
 		{L"\xD7", TEXT_MENU_NAME_TOOL, 0, 1},
+		{L"\xE7", TEXT_MENU_NAME_FAV, 0, 1},
 		{L"\xE4", TEXT_MENU_NAME_DECO, 0, 1},
 		{L"\xC8", TEXT_MENU_NAME_CRACK1, 0, 0},
 		{L"\xC8", TEXT_MENU_NAME_CRACK2, 0, 0},

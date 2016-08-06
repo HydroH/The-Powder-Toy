@@ -4,6 +4,7 @@
 #include "PreviewView.h"
 #include "PreviewModel.h"
 #include "PreviewModelException.h"
+#include "gui/dialogues/InformationMessage.h"
 #include "gui/dialogues/ErrorMessage.h"
 #include "gui/login/LoginController.h"
 #include "Controller.h"
@@ -127,7 +128,7 @@ void PreviewController::Report(std::string message)
 	if(Client::Ref().ReportSave(saveId, message) == RequestOkay)
 	{
 		Exit();
-		new ErrorMessage(TEXT_GUI_SAVE_PRE_REPORT_INFO_TITLE, TEXT_GUI_SAVE_PRE_REPORT_INFO_MSG); //TODO: InfoMessage
+		new InformationMessage(TEXT_GUI_SAVE_PRE_REPORT_INFO_TITLE, TEXT_GUI_SAVE_PRE_REPORT_INFO_MSG, false);
 	}
 	else
 		new ErrorMessage(TEXT_GUI_SAVE_PRE_REPORT_ERR_TITLE, TEXT_GUI_SAVE_PRE_REPORT_ERR_MSG + Client::Ref().GetWLastError());
@@ -199,4 +200,3 @@ PreviewController::~PreviewController() {
 	delete previewView;
 	delete callback;
 }
-

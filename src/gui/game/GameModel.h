@@ -130,6 +130,7 @@ public:
 	std::wstring GetWInfoTip();
 
 	void BuildMenus();
+	void BuildFavoritesMenu();
 	void BuildQuickOptionMenu(GameController * controller);
 
 	std::deque<Snapshot*> GetHistory();

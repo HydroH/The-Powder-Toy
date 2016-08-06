@@ -999,6 +999,12 @@
     <ClCompile Include="src\client\Download.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\gui\game\Favorite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\simulation\simtools\Mix.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="data\font.h">
@@ -1755,6 +1761,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\client\Download.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\game\Favorite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\gui\interface\Mouse.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

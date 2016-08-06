@@ -26,12 +26,14 @@
 #include "gui/save/LocalSaveActivity.h"
 #include "gui/save/ServerSaveActivity.h"
 #include "gui/interface/Keys.h"
+#include "gui/interface/Mouse.h"
 #include "simulation/Snapshot.h"
 #include "debug/DebugInfo.h"
 #include "debug/DebugParts.h"
 #include "debug/ElementPopulation.h"
 #include "debug/DebugLines.h"
 #include "debug/ParticleDebug.h"
+
 #include "Lang.h"
 #ifdef LUACONSOLE
 #include "lua/LuaScriptInterface.h"
@@ -284,11 +286,11 @@ sign * GameController::GetSignAt(int x, int y)
 
 void GameController::PlaceSave(ui::Point position)
 {
-	if(gameModel->GetPlaceSave())
+	if (gameModel->GetPlaceSave())
 	{
+		HistorySnapshot();
 		gameModel->GetSimulation()->Load(position.X, position.Y, gameModel->GetPlaceSave());
 		gameModel->SetPaused(gameModel->GetPlaceSave()->paused | gameModel->GetPaused());
-		HistorySnapshot();
 	}
 }
 
@@ -564,7 +566,7 @@ bool GameController::MouseDown(int x, int y, unsigned button)
 		ui::Point point = gameModel->AdjustZoomCoords(ui::Point(x, y));
 		x = point.X;
 		y = point.Y;
-		if (!gameModel->GetActiveTool(0) || gameModel->GetActiveTool(0)->GetIdentifier() != "DEFAULT_UI_SIGN" || button != BUTTON_LEFT) //If it's not a sign tool or you are right/middle clicking
+		if (!gameModel->GetActiveTool(0) || gameModel->GetActiveTool(0)->GetIdentifier() != "DEFAULT_UI_SIGN" || button != SDL_BUTTON_LEFT) //If it's not a sign tool or you are right/middle clicking
 		{
 			foundSign = GetSignAt(x, y);
 			if(foundSign && sign::splitsign(foundSign->text.c_str()))
@@ -584,7 +586,7 @@ bool GameController::MouseUp(int x, int y, unsigned button, char type)
 		ui::Point point = gameModel->AdjustZoomCoords(ui::Point(x, y));
 		x = point.X;
 		y = point.Y;
-		if (!gameModel->GetActiveTool(0) || gameModel->GetActiveTool(0)->GetIdentifier() != "DEFAULT_UI_SIGN" || button != BUTTON_LEFT) //If it's not a sign tool or you are right/middle clicking
+		if (!gameModel->GetActiveTool(0) || gameModel->GetActiveTool(0)->GetIdentifier() != "DEFAULT_UI_SIGN" || button != SDL_BUTTON_LEFT) //If it's not a sign tool or you are right/middle clicking
 		{
 			sign * foundSign = GetSignAt(x, y);
 			if (foundSign)
@@ -646,36 +648,36 @@ bool GameController::KeyPress(int key, Uint16 character, bool shift, bool ctrl, 
 	if (ret)
 	{
 		Simulation * sim = gameModel->GetSimulation();
-		if (key == KEY_RIGHT)
+		if (key == SDLK_RIGHT)
 		{
 			sim->player.comm = (int)(sim->player.comm)|0x02;  //Go right command
 		}
-		if (key == KEY_LEFT)
+		if (key == SDLK_LEFT)
 		{
 			sim->player.comm = (int)(sim->player.comm)|0x01;  //Go left command
 		}
-		if (key == KEY_DOWN && ((int)(sim->player.comm)&0x08)!=0x08)
+		if (key == SDLK_DOWN && ((int)(sim->player.comm)&0x08)!=0x08)
 		{
 			sim->player.comm = (int)(sim->player.comm)|0x08;  //Use element command
 		}
-		if (key == KEY_UP && ((int)(sim->player.comm)&0x04)!=0x04)
+		if (key == SDLK_UP && ((int)(sim->player.comm)&0x04)!=0x04)
 		{
 			sim->player.comm = (int)(sim->player.comm)|0x04;  //Jump command
 		}
 
-		if (key == KEY_d)
+		if (key == SDLK_d)
 		{
 			sim->player2.comm = (int)(sim->player2.comm)|0x02;  //Go right command
 		}
-		if (key == KEY_a)
+		if (key == SDLK_a)
 		{
 			sim->player2.comm = (int)(sim->player2.comm)|0x01;  //Go left command
 		}
-		if (key == KEY_s && ((int)(sim->player2.comm)&0x08)!=0x08)
+		if (key == SDLK_s && ((int)(sim->player2.comm)&0x08)!=0x08)
 		{
 			sim->player2.comm = (int)(sim->player2.comm)|0x08;  //Use element command
 		}
-		if (key == KEY_w && ((int)(sim->player2.comm)&0x04)!=0x04)
+		if (key == SDLK_w && ((int)(sim->player2.comm)&0x04)!=0x04)
 		{
 			sim->player2.comm = (int)(sim->player2.comm)|0x04;  //Jump command
 		}
@@ -712,30 +714,30 @@ bool GameController::KeyRelease(int key, Uint16 character, bool shift, bool ctrl
 	if (ret)
 	{
 		Simulation * sim = gameModel->GetSimulation();
-		if (key == KEY_RIGHT || key == KEY_LEFT)
+		if (key == SDLK_RIGHT || key == SDLK_LEFT)
 		{
 			sim->player.pcomm = sim->player.comm;  //Saving last movement
 			sim->player.comm = (int)(sim->player.comm)&12;  //Stop command
 		}
-		if (key == KEY_UP)
+		if (key == SDLK_UP)
 		{
 			sim->player.comm = (int)(sim->player.comm)&11;
 		}
-		if (key == KEY_DOWN)
+		if (key == SDLK_DOWN)
 		{
 			sim->player.comm = (int)(sim->player.comm)&7;
 		}
 
-		if (key == KEY_d || key == KEY_a)
+		if (key == SDLK_d || key == SDLK_a)
 		{
 			sim->player2.pcomm = sim->player2.comm;  //Saving last movement
 			sim->player2.comm = (int)(sim->player2.comm)&12;  //Stop command
 		}
-		if (key == KEY_w)
+		if (key == SDLK_w)
 		{
 			sim->player2.comm = (int)(sim->player2.comm)&11;
 		}
-		if (key == KEY_s)
+		if (key == SDLK_s)
 		{
 			sim->player2.comm = (int)(sim->player2.comm)&7;
 		}
@@ -1047,6 +1049,26 @@ std::vector<Menu*> GameController::GetMenuList()
 	return gameModel->GetMenuList();
 }
 
+int GameController::GetNumMenus(bool onlyEnabled)
+{
+	int count = 0;
+	if (onlyEnabled)
+	{
+		std::vector<Menu*> menuList = gameModel->GetMenuList();
+		for (std::vector<Menu*>::iterator it = menuList.begin(), end = menuList.end(); it != end; ++it)
+			if ((*it)->GetVisible())
+				count++;
+	}
+	else
+		count = gameModel->GetMenuList().size();
+	return count;
+}
+
+void GameController::RebuildFavoritesMenu()
+{
+	gameModel->BuildFavoritesMenu();
+}
+
 void GameController::ActiveToolChanged(int toolSelection, Tool *tool)
 {
 	commandInterface->OnActiveToolChanged(toolSelection, tool);
@@ -1348,7 +1370,7 @@ void GameController::SaveAsCurrent()
 		GameController * c;
 	public:
 		SaveUploadedCallback(GameController * _c): c(_c) {}
-		virtual  ~SaveUploadedCallback() {};
+		virtual  ~SaveUploadedCallback() {}
 		virtual void SaveUploaded(SaveInfo save)
 		{
 			c->LoadSave(&save);
@@ -1539,6 +1561,8 @@ void GameController::NotifyUpdateAvailable(Client * sender)
 
 #ifdef SNAPSHOT
 			updateMessage << TEXT_GAME_CONTROL_UPDATE_SNAP << SNAPSHOT_ID;
+#elif MOD_ID > 0
+			updateMessage << TEXT_GAME_CONTROL_UPDATE_MOD << SNAPSHOT_ID;
 #elif defined(BETA)
 			updateMessage << SAVE_VERSION << L"." << MINOR_VERSION << TEXT_GAME_CONTROL_UPDATE_BETA << BUILD_NUM;
 #else
@@ -1549,7 +1573,11 @@ void GameController::NotifyUpdateAvailable(Client * sender)
 			if (info.Type == UpdateInfo::Beta)
 				updateMessage << info.Major << L"." << info.Minor << TEXT_GAME_CONTROL_UPDATE_BETA << info.Build;
 			else if (info.Type == UpdateInfo::Snapshot)
+#if MOD_ID > 0
+				updateMessage << TEXT_GAME_CONTROL_UPDATE_MOD << info.Time;
+#else
 				updateMessage << TEXT_GAME_CONTROL_UPDATE_SNAP << info.Time;
+#endif
 			else if(info.Type == UpdateInfo::Stable)
 				updateMessage << info.Major << L"." << info.Minor << TEXT_GAME_CONTROL_UPDATE_STABLE << info.Build << TEXT_GAME_CONTROL_UPDATE_STABLE_CN1 << info.CNMajor << L"." << info.CNMinor << L"-" << format::StringToWString(info.CNStage) << TEXT_GAME_CONTROL_UPDATE_STABLE_CN2 << info.CNBuild;
 

@@ -16,11 +16,11 @@
 #endif
 
 #ifndef MINOR_VERSION
-#define MINOR_VERSION 3
+#define MINOR_VERSION 5
 #endif
 
 #ifndef BUILD_NUM
-#define BUILD_NUM 328
+#define BUILD_NUM 330
 #endif
 
 #ifndef SNAPSHOT_ID
@@ -31,17 +31,24 @@
 #endif
 
 #ifndef CN_MINOR_VERSION
-#define CN_MINOR_VERSION 7
+#define CN_MINOR_VERSION 8
 #endif
 
 #ifndef CN_BUILD_NUM
-#define CN_BUILD_NUM 20
+#define CN_BUILD_NUM 21
 #endif
 
 #ifndef CN_STAGE
 #define CN_STAGE "Beta"
 #endif
 
+#endif
+
+// Mod ID, used on the http://starcatcher.us/TPT build server
+// The build server will compile for all platforms for you, and send updates in game
+// See jacob1 to get a mod ID
+#ifndef MOD_ID
+#define MOD_ID 0
 #endif
 //VersionInfoEnd
 

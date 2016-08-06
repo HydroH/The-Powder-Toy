@@ -1,7 +1,7 @@
 #ifndef UTILS_H
 #define UTILS_H
-#include <stdio.h>
-#include <stdlib.h>
+#include <cstdio>
+#include <cstdlib>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -53,10 +53,6 @@ void strlist_free(struct strlist **list);
 void save_presets(int do_update);
 
 void load_presets(void);
-
-void save_string(FILE *f, char *str);
-
-int load_string(FILE *f, char *str, int max);
 
 void strcaturl(char *dst, const char *src);
 

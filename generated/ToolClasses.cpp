@@ -8,5 +8,6 @@ std::vector<SimTool*> GetTools()
 	tools.push_back(new Tool_Vac());
 	tools.push_back(new Tool_PGrv());
 	tools.push_back(new Tool_NGrv());
+	tools.push_back(new Tool_Mix());
 	return tools;
 }

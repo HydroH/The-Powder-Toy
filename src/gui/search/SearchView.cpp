@@ -11,6 +11,7 @@
 #include "gui/interface/Spinner.h"
 #include "Misc.h"
 #include "Format.h"
+#include "PowderToy.h"
 #include "Lang.h"
 
 SearchView::SearchView():
@@ -279,7 +280,7 @@ void SearchView::textChanged()
 		pageTextbox->SetText(format::NumberToString(pageCount));
 	changed = true;
 #ifdef USE_SDL
-	lastChanged = SDL_GetTicks()+600;
+	lastChanged = GetTicks()+600;
 #endif
 }
 
@@ -769,7 +770,7 @@ void SearchView::OnTick(float dt)
 {
 	c->Update();
 #ifdef USE_SDL
-	if (changed && lastChanged < SDL_GetTicks())
+	if (changed && lastChanged < GetTicks())
 	{
 		changed = false;
 		c->SetPage(std::max(format::StringToNumber<int>(pageTextbox->GetText()), 0));
@@ -788,14 +789,14 @@ void SearchView::OnMouseWheel(int x, int y, int d)
 }
 void SearchView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool alt)
 {
-	if (key == KEY_ESCAPE)
+	if (key == SDLK_ESCAPE)
 		c->Exit();
-	else if (key == KEY_LCTRL || key == KEY_RCTRL)
+	else if (key == SDLK_LCTRL || key == SDLK_RCTRL)
 		c->InstantOpen(true);
 }
 
 void SearchView::OnKeyRelease(int key, Uint16 character, bool shift, bool ctrl, bool alt)
 {
-	if (key == KEY_LCTRL || key == KEY_RCTRL)
+	if (key == SDLK_LCTRL || key == SDLK_RCTRL)
 		c->InstantOpen(false);
 }

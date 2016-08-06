@@ -17,6 +17,7 @@
 #include "QuickOptions.h"
 #include "GameModelException.h"
 #include "Format.h"
+#include "Favorite.h"
 #include "Lang.h"
 
 GameModel::GameModel():
@@ -81,6 +82,8 @@ GameModel::GameModel():
 		sim->grav->start_grav_async();
 	sim->aheat_enable =  Client::Ref().GetPrefInteger("Simulation.AmbientHeat", 0);
 	sim->pretty_powder =  Client::Ref().GetPrefInteger("Simulation.PrettyPowder", 0);
+
+	Favorite::Ref().LoadFavoritesFromPrefs();
 
 	//Load last user
 	if(Client::Ref().GetAuthUser().ID)
@@ -157,8 +160,12 @@ GameModel::~GameModel()
 	Client::Ref().SetPref("Decoration.Blue", (int)colour.Blue);
 	Client::Ref().SetPref("Decoration.Alpha", (int)colour.Alpha);
 
+	Favorite::Ref().SaveFavoritesToPrefs();
+
 	for (size_t i = 0; i < menuList.size(); i++)
 	{
+		if (i == SC_FAVORITES)
+			menuList[i]->ClearTools();
 		delete menuList[i];
 	}
 	for (std::vector<Tool*>::iterator iter = extraElementTools.begin(), end = extraElementTools.end(); iter != end; ++iter)
@@ -224,9 +231,11 @@ void GameModel::BuildMenus()
 		activeToolIdentifiers[3] = regularToolset[3]->GetIdentifier();
 
 	//Empty current menus
-	for(std::vector<Menu*>::iterator iter = menuList.begin(), end = menuList.end(); iter != end; ++iter)
+	for (size_t i = 0; i < menuList.size(); i++)
 	{
-		delete *iter;
+		if (i == SC_FAVORITES)
+			menuList[i]->ClearTools();
+		delete menuList[i];
 	}
 	menuList.clear();
 	toolList.clear();
@@ -239,9 +248,9 @@ void GameModel::BuildMenus()
 	elementTools.clear();
 
 	//Create menus
-	for(int i = 0; i < SC_TOTAL; i++)
+	for (int i = 0; i < SC_TOTAL; i++)
 	{
-		menuList.push_back(new Menu((const wchar_t)sim->msections[i].icon[0], sim->msections[i].name));
+		menuList.push_back(new Menu((const wchar_t)sim->msections[i].icon[0], sim->msections[i].name, sim->msections[i].doshow));
 	}
 
 	//Build menus from Simulation elements
@@ -349,6 +358,30 @@ void GameModel::BuildMenus()
 		toolList = menuList[activeMenu]->GetToolList();
 	else
 		toolList = std::vector<Tool*>();
+
+	notifyMenuListChanged();
+	notifyToolListChanged();
+	notifyActiveToolsChanged();
+	notifyLastToolChanged();
+
+	//Build menu for favorites
+	BuildFavoritesMenu();
+}
+
+void GameModel::BuildFavoritesMenu()
+{
+	menuList[SC_FAVORITES]->ClearTools();
+	
+	std::vector<std::string> favList = Favorite::Ref().GetFavoritesList();
+	for (size_t i = 0; i < favList.size(); i++)
+	{
+		Tool *tool = GetToolFromIdentifier(favList[i]);
+		if (tool)
+			menuList[SC_FAVORITES]->AddTool(tool);
+	}
+
+	if (activeMenu == SC_FAVORITES)
+		toolList = menuList[SC_FAVORITES]->GetToolList();
 
 	notifyMenuListChanged();
 	notifyToolListChanged();
@@ -615,7 +648,6 @@ void GameModel::SetSaveFile(SaveFile * newSave)
 		{
 			sim->grav->stop_grav_async();
 		}
-		sim->SetEdgeMode(0);
 		sim->clear_sim();
 		ren->ClearAccumulation();
 		sim->Load(saveData);

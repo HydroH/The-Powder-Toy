@@ -78,7 +78,7 @@ void LoginView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, boo
 {
 	switch(key)
 	{
-	case KEY_TAB:
+	case SDLK_TAB:
 		if(IsFocused(usernameField))
 			FocusComponent(passwordField);
 		else

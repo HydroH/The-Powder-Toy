@@ -62,6 +62,7 @@ AddSconsOption('native', False, False, "Enable optimizations specific to your cp
 AddSconsOption('release', True, False, "Enable loop / compiling optimizations (default).")
 
 AddSconsOption('debugging', False, False, "Compile with debug symbols.")
+AddSconsOption('symbols', False, False, "Preserve (don't strip) symbols")
 AddSconsOption('static', False, False, "Compile statically.")
 AddSconsOption('opengl', False, False, "Build with OpenGL interface support.")
 AddSconsOption('opengl-renderer', False, False, "Build with OpenGL renderer support (turns on --opengl).") #Note: this has nothing to do with --renderer, only tells the game to render particles with opengl
@@ -215,12 +216,16 @@ def CheckBit(context):
 def CheckFramework(context, framework):
 	import SCons.Conftest
 	#Extreme hack, TODO: maybe think of a better one (like replicating CheckLib here) or at least just fix the message
-	ret = SCons.Conftest.CheckLib(context, ['m" -framework {0}"'.format(framework)], autoadd = 0)
+	oldLinkFlags = context.env.Append(LINKFLAGS=["-framework", framework])
+	context.Display("Checking for Darwin Framework {0}...".format(framework))
+	ret = SCons.Conftest.CheckLib(context, ["m"], autoadd = 0)
 	context.did_show_result = 1
 	if not ret:
 		context.env.Append(LINKFLAGS=["-framework", framework])
 		if framework != "Cocoa":
 			env.Append(CPPPATH=['/Library/Frameworks/{0}.framework/Headers/'.format(framework)])
+	else:
+		context.env.Replace(LINKFLAGS=oldLinkFlags)
 	return not ret
 
 #function that finds libraries and appends them to LIBS
@@ -330,7 +335,7 @@ def findLibs(env, conf):
 	#Look for pthreads
 	if not conf.CheckLib(['pthread', 'pthreadVC2']):
 		FatalError("pthreads development library not found or not installed")
-	
+
 	if msvc:
 		if not conf.CheckHeader('dirent.h') or not conf.CheckHeader('fftw3.h') or not conf.CheckHeader('pthread.h') or not conf.CheckHeader('zlib.h'):
 			FatalError("Required headers not found")
@@ -338,7 +343,7 @@ def findLibs(env, conf):
 		#Look for libm
 		if not conf.CheckLib('m'):
 			FatalError("libm not found or not installed")
-	
+
 	#Look for OpenGL libraries
 	if GetOption('opengl'):
 		if platform == "Linux":
@@ -348,7 +353,7 @@ def findLibs(env, conf):
 				env.ParseConfig('pkg-config --libs glew gl glu')
 			except:
 				FatalError(sys.exc_info()[0])
-				
+
 		elif platform == "Windows":
 			if not conf.CheckLib('opengl32'):
 				FatalError("opengl32 not found or not installed")
@@ -357,7 +362,7 @@ def findLibs(env, conf):
 		elif platform == "Darwin":
 			if not conf.CheckFramework("OpenGL"):
 				FatalError("OpenGL framework not found or not installed")
-		
+
 	if platform == "Linux":
 		if not conf.CheckLib('X11'):
 			FatalError("X11 development library not found or not installed")
@@ -395,6 +400,8 @@ if not msvc:
 	else:
 		env.Append(CXXFLAGS=['-std=c++98'])
 	env.Append(CXXFLAGS=['-Wno-invalid-offsetof'])
+	if platform == "Linux":
+		env.Append(CXXFLAGS=['-Wno-unused-result'])
 
 
 #Add platform specific flags and defines
@@ -468,9 +475,6 @@ elif GetOption('release'):
 			env.Append(CCFLAGS=['-funsafe-loop-optimizations'])
 
 if GetOption('static'):
-	if not msvc:
-		env.Append(CCFLAGS=['-static-libgcc', '-static-libstdc++'])
-		env.Append(LINKFLAGS=['-static-libgcc', '-static-libstdc++'])
 	if platform == "Windows":
 		env.Append(CPPDEFINES=['PTW32_STATIC_LIB'])
 		if not msvc:
@@ -566,7 +570,7 @@ def strip():
 		os.system("{0} {1}/{2}".format(env['STRIP'] if 'STRIP' in env else "strip", GetOption('builddir'), programName))
 	except:
 		print("Couldn't strip binary")
-if not GetOption('debugging') and not GetOption('clean') and not GetOption('help') and not msvc:
+if not GetOption('debugging') and not GetOption('symbols') and not GetOption('clean') and not GetOption('help') and not msvc:
 	atexit.register(strip)
 
 #Long command line fix for mingw on windows
