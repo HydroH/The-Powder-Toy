@@ -80,7 +80,7 @@ for char in char_list:
             byte = byte << 2 | bitslice[k]
         line += "0x" + format(byte, '02X') + ", "
         i += 4
-    contents.insert(charindex + 261, line + "\n")
+    contents.insert(charindex + 262, line + "\n")
 
     # Insert font pointer data into Font.h, 0x0000 for unused characters
     currchar = int(repr(char)[4:8], 16)

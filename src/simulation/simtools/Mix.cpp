@@ -1,11 +1,12 @@
 #include "ToolClasses.h"
+#include "Lang.h"
 //#TPT-Directive ToolClass Tool_Mix TOOL_MIX 6
 Tool_Mix::Tool_Mix()
 {
 	Identifier = "DEFAULT_TOOL_MIX";
 	Name = "MIX";
 	Colour = PIXPACK(0xFFD090);
-	Description = "Mixes particles.";
+	Description = TEXT_TOOL_MIX_DESC;
 }
 
 int Tool_Mix::Perform(Simulation * sim, Particle * cpart, int x, int y, float strength)

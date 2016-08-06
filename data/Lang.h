@@ -13,9 +13,13 @@
 #define TEXT_MENU_NAME_SPEC L"特殊"
 #define TEXT_MENU_NAME_GOL L"生命游戏"
 #define TEXT_MENU_NAME_TOOL L"工具"
+#define TEXT_MENU_NAME_FAV L"收藏夹"
 #define TEXT_MENU_NAME_DECO L"装饰工具"
 #define TEXT_MENU_NAME_CRACK1 L"Cracker"
 #define TEXT_MENU_NAME_CRACK2 L"Cracker!"
+
+//Favorites description.
+#define TEXT_MENU_FAV_DESC L" (按住Ctrl+Shift并点击来收藏元素)"
 
  //Wall names.
 #define TEXT_WALL_ERASE_NAME L"删除墙"
@@ -272,6 +276,7 @@
 #define TEXT_TOOL_COOL_DESC L"冷却工具, 降低目标的温度. "
 #define TEXT_TOOL_PGRV_DESC L"引力工具, 制造一个引力源, 一段时间后消失. "
 #define TEXT_TOOL_NGRV_DESC L"斥力工具, 制造一个斥力源, 一段时间后消失. "
+#define TEXT_TOOL_MIX_DESC L"混合粒子. "
 #define TEXT_TOOL_NULL_DESC L"无用的工具, 什么用也没有. "
 
  //Decoration tool descriptions.
@@ -807,6 +812,7 @@
 #define TEXT_GAME_CONTROL_VOTE_FAIL L"评分时出现错误"
 #define TEXT_GAME_CONTROL_UPDATE_CONF L"现在更新吗? 更新前请保存所有更改\n\n当前版本:\n "
 #define TEXT_GAME_CONTROL_UPDATE_SNAP L"Snapshot "
+#define TEXT_GAME_CONTROL_UPDATE_MOD L"Mod 版本"
 #define TEXT_GAME_CONTROL_UPDATE_BETA L" 测试版, Build "
 #define TEXT_GAME_CONTROL_UPDATE_STABLE L"正式版, Build "
 #define TEXT_GAME_CONTROL_UPDATE_STABLE_CN1 L";\n 汉化V"

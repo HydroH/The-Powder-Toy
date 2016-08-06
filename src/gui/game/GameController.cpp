@@ -1562,7 +1562,7 @@ void GameController::NotifyUpdateAvailable(Client * sender)
 #ifdef SNAPSHOT
 			updateMessage << TEXT_GAME_CONTROL_UPDATE_SNAP << SNAPSHOT_ID;
 #elif MOD_ID > 0
-			updateMessage << "Mod version " << SNAPSHOT_ID;
+			updateMessage << TEXT_GAME_CONTROL_UPDATE_MOD << SNAPSHOT_ID;
 #elif defined(BETA)
 			updateMessage << SAVE_VERSION << L"." << MINOR_VERSION << TEXT_GAME_CONTROL_UPDATE_BETA << BUILD_NUM;
 #else
@@ -1574,7 +1574,7 @@ void GameController::NotifyUpdateAvailable(Client * sender)
 				updateMessage << info.Major << L"." << info.Minor << TEXT_GAME_CONTROL_UPDATE_BETA << info.Build;
 			else if (info.Type == UpdateInfo::Snapshot)
 #if MOD_ID > 0
-				updateMessage << "Mod version " << info.Time;
+				updateMessage << TEXT_GAME_CONTROL_UPDATE_MOD << info.Time;
 #else
 				updateMessage << TEXT_GAME_CONTROL_UPDATE_SNAP << info.Time;
 #endif
