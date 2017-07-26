@@ -22,6 +22,7 @@
 #include "gui/game/Tool.h"
 #include "LuaScriptHelper.h"
 #include "client/HTTP.h"
+#include "client/GameSave.h"
 #include "client/SaveFile.h"
 #include "Misc.h"
 #include "Platform.h"
@@ -532,8 +533,8 @@ int LuaScriptInterface::interface_showWindow(lua_State * l)
 int LuaScriptInterface::interface_closeWindow(lua_State * l)
 {
 	LuaWindow * window = Luna<LuaWindow>::check(l, 1);
-	if(window && ui::Engine::Ref().GetWindow()==window->GetWindow())
-		ui::Engine::Ref().CloseWindow();
+	if (window)
+		window->GetWindow()->CloseActiveWindow();
 	return 0;
 }
 
@@ -622,7 +623,11 @@ int LuaScriptInterface::simulation_signNewIndex(lua_State *l)
 	if (!key.compare("text"))
 	{
 		const char *temp = luaL_checkstring(l, 3);
-		luacon_sim->signs[id].text = format::CleanString(temp, false, true, true).substr(0, 45);
+		std::string cleaned = format::CleanString(temp, false, true, true).substr(0, 45);
+		if (!cleaned.empty())
+			luacon_sim->signs[id].text = cleaned;
+		else
+			luaL_error(l, "Text is empty");
 		return 0;
 	}
 	else if (!key.compare("justification"))
@@ -659,7 +664,7 @@ int LuaScriptInterface::simulation_signNewIndex(lua_State *l)
 	return 0;
 }
 
-//creates a new sign at the first open index
+// Creates a new sign at the first open index
 int LuaScriptInterface::simulation_newsign(lua_State *l)
 {
 	if (luacon_sim->signs.size() >= MAXSIGNS)
@@ -681,6 +686,17 @@ int LuaScriptInterface::simulation_newsign(lua_State *l)
 	lua_pushnumber(l, luacon_sim->signs.size());
 	return 1;
 }
+
+// Deletes a sign
+int simulation_deletesign(lua_State *l)
+{
+	int signID = luaL_checkinteger(l, 1);
+	if (signID <= 0 || signID > (int)luacon_sim->signs.size())
+		return luaL_error(l, "Sign doesn't exist");
+
+	luacon_sim->signs.erase(luacon_sim->signs.begin()+signID-1);
+ 	return 1;
+ }
 
 //// Begin Simulation API
 
@@ -741,6 +757,7 @@ void LuaScriptInterface::initSimulationAPI()
 		{"ambientAirTemp", simulation_ambientAirTemp},
 		{"elementCount", simulation_elementCount},
 		{"can_move", simulation_canMove},
+		{"brush", simulation_brush},
 		{"parts", simulation_parts},
 		{"pmap", simulation_pmap},
 		{"photons", simulation_photons},
@@ -771,6 +788,7 @@ void LuaScriptInterface::initSimulationAPI()
 	SETCONST(l, TOOL_AIR);
 	SETCONST(l, TOOL_PGRV);
 	SETCONST(l, TOOL_NGRV);
+	SETCONST(l, TOOL_MIX);
 	lua_pushinteger(l, luacon_sim->tools.size()); lua_setfield(l, -2, "TOOL_WIND");
 	SETCONST(l, DECO_DRAW);
 	SETCONST(l, DECO_CLEAR);
@@ -811,6 +829,8 @@ void LuaScriptInterface::initSimulationAPI()
 	}
 	lua_pushcfunction(l, simulation_newsign);
 	lua_setfield(l, -2, "new");
+	lua_pushcfunction(l, simulation_deletesign);
+	lua_setfield(l, -2, "delete");
 	lua_setfield(l, -2, "signs");
 }
 
@@ -895,7 +915,12 @@ int LuaScriptInterface::simulation_partChangeType(lua_State * l)
 int LuaScriptInterface::simulation_partCreate(lua_State * l)
 {
 	int newID = lua_tointeger(l, 1);
-	if(newID >= NPART || newID < -3)
+	if (newID >= NPART || newID < -3)
+	{
+		lua_pushinteger(l, -1);
+		return 1;
+	}
+	if (newID >= 0 && !luacon_sim->parts[newID].type)
 	{
 		lua_pushinteger(l, -1);
 		return 1;
@@ -1573,10 +1598,14 @@ int LuaScriptInterface::simulation_decoColor(lua_State * l)
 		b = luaL_optint(l, 3, 255);
 		a = luaL_optint(l, 4, 255);
 
-		if (r < 0) r = 0; if (r > 255) r = 255;
-		if (g < 0) g = 0; if (g > 255) g = 255;
-		if (b < 0) b = 0; if (b > 255) b = 255;
-		if (a < 0) a = 0; if (a > 255) a = 255;
+		if (r < 0) r = 0;
+		if (r > 255) r = 255;
+		if (g < 0) g = 0;
+		if (g > 255) g = 255;
+		if (b < 0) b = 0;
+		if (b > 255) b = 255;
+		if (a < 0) a = 0;
+		if (a > 255) a = 255;
 
 		color = (a << 24) + PIXRGB(r, g, b);
 	}
@@ -1587,6 +1616,7 @@ int LuaScriptInterface::simulation_decoColor(lua_State * l)
 int LuaScriptInterface::simulation_clearSim(lua_State * l)
 {
 	luacon_sim->clear_sim();
+	Client::Ref().ClearAuthorInfo();
 	return 0;
 }
 
@@ -1666,7 +1696,7 @@ int LuaScriptInterface::simulation_loadStamp(lua_State * l)
 		const char * filename = luaL_optstring(l, 1, "");
 		tempfile = Client::Ref().GetStamp(filename);
 	}
-	if (!tempfile && lua_isnumber(l, 1)) //Load from stamp ID
+	if ((!tempfile || !tempfile->GetGameSave()) && lua_isnumber(l, 1)) //Load from stamp ID
 	{
 		i = luaL_optint(l, 1, 0);
 		int stampCount = Client::Ref().GetStampsCount();
@@ -1681,6 +1711,12 @@ int LuaScriptInterface::simulation_loadStamp(lua_State * l)
 		{
 			//luacon_sim->sys_pause = (tempfile->GetGameSave()->paused | luacon_model->GetPaused())?1:0;
 			lua_pushinteger(l, 1);
+
+			if (tempfile->GetGameSave()->authors.size())
+			{
+				tempfile->GetGameSave()->authors["type"] = "luastamp";
+				Client::Ref().MergeStampAuthorInfo(tempfile->GetGameSave()->authors);
+			}
 		}
 		else
 			lua_pushnil(l);
@@ -1844,7 +1880,7 @@ int LuaScriptInterface::simulation_ambientAirTemp(lua_State * l)
 		lua_pushnumber(l, luacon_sim->air->ambientAirTemp);
 		return 1;
 	}
-	int ambientAirTemp = luaL_optint(l, 1, 295.15f);
+	float ambientAirTemp = luaL_optnumber(l, 1, 295.15f);
 	luacon_sim->air->ambientAirTemp = ambientAirTemp;
 	return 0;
 }
@@ -1900,6 +1936,101 @@ int LuaScriptInterface::simulation_parts(lua_State * l)
 {
 	lua_pushnumber(l, -1);
 	lua_pushcclosure(l, PartsClosure, 1);
+	return 1;
+}
+
+int BrushClosure(lua_State * l)
+{
+	// see Simulation::ToolBrush
+	int positionX = lua_tointeger(l, lua_upvalueindex(1));
+	int positionY = lua_tointeger(l, lua_upvalueindex(2));
+	int radiusX = lua_tointeger(l, lua_upvalueindex(3));
+	int radiusY = lua_tointeger(l, lua_upvalueindex(4));
+	int sizeX = lua_tointeger(l, lua_upvalueindex(5));
+	int sizeY = lua_tointeger(l, lua_upvalueindex(6));
+	int x = lua_tointeger(l, lua_upvalueindex(7));
+	int y = lua_tointeger(l, lua_upvalueindex(8));
+	unsigned char *bitmap = (unsigned char *)lua_touserdata(l, lua_upvalueindex(9));
+	
+	
+	int yield_x, yield_y;
+	while (true)
+	{
+		if (!(y < sizeY))
+			return 0;
+		if (x < sizeX)
+		{
+			bool yield_coords = false;
+			if (bitmap[(y*sizeX)+x] && (positionX+(x-radiusX) >= 0 && positionY+(y-radiusY) >= 0 && positionX+(x-radiusX) < XRES && positionY+(y-radiusY) < YRES))
+			{
+				yield_coords = true;
+				yield_x = positionX+(x-radiusX);
+				yield_y = positionY+(y-radiusY);
+			}
+			x++;
+			if (yield_coords)
+				break;
+		}
+		else
+		{
+			x = 0;
+			y++;
+		}
+	}
+	
+	lua_pushnumber(l, x);
+	lua_replace(l, lua_upvalueindex(7));
+	lua_pushnumber(l, y);
+	lua_replace(l, lua_upvalueindex(8));
+	
+	lua_pushnumber(l, yield_x);
+	lua_pushnumber(l, yield_y);
+	return 2;
+}
+
+int LuaScriptInterface::simulation_brush(lua_State * l)
+{
+	int argCount = lua_gettop(l);
+	int positionX = luaL_checkint(l, 1);
+	int positionY = luaL_checkint(l, 2);
+	int brushradiusX, brushradiusY;
+	if (argCount >= 4 || !luacon_model->GetBrush())
+	{
+		brushradiusX = luaL_checkint(l, 3);
+		brushradiusY = luaL_checkint(l, 4);
+	}
+	else
+	{
+		ui::Point size = luacon_model->GetBrush()->GetSize();
+		brushradiusX = size.X;
+		brushradiusY = size.Y;
+	}
+	int brushID = luaL_optint(l, 5, luacon_model->GetBrushID());
+	
+	vector<Brush *> brushList = luacon_model->GetBrushList();
+	if (brushID < 0 || brushID >= (int)brushList.size())
+		return luaL_error(l, "Invalid brush id '%d'", brushID);
+	
+	ui::Point tempRadius = brushList[brushID]->GetRadius();
+	brushList[brushID]->SetRadius(ui::Point(brushradiusX, brushradiusY));
+	lua_pushnumber(l, positionX);
+	lua_pushnumber(l, positionY);
+	int radiusX = brushList[brushID]->GetRadius().X;
+	int radiusY = brushList[brushID]->GetRadius().Y;
+	int sizeX = brushList[brushID]->GetSize().X;
+	int sizeY = brushList[brushID]->GetSize().Y;
+	lua_pushnumber(l, radiusX);
+	lua_pushnumber(l, radiusY);
+	lua_pushnumber(l, sizeX);
+	lua_pushnumber(l, sizeY);
+	lua_pushnumber(l, 0);
+	lua_pushnumber(l, 0);
+	int bitmapSize = sizeX * sizeY * sizeof(unsigned char);
+	void *bitmapCopy = lua_newuserdata(l, bitmapSize);
+	memcpy(bitmapCopy, brushList[brushID]->GetBitmap(), bitmapSize);
+	brushList[brushID]->SetRadius(tempRadius);
+	
+	lua_pushcclosure(l, BrushClosure, 9);
 	return 1;
 }
 

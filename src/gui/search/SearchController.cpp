@@ -89,10 +89,7 @@ void SearchController::Update()
 void SearchController::Exit()
 {
 	InstantOpen(false);
-	if(ui::Engine::Ref().GetWindow() == searchView)
-	{
-		ui::Engine::Ref().CloseWindow();
-	}
+	searchView->CloseActiveWindow();
 	if(callback)
 		callback->ControllerExit();
 	//HasExited = true;
@@ -101,10 +98,7 @@ void SearchController::Exit()
 SearchController::~SearchController()
 {
 	delete activePreview;
-	if(ui::Engine::Ref().GetWindow() == searchView)
-	{
-		ui::Engine::Ref().CloseWindow();
-	}
+	searchView->CloseActiveWindow();
 	delete searchModel;
 	delete searchView;
 	delete callback;
@@ -209,19 +203,19 @@ void SearchController::InstantOpen(bool instant)
 void SearchController::OpenSave(int saveID)
 {
 	delete activePreview;
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = searchView->GetGraphics();
 	g->fillrect(XRES/3, WINDOWH-20, XRES/3, 20, 0, 0, 0, 150); //dim the "Page X of Y" a little to make the CopyTextButton more noticeable
 	activePreview = new PreviewController(saveID, instantOpen, new OpenCallback(this));
-	ui::Engine::Ref().ShowWindow(activePreview->GetView());
+	activePreview->GetView()->MakeActiveWindow();
 }
 
 void SearchController::OpenSave(int saveID, int saveDate)
 {
 	delete activePreview;
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = searchView->GetGraphics();
 	g->fillrect(XRES/3, WINDOWH-20, XRES/3, 20, 0, 0, 0, 150); //dim the "Page X of Y" a little to make the CopyTextButton more noticeable
 	activePreview = new PreviewController(saveID, saveDate, instantOpen, new OpenCallback(this));
-	ui::Engine::Ref().ShowWindow(activePreview->GetView());
+	activePreview->GetView()->MakeActiveWindow();
 }
 
 void SearchController::ClearSelection()
@@ -268,7 +262,7 @@ void SearchController::removeSelectedC()
 				if (Client::Ref().DeleteSave(saves[i])!=RequestOkay)
 				{
  					std::stringstream saveIDF;
-					saveIDF << "\boFailed to delete [" << saves[i] << "]: " << Client::Ref().GetLastError();
+					saveIDF << "Failed to delete [" << saves[i] << "]: " << Client::Ref().GetLastError();
 					notifyError(saveIDF.str());
 					c->Refresh();
 					return false;
@@ -351,9 +345,9 @@ void SearchController::unpublishSelectedC(bool publish)
 				{
 					std::stringstream error;
 					if (publish) // uses html page so error message will be spam
-						error << "\boFailed to publish [" << saves[i] << "], is this save yours?";
+						error << "Failed to publish [" << saves[i] << "], is this save yours?";
 					else
-						error << "\boFailed to unpublish [" << saves[i] << "]: " + Client::Ref().GetLastError();
+						error << "Failed to unpublish [" << saves[i] << "]: " + Client::Ref().GetLastError();
 					notifyError(error.str());
 					c->Refresh();
 					return false;
@@ -386,7 +380,7 @@ void SearchController::FavouriteSelected()
 				if (Client::Ref().FavouriteSave(saves[i], true)!=RequestOkay)
 				{
 					std::stringstream saveIDF;
-					saveIDF << "\boFailed to favourite [" << saves[i] << "]: " + Client::Ref().GetLastError();
+					saveIDF << "Failed to favourite [" << saves[i] << "]: " + Client::Ref().GetLastError();
 					notifyError(saveIDF.str());
 					return false;
 				}
@@ -411,7 +405,7 @@ void SearchController::FavouriteSelected()
 				if (Client::Ref().FavouriteSave(saves[i], false)!=RequestOkay)
 				{
 					std::stringstream saveIDF;
-					saveIDF << "\boFailed to unfavourite [" << saves[i] << "]: " + Client::Ref().GetLastError();
+					saveIDF << "Failed to unfavourite [" << saves[i] << "]: " + Client::Ref().GetLastError();
 					notifyError(saveIDF.str());
 					return false;
 				}

@@ -384,9 +384,10 @@ bool Client::DoInstallation()
 "Comment=Physics sandbox game\n"
 "MimeType=x-scheme-handler/ptsave;\n"
 "NoDisplay=true\n"
-"Categories=Game\n";
+"Categories=Game;Simulation\n"
+"Icon=powdertoy.png\n";
 	std::stringstream protocolfiledata;
-	protocolfiledata << protocolfiledata_tmp << "Exec=" << filename <<" ptsave %u\nPath=" << pathname << "\n";
+	protocolfiledata << protocolfiledata_tmp << "Exec=" << filename << " ptsave %u\nPath=" << pathname << "\n";
 	f = fopen("powdertoy-tpt-ptsave.desktop", "wb");
 	if (!f)
 		return 0;
@@ -394,23 +395,43 @@ bool Client::DoInstallation()
 	fclose(f);
 	success = system("xdg-desktop-menu install powdertoy-tpt-ptsave.desktop");
 
-	const char *desktopfiledata_tmp =
+	const char *desktopopenfiledata_tmp =
 "[Desktop Entry]\n"
 "Type=Application\n"
 "Name=Powder Toy\n"
 "Comment=Physics sandbox game\n"
 "MimeType=application/vnd.powdertoy.save;\n"
 "NoDisplay=true\n"
-"Categories=Game\n";
+"Categories=Game;Simulation\n"
+"Icon=powdertoy.png\n";
+	std::stringstream desktopopenfiledata;
+	desktopopenfiledata << desktopopenfiledata_tmp << "Exec=" << filename << " open %f\nPath=" << pathname << "\n";
+	f = fopen("powdertoy-tpt-open.desktop", "wb");
+	if (!f)
+		return 0;
+	fwrite(desktopopenfiledata.str().c_str(), 1, strlen(desktopopenfiledata.str().c_str()), f);
+	fclose(f);
+	success = system("xdg-mime install powdertoy-save.xml") && success;
+	success = system("xdg-desktop-menu install powdertoy-tpt-open.desktop") && success;
+
+	const char *desktopfiledata_tmp =
+"[Desktop Entry]\n"
+"Version=1.0\n"
+"Encoding=UTF-8\n"
+"Name=Powder Toy\n"
+"Type=Application\n"
+"Comment=Physics sandbox game\n"
+"Categories=Game;Simulation\n"
+"Icon=powdertoy.png\n";
 	std::stringstream desktopfiledata;
-	desktopfiledata << desktopfiledata_tmp << "Exec=" << filename <<" open %f\nPath=" << pathname << "\n";
+	desktopfiledata << desktopfiledata_tmp << "Exec=" << filename << "\nPath=" << pathname << "\n";
 	f = fopen("powdertoy-tpt.desktop", "wb");
 	if (!f)
 		return 0;
 	fwrite(desktopfiledata.str().c_str(), 1, strlen(desktopfiledata.str().c_str()), f);
 	fclose(f);
-	success = system("xdg-mime install powdertoy-save.xml") && success;
 	success = system("xdg-desktop-menu install powdertoy-tpt.desktop") && success;
+
 	f = fopen("powdertoy-save-32.png", "wb");
 	if (!f)
 		return 0;
@@ -421,15 +442,23 @@ bool Client::DoInstallation()
 		return 0;
 	fwrite(icon_doc_16_png, 1, sizeof(icon_doc_16_png), f);
 	fclose(f);
+	f = fopen("powdertoy.png", "wb");
+	if (!f)
+		return 0;
+	fwrite(icon_desktop_48_png, 1, sizeof(icon_desktop_48_png), f);
+	fclose(f);
 	success = system("xdg-icon-resource install --noupdate --context mimetypes --size 32 powdertoy-save-32.png application-vnd.powdertoy.save") && success;
 	success = system("xdg-icon-resource install --noupdate --context mimetypes --size 16 powdertoy-save-16.png application-vnd.powdertoy.save") && success;
+	success = system("xdg-icon-resource install --noupdate --novendor --size 48 powdertoy.png") && success;	
 	success = system("xdg-icon-resource forceupdate") && success;
-	success = system("xdg-mime default powdertoy-tpt.desktop application/vnd.powdertoy.save") && success;
+	success = system("xdg-mime default powdertoy-tpt-open.desktop application/vnd.powdertoy.save") && success;
 	success = system("xdg-mime default powdertoy-tpt-ptsave.desktop x-scheme-handler/ptsave") && success;
+	unlink("powdertoy.png");
 	unlink("powdertoy-save-32.png");
 	unlink("powdertoy-save-16.png");
 	unlink("powdertoy-save.xml");
 	unlink("powdertoy-tpt.desktop");
+	unlink("powdertoy-tpt-open.desktop");
 	unlink("powdertoy-tpt-ptsave.desktop");
 	return !success;
 #elif defined MACOSX
@@ -802,7 +831,7 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 					int stableBuild = stableVersion["Build"].asInt();
 					std::string stableFile = stableVersion["File"].asString();
 					std::string stableChangelog = stableVersion["Changelog"].asString();
-					if (stableMajor > SAVE_VERSION || (stableMinor > MINOR_VERSION && stableMajor == SAVE_VERSION) || stableBuild > BUILD_NUM)
+					if (stableBuild > BUILD_NUM)
 					{
 						updateAvailable = true;
 						updateInfo = UpdateInfo(stableMajor, stableMinor, stableBuild, stableFile, stableChangelog, UpdateInfo::Stable);
@@ -817,7 +846,7 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 						int betaBuild = betaVersion["Build"].asInt();
 						std::string betaFile = betaVersion["File"].asString();
 						std::string betaChangelog = betaVersion["Changelog"].asString();
-						if (betaMajor > SAVE_VERSION || (betaMinor > MINOR_VERSION && betaMajor == SAVE_VERSION) || betaBuild > BUILD_NUM)
+						if (betaBuild > BUILD_NUM)
 						{
 							updateAvailable = true;
 							updateInfo = UpdateInfo(betaMajor, betaMinor, betaBuild, betaFile, betaChangelog, UpdateInfo::Beta);
@@ -982,15 +1011,23 @@ RequestStatus Client::UploadSave(SaveInfo & save)
 			lastError = "Empty game save";
 			return RequestFailure;
 		}
+
 		save.SetID(0);
 
 		gameData = save.GetGameSave()->Serialise(gameDataLength);
 
 		if (!gameData)
 		{
-			lastError = "Cannot upload game save";
+			lastError = "Cannot serialize game save";
 			return RequestFailure;
 		}
+#ifdef SNAPSHOT
+		else if (save.gameSave->fromNewerVersion && save.GetPublished())
+		{
+			lastError = "Cannot publish save";
+			return RequestFailure;
+		}
+#endif
 
 		char *saveName = new char[save.GetName().length() + 1];
 		std::strcpy (saveName, save.GetName().c_str());
@@ -1105,14 +1142,29 @@ std::string Client::AddStamp(GameSave * saveData)
 	saveID
 	<< std::setw(8) << std::setfill('0') << std::hex << lastStampTime
 	<< std::setw(2) << std::setfill('0') << std::hex << lastStampName;
+	std::string filename = std::string(STAMPS_DIR PATH_SEP + saveID.str()+".stm").c_str();
 
 	MakeDirectory(STAMPS_DIR);
+	
+	Json::Value stampInfo;
+	stampInfo["type"] = "stamp";
+	stampInfo["username"] = authUser.Username;
+	stampInfo["name"] = filename;
+	stampInfo["date"] = (Json::Value::UInt64)time(NULL);
+	if (authors.size() != 0)
+	{
+		// This is a stamp, always append full authorship info (even if same user)
+		stampInfo["links"].append(Client::Ref().authors);
+	}
+	saveData->authors = stampInfo;
 
 	unsigned int gameDataLength;
 	char * gameData = saveData->Serialise(gameDataLength);
+	if (gameData == NULL)
+		return "";
 
 	std::ofstream stampStream;
-	stampStream.open(std::string(STAMPS_DIR PATH_SEP + saveID.str()+".stm").c_str(), std::ios::binary);
+	stampStream.open(filename.c_str(), std::ios::binary);
 	stampStream.write((const char *)gameData, gameDataLength);
 	stampStream.close();
 
@@ -1601,7 +1653,8 @@ SaveInfo * Client::GetSave(int saveID, int saveDate)
 			std::string tempUsername = objDocument["Username"].asString();
 			std::string tempName = objDocument["Name"].asString();
 			std::string tempDescription = objDocument["Description"].asString();
-			int tempDate = objDocument["Date"].asInt();
+			int tempCreatedDate = objDocument["DateCreated"].asInt();
+			int tempUpdatedDate = objDocument["Date"].asInt();
 			bool tempPublished = objDocument["Published"].asBool();
 			bool tempFavourite = objDocument["Favourite"].asBool();
 			int tempComments = objDocument["Comments"].asInt();
@@ -1613,9 +1666,9 @@ SaveInfo * Client::GetSave(int saveID, int saveDate)
 			for (Json::UInt j = 0; j < tagsArray.size(); j++)
 				tempTags.push_back(tagsArray[j].asString());
 
-			SaveInfo * tempSave = new SaveInfo(tempID, tempDate, tempScoreUp, tempScoreDown,
-			                                   tempMyScore, tempUsername, tempName, tempDescription,
-			                                   tempPublished, tempTags);
+			SaveInfo * tempSave = new SaveInfo(tempID, tempCreatedDate, tempUpdatedDate, tempScoreUp, 
+			                                   tempScoreDown, tempMyScore, tempUsername, tempName,
+			                                   tempDescription, tempPublished, tempTags);
 			tempSave->Comments = tempComments;
 			tempSave->Favourite = tempFavourite;
 			tempSave->Views = tempViews;
@@ -1664,7 +1717,8 @@ RequestBroker::Request * Client::GetSaveAsync(int saveID, int saveDate)
 				std::string tempUsername = objDocument["Username"].asString();
 				std::string tempName = objDocument["Name"].asString();
 				std::string tempDescription = objDocument["Description"].asString();
-				int tempDate = objDocument["Date"].asInt();
+				int tempCreatedDate = objDocument["DateCreated"].asInt();
+				int tempUpdatedDate = objDocument["Date"].asInt();
 				bool tempPublished = objDocument["Published"].asBool();
 				bool tempFavourite = objDocument["Favourite"].asBool();
 				int tempComments = objDocument["Comments"].asInt();
@@ -1676,9 +1730,9 @@ RequestBroker::Request * Client::GetSaveAsync(int saveID, int saveDate)
 				for (Json::UInt j = 0; j < tagsArray.size(); j++)
 					tempTags.push_back(tagsArray[j].asString());
 
-				SaveInfo * tempSave = new SaveInfo(tempID, tempDate, tempScoreUp, tempScoreDown,
-				                               tempMyScore, tempUsername, tempName, tempDescription,
-				                               tempPublished, tempTags);
+				SaveInfo * tempSave = new SaveInfo(tempID, tempCreatedDate, tempUpdatedDate, tempScoreUp,
+				                                   tempScoreDown, tempMyScore, tempUsername, tempName,
+				                                   tempDescription, tempPublished, tempTags);
 				tempSave->Comments = tempComments;
 				tempSave->Favourite = tempFavourite;
 				tempSave->Views = tempViews;
@@ -1717,7 +1771,7 @@ RequestBroker::Request * Client::GetCommentsAsync(int saveID, int start, int cou
 					int userID = format::StringToNumber<int>(commentsArray[j]["UserID"].asString());
 					std::string username = commentsArray[j]["Username"].asString();
 					std::string formattedUsername = commentsArray[j]["FormattedUsername"].asString();
-					if (formattedUsername == "jacobot")
+					if (formattedUsername == "jacobot" || formattedUsername == "Mrprocom")
 						formattedUsername = "\bt" + formattedUsername;
 					std::string comment = commentsArray[j]["Text"].asString();
 					commentArray->push_back(new SaveComment(userID, username, formattedUsername, comment));
@@ -1838,14 +1892,15 @@ std::vector<SaveInfo*> * Client::SearchSaves(int start, int count, std::string q
 			for (Json::UInt j = 0; j < savesArray.size(); j++)
 			{
 				int tempID = savesArray[j]["ID"].asInt();
-				int tempDate = savesArray[j]["Date"].asInt();
+				int tempCreatedDate = savesArray[j]["Created"].asInt();
+				int tempUpdatedDate = savesArray[j]["Updated"].asInt();
 				int tempScoreUp = savesArray[j]["ScoreUp"].asInt();
 				int tempScoreDown = savesArray[j]["ScoreDown"].asInt();
 				std::string tempUsername = savesArray[j]["Username"].asString();
 				std::string tempName = savesArray[j]["Name"].asString();
 				int tempVersion = savesArray[j]["Version"].asInt();
 				bool tempPublished = savesArray[j]["Published"].asBool();
-				SaveInfo * tempSaveInfo = new SaveInfo(tempID, tempDate, tempScoreUp, tempScoreDown, tempUsername, tempName);
+				SaveInfo * tempSaveInfo = new SaveInfo(tempID, tempCreatedDate, tempUpdatedDate, tempScoreUp, tempScoreDown, tempUsername, tempName);
 				tempSaveInfo->Version = tempVersion;
 				tempSaveInfo->SetPublished(tempPublished);
 				saveArray->push_back(tempSaveInfo);
@@ -1956,6 +2011,73 @@ std::list<std::string> * Client::AddTag(int saveID, std::string tag)
 	}
 	free(data);
 	return tags;
+}
+
+// stamp-specific wrapper for MergeAuthorInfo
+// also used for clipboard and lua stamps
+void Client::MergeStampAuthorInfo(Json::Value stampAuthors)
+{
+	if (stampAuthors.size())
+	{
+		// when loading stamp/clipboard, only append info to authorship info (since we aren't replacing the save)
+		// unless there is nothing loaded currently, then set authors directly
+		if (authors.size())
+		{
+			if (authors["username"] != stampAuthors["username"])
+			{
+				// Don't add if it's exactly the same
+				if (stampAuthors["links"].size() != 1 || stampAuthors["links"][0] != Client::Ref().authors)
+				{
+					// 2nd arg of MergeAuthorInfo needs to be an array 
+					Json::Value toAdd;
+					toAdd.append(stampAuthors);
+					MergeAuthorInfo(toAdd);
+				}
+			}
+			else if (stampAuthors["links"].size())
+			{
+				MergeAuthorInfo(stampAuthors["links"]);
+			}
+		}
+		else
+			authors = stampAuthors;
+	}
+}
+
+// linksToAdd is an array (NOT an object) of links to add to authors["links"]
+void Client::MergeAuthorInfo(Json::Value linksToAdd)
+{
+	for (Json::Value::ArrayIndex i = 0; i < linksToAdd.size(); i++)
+	{
+		// link is the same exact json we have open, don't do anything
+		if (linksToAdd[i] == authors)
+			return;
+
+		bool hasLink = false;
+		for (Json::Value::ArrayIndex j = 0; j < authors["links"].size(); j++)
+		{
+			// check everything in authors["links"] to see if it's the same json as what we are already adding
+			if (authors["links"][j] == linksToAdd[i])
+				hasLink = true;
+		}
+		if (!hasLink)
+			authors["links"].append(linksToAdd[i]);
+	}
+}
+
+// load current authors information into a json value (when saving everything: stamps, clipboard, local saves, and online saves)
+void Client::SaveAuthorInfo(Json::Value *saveInto)
+{
+	if (authors.size() != 0)
+	{
+		// Different username? Save full original save info
+		if (authors["username"] != (*saveInto)["username"])
+			(*saveInto)["links"].append(authors);
+		// This is probalby the same save
+		// Don't append another layer of links, just keep existing links
+		else if (authors["links"].size())
+			(*saveInto)["links"] = authors["links"];
+	}
 }
 
 // powder.pref preference getting / setting functions

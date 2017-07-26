@@ -4,8 +4,10 @@
 #include <cstdio>
 #include <cstdlib>
 #include "Config.h"
+#include "Misc.h"
 #include "Renderer.h"
 #include "Graphics.h"
+#include "gui/game/RenderPreset.h"
 #include "simulation/Elements.h"
 #include "simulation/ElementGraphics.h"
 #include "simulation/Air.h"
@@ -95,7 +97,7 @@ void Renderer::RenderBegin()
 	{
 		std::copy(persistentVid, persistentVid+(VIDXRES*YRES), vid);
 	}
-	pixel * oldVid;
+	pixel * oldVid = NULL;
 	if(display_mode & DISPLAY_WARP)
 	{
 		oldVid = vid;
@@ -1028,6 +1030,8 @@ void Renderer::render_gravlensing(pixel * source)
 	pixel t;
 	pixel *src = source;
 	pixel *dst = vid;
+	if (!dst)
+		return;
 	for(nx = 0; nx < XRES; nx++)
 	{
 		for(ny = 0; ny < YRES; ny++)
@@ -1039,7 +1043,7 @@ void Renderer::render_gravlensing(pixel * source)
 			gy = (int)(ny-sim->gravy[co]*0.875f+0.5f);
 			bx = (int)(nx-sim->gravx[co]+0.5f);
 			by = (int)(ny-sim->gravy[co]+0.5f);
-			if(rx > 0 && rx < XRES && ry > 0 && ry < YRES && gx > 0 && gx < XRES && gy > 0 && gy < YRES && bx > 0 && bx < XRES && by > 0 && by < YRES)
+			if(rx >= 0 && rx < XRES && ry >= 0 && ry < YRES && gx >= 0 && gx < XRES && gy >= 0 && gy < YRES && bx >= 0 && bx < XRES && by >= 0 && by < YRES)
 			{
 				t = dst[ny*(VIDXRES)+nx];
 				r = PIXR(src[ry*(VIDXRES)+rx]) + PIXR(t);
@@ -1287,7 +1291,19 @@ void Renderer::render_parts()
 #if !defined(RENDERER) && defined(LUACONSOLE)
 						if (lua_gr_func[t])
 						{
-							luacon_graphicsReplacement(this, &(sim->parts[i]), nx, ny, &pixel_mode, &cola, &colr, &colg, &colb, &firea, &firer, &fireg, &fireb, i);
+							if (luacon_graphicsReplacement(this, &(sim->parts[i]), nx, ny, &pixel_mode, &cola, &colr, &colg, &colb, &firea, &firer, &fireg, &fireb, i))
+							{
+								graphicscache[t].isready = 1;
+								graphicscache[t].pixel_mode = pixel_mode;
+								graphicscache[t].cola = cola;
+								graphicscache[t].colr = colr;
+								graphicscache[t].colg = colg;
+								graphicscache[t].colb = colb;
+								graphicscache[t].firea = firea;
+								graphicscache[t].firer = firer;
+								graphicscache[t].fireg = fireg;
+								graphicscache[t].fireb = fireb;
+							}
 						}
 						else if ((*(elements[t].Graphics))(this, &(sim->parts[i]), nx, ny, &pixel_mode, &cola, &colr, &colg, &colb, &firea, &firer, &fireg, &fireb)) //That's a lot of args, a struct might be better
 #else
@@ -1353,6 +1369,8 @@ void Renderer::render_parts()
 					cola = 255;
 					if(pixel_mode & (FIREMODE | PMODE_GLOW))
 						pixel_mode = (pixel_mode & ~(FIREMODE|PMODE_GLOW)) | PMODE_BLUR;
+					else if ((pixel_mode & (PMODE_BLEND | PMODE_ADD)) == (PMODE_BLEND | PMODE_ADD))
+						pixel_mode = (pixel_mode & ~(PMODE_BLEND|PMODE_ADD)) | PMODE_FLAT;
 					else if (!pixel_mode)
 						pixel_mode |= PMODE_FLAT;
 				}
@@ -1367,6 +1385,8 @@ void Renderer::render_parts()
 					cola = 255;
 					if(pixel_mode & (FIREMODE | PMODE_GLOW))
 						pixel_mode = (pixel_mode & ~(FIREMODE|PMODE_GLOW)) | PMODE_BLUR;
+					else if ((pixel_mode & (PMODE_BLEND | PMODE_ADD)) == (PMODE_BLEND | PMODE_ADD))
+						pixel_mode = (pixel_mode & ~(PMODE_BLEND|PMODE_ADD)) | PMODE_FLAT;
 					else if (!pixel_mode)
 						pixel_mode |= PMODE_FLAT;
 				}
@@ -1381,18 +1401,19 @@ void Renderer::render_parts()
 				//Apply decoration colour
 				if(!(colour_mode & ~COLOUR_GRAD) && decorations_enable && deca)
 				{
+					deca++;
 					if(!(pixel_mode & NO_DECO))
 					{
-						colr = (deca*decr + (255-deca)*colr) >> 8;
-						colg = (deca*decg + (255-deca)*colg) >> 8;
-						colb = (deca*decb + (255-deca)*colb) >> 8;
+						colr = (deca*decr + (256-deca)*colr) >> 8;
+						colg = (deca*decg + (256-deca)*colg) >> 8;
+						colb = (deca*decb + (256-deca)*colb) >> 8;
 					}
 
 					if(pixel_mode & DECO_FIRE)
 					{
-						firer = (deca*decr + (255-deca)*firer) >> 8;
-						fireg = (deca*decg + (255-deca)*fireg) >> 8;
-						fireb = (deca*decb + (255-deca)*fireb) >> 8;
+						firer = (deca*decr + (256-deca)*firer) >> 8;
+						fireg = (deca*decg + (256-deca)*fireg) >> 8;
+						fireb = (deca*decb + (256-deca)*fireb) >> 8;
 					}
 				}
 
@@ -2003,7 +2024,7 @@ void Renderer::render_parts()
 							type = PT_PRTO;
 						else if (type == PT_PRTO)
 							type = PT_PRTI;
-						for (int z = 0; z < sim->parts_lastActiveIndex; z++)
+						for (int z = 0; z <= sim->parts_lastActiveIndex; z++)
 						{
 							if (parts[z].type == type)
 							{
@@ -2349,7 +2370,7 @@ void Renderer::draw_air()
 	float (*hv)[XRES/CELL] = sim->air->hv;
 	float (*vx)[XRES/CELL] = sim->air->vx;
 	float (*vy)[XRES/CELL] = sim->air->vy;
-	pixel c;
+	pixel c = 0;
 	for (y=0; y<YRES/CELL; y++)
 		for (x=0; x<XRES/CELL; x++)
 		{

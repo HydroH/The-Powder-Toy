@@ -1,11 +1,12 @@
+#include "common/tpt-minmax.h"
 #include <iostream>
 #include <sstream>
 #include <cmath>
 #include <vector>
+#include <set>
 #include <bzlib.h>
 #include "Config.h"
 #include "Format.h"
-#include "bson/BSON.h"
 #include "GameSave.h"
 #include "simulation/SimulationData.h"
 #include "ElementClasses.h"
@@ -29,21 +30,22 @@ expanded(save.expanded),
 hasOriginalData(save.hasOriginalData),
 originalData(save.originalData)
 {
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
-	if(save.expanded)
+	InitData();
+	if (save.expanded)
 	{
 		setSize(save.blockWidth, save.blockHeight);
 
 		std::copy(save.particles, save.particles+NPART, particles);
-		std::copy(save.blockMapPtr, save.blockMapPtr+(blockHeight*blockWidth), blockMapPtr);
-		std::copy(save.fanVelXPtr, save.fanVelXPtr+(blockHeight*blockWidth), fanVelXPtr);
-		std::copy(save.fanVelYPtr, save.fanVelYPtr+(blockHeight*blockWidth), fanVelYPtr);
+		for (int j = 0; j < blockHeight; j++)
+		{
+			std::copy(save.blockMap[j], save.blockMap[j]+blockWidth, blockMap[j]);
+			std::copy(save.fanVelX[j], save.fanVelX[j]+blockWidth, fanVelX[j]);
+			std::copy(save.fanVelY[j], save.fanVelY[j]+blockWidth, fanVelY[j]);
+			std::copy(save.pressure[j], save.pressure[j]+blockWidth, pressure[j]);
+			std::copy(save.velocityX[j], save.velocityX[j]+blockWidth, velocityX[j]);
+			std::copy(save.velocityY[j], save.velocityY[j]+blockWidth, velocityY[j]);
+			std::copy(save.ambientHeat[j], save.ambientHeat[j]+blockWidth, ambientHeat[j]);
+		}
 	}
 	else
 	{
@@ -51,20 +53,13 @@ originalData(save.originalData)
 		blockHeight = save.blockHeight;
 	}
 	particlesCount = save.particlesCount;
-	fromNewerVersion = false;
+	authors = save.authors;
 }
 
 GameSave::GameSave(int width, int height)
 {
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
-
-	fromNewerVersion = false;
+	InitData();
+	InitVars();
 	hasOriginalData = false;
 	expanded = true;
 	setSize(width, height);
@@ -75,21 +70,11 @@ GameSave::GameSave(std::vector<char> data)
 	blockWidth = 0;
 	blockHeight = 0;
 
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
-
-	fromNewerVersion = false;
+	InitData();
+	InitVars();
 	expanded = false;
 	hasOriginalData = true;
 	originalData = data;
-#ifdef DEBUG
-	std::cout << "Creating Collapsed save from data" << std::endl;
-#endif
 	try
 	{
 		Expand();
@@ -108,21 +93,11 @@ GameSave::GameSave(std::vector<unsigned char> data)
 	blockWidth = 0;
 	blockHeight = 0;
 
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
-
-	fromNewerVersion = false;
+	InitData();
+	InitVars();
 	expanded = false;
 	hasOriginalData = true;
 	originalData = std::vector<char>(data.begin(), data.end());
-#ifdef DEBUG
-	std::cout << "Creating Collapsed save from data" << std::endl;
-#endif
 	try
 	{
 		Expand();
@@ -141,15 +116,8 @@ GameSave::GameSave(char * data, int dataSize)
 	blockWidth = 0;
 	blockHeight = 0;
 
-	blockMap = NULL;
-	blockMapPtr = NULL;
-	fanVelX = NULL;
-	fanVelXPtr = NULL;
-	fanVelY = NULL;
-	fanVelYPtr = NULL;
-	particles = NULL;
-
-	fromNewerVersion = false;
+	InitData();
+	InitVars();
 	expanded = false;
 	hasOriginalData = true;
 	originalData = std::vector<char>(data, data+dataSize);
@@ -169,6 +137,33 @@ GameSave::GameSave(char * data, int dataSize)
 	//Collapse();
 }
 
+void GameSave::InitData()
+{
+	blockMap = NULL;
+	fanVelX = NULL;
+	fanVelY = NULL;
+	particles = NULL;
+	pressure = NULL;
+	velocityX = NULL;
+	velocityY = NULL;
+	ambientHeat = NULL;
+	fromNewerVersion = false;
+	hasAmbientHeat = false;
+	authors.clear();
+}
+
+void GameSave::InitVars()
+{
+	waterEEnabled = false;
+	legacyEnable = false;
+	gravityEnable = false;
+	aheatEnable = false;
+	paused = false;
+	gravityMode = 0;
+	airMode = 0;
+	edgeMode = 0;
+}
+
 bool GameSave::Collapsed()
 {
 	return !expanded;
@@ -178,14 +173,7 @@ void GameSave::Expand()
 {
 	if(hasOriginalData && !expanded)
 	{
-		waterEEnabled = false;
-		legacyEnable = false;
-		gravityEnable = false;
-		aheatEnable = false;
-		paused = false;
-		gravityMode = 0;
-		airMode = 0;
-		edgeMode = 0;
+		InitVars();
 		expanded = true;
 		read(&originalData[0], originalData.size());
 	}
@@ -196,41 +184,7 @@ void GameSave::Collapse()
 	if(expanded && hasOriginalData)
 	{
 		expanded = false;
-		if(particles)
-		{
-			delete[] particles;
-			particles = NULL;
-		}
-		if(blockMap)
-		{
-			delete[] blockMap;
-			blockMap = NULL;
-		}
-		if(blockMapPtr)
-		{
-			delete[] blockMapPtr;
-			blockMapPtr = NULL;
-		}
-		if(fanVelX)
-		{
-			delete[] fanVelX;
-			fanVelX = NULL;
-		}
-		if(fanVelXPtr)
-		{
-			delete[] fanVelXPtr;
-			fanVelXPtr = NULL;
-		}
-		if(fanVelY)
-		{
-			delete[] fanVelY;
-			fanVelY = NULL;
-		}
-		if(fanVelYPtr)
-		{
-			delete[] fanVelYPtr;
-			fanVelYPtr = NULL;
-		}
+		dealloc();
 		signs.clear();
 	}
 }
@@ -241,16 +195,10 @@ void GameSave::read(char * data, int dataSize)
 	{
 		if ((data[0]==0x66 && data[1]==0x75 && data[2]==0x43) || (data[0]==0x50 && data[1]==0x53 && data[2]==0x76))
 		{
-#ifdef DEBUG
-			std::cout << "Reading PSv..." << std::endl;
-#endif
 			readPSv(data, dataSize);
 		}
 		else if(data[0] == 'O' && data[1] == 'P' && data[2] == 'S')
 		{
-#ifdef DEBUG
-			std::cout << "Reading OPS..." << std::endl;
-#endif
 			if (data[3] != '1')
 				throw ParseException(ParseException::WrongVersion, "Save format from newer version");
 			readOPS(data, dataSize);
@@ -267,6 +215,18 @@ void GameSave::read(char * data, int dataSize)
 	}
 }
 
+template <typename T>
+T ** GameSave::Allocate2DArray(int blockWidth, int blockHeight, T defaultVal)
+{
+	T ** temp = new T*[blockHeight];
+	for (int y = 0; y < blockHeight; y++)
+	{
+		temp[y] = new T[blockWidth];
+		std::fill(&temp[y][0], &temp[y][0]+blockWidth, defaultVal);
+	}
+	return temp;
+}
+
 void GameSave::setSize(int newWidth, int newHeight)
 {
 	this->blockWidth = newWidth;
@@ -275,28 +235,21 @@ void GameSave::setSize(int newWidth, int newHeight)
 	particlesCount = 0;
 	particles = new Particle[NPART];
 
-	blockMapPtr = new unsigned char[blockHeight*blockWidth];
-	std::fill(blockMapPtr, blockMapPtr+(blockHeight*blockWidth), 0);
-	fanVelXPtr = new float[(blockHeight)*(blockWidth)];
-	std::fill(fanVelXPtr, fanVelXPtr+((blockHeight)*(blockWidth)), 0.0f);
-	fanVelYPtr = new float[(blockHeight)*(blockWidth)];
-	std::fill(fanVelYPtr, fanVelYPtr+((blockHeight)*(blockWidth)), 0.0f);
-
-	blockMap = new unsigned char*[blockHeight];
-	for(int y = 0; y < blockHeight; y++)
-		blockMap[y] = &blockMapPtr[y*blockWidth];
-	fanVelX = new float*[blockHeight];
-	for(int y = 0; y < blockHeight; y++)
-		fanVelX[y] = &fanVelXPtr[y*(blockWidth)];
-	fanVelY = new float*[blockHeight];
-	for(int y = 0; y < blockHeight; y++)
-		fanVelY[y] = &fanVelYPtr[y*blockWidth];
+	blockMap = Allocate2DArray<unsigned char>(blockWidth, blockHeight, 0);
+	fanVelX = Allocate2DArray<float>(blockWidth, blockHeight, 0.0f);
+	fanVelY = Allocate2DArray<float>(blockWidth, blockHeight, 0.0f);
+	pressure = Allocate2DArray<float>(blockWidth, blockHeight, 0.0f);
+	velocityX = Allocate2DArray<float>(blockWidth, blockHeight, 0.0f);
+	velocityY = Allocate2DArray<float>(blockWidth, blockHeight, 0.0f);
+	ambientHeat = Allocate2DArray<float>(blockWidth, blockHeight, 0.0f);
 }
 
 std::vector<char> GameSave::Serialise()
 {
 	unsigned int dataSize;
 	char * data = Serialise(dataSize);
+	if (data == NULL)
+		return std::vector<char>();
 	std::vector<char> dataVect(data, data+dataSize);
 	delete[] data;
 	return dataVect;
@@ -339,29 +292,15 @@ void GameSave::Transform(matrix2d transform, vector2d translate)
 	newBlockHeight = newHeight/CELL;
 
 	unsigned char ** blockMapNew;
-	float ** fanVelXNew;
-	float ** fanVelYNew;
+	float **fanVelXNew, **fanVelYNew, **pressureNew, **velocityXNew, **velocityYNew, **ambientHeatNew;
 
-	float * fanVelXPtrNew;
-	float * fanVelYPtrNew;
-	unsigned char * blockMapPtrNew;
-
-	blockMapPtrNew = new unsigned char[newBlockHeight*newBlockWidth];
-	std::fill(blockMapPtrNew, blockMapPtrNew+(newBlockHeight*newBlockWidth), 0);
-	fanVelXPtrNew = new float[newBlockHeight*newBlockWidth];
-	std::fill(fanVelXPtrNew, fanVelXPtrNew+(newBlockHeight*newBlockWidth), 0.0f);
-	fanVelYPtrNew = new float[(newBlockHeight)*(newBlockWidth)];
-	std::fill(fanVelYPtrNew, fanVelYPtrNew+(newBlockHeight*newBlockWidth), 0.0f);
-
-	blockMapNew = new unsigned char*[newBlockHeight];
-	for(int y = 0; y < newBlockHeight; y++)
-		blockMapNew[y] = &blockMapPtrNew[y*newBlockWidth];
-	fanVelXNew = new float*[newBlockHeight];
-	for(int y = 0; y < newBlockHeight; y++)
-		fanVelXNew[y] = &fanVelXPtrNew[y*newBlockWidth];
-	fanVelYNew = new float*[newBlockHeight];
-	for(int y = 0; y < newBlockHeight; y++)
-		fanVelYNew[y] = &fanVelYPtrNew[y*newBlockWidth];
+	blockMapNew = Allocate2DArray<unsigned char>(newBlockWidth, newBlockHeight, 0);
+	fanVelXNew = Allocate2DArray<float>(newBlockWidth, newBlockHeight, 0.0f);
+	fanVelYNew = Allocate2DArray<float>(newBlockWidth, newBlockHeight, 0.0f);
+	pressureNew = Allocate2DArray<float>(newBlockWidth, newBlockHeight, 0.0f);
+	velocityXNew = Allocate2DArray<float>(newBlockWidth, newBlockHeight, 0.0f);
+	velocityYNew = Allocate2DArray<float>(newBlockWidth, newBlockHeight, 0.0f);
+	ambientHeatNew = Allocate2DArray<float>(newBlockWidth, newBlockHeight, 0.0f);
 
 	// rotate and translate signs, parts, walls
 	for (size_t i = 0; i < signs.size(); i++)
@@ -417,32 +356,99 @@ void GameSave::Transform(matrix2d transform, vector2d translate)
 					fanVelYNew[ny][nx] = vel.y;
 				}
 			}
+			pressureNew[ny][nx] = pressure[y][x];
+			velocityXNew[ny][nx] = velocityX[y][x];
+			velocityYNew[ny][nx] = velocityY[y][x];
+			ambientHeatNew[ny][nx] = ambientHeat[y][x];
 		}
-	//ndata = build_save(size,0,0,nw,nh,blockMapNew,vxn,vyn,pvn,fanVelXNew,fanVelYNew,signst,partst);
+
+	for (int j = 0; j < blockHeight; j++)
+	{
+		delete[] blockMap[j];
+		delete[] fanVelX[j];
+		delete[] fanVelY[j];
+		delete[] pressure[j];
+		delete[] velocityX[j];
+		delete[] velocityY[j];
+		delete[] ambientHeat[j];
+	}
+
 	blockWidth = newBlockWidth;
 	blockHeight = newBlockHeight;
 
 	delete[] blockMap;
 	delete[] fanVelX;
 	delete[] fanVelY;
-
-	delete[] blockMapPtr;
-	delete[] fanVelXPtr;
-	delete[] fanVelYPtr;
+	delete[] pressure;
+	delete[] velocityX;
+	delete[] velocityY;
+	delete[] ambientHeat;
 
 	blockMap = blockMapNew;
 	fanVelX = fanVelXNew;
 	fanVelY = fanVelYNew;
+	pressure = pressureNew;
+	velocityX = velocityXNew;
+	velocityY = velocityYNew;
+	ambientHeat = ambientHeatNew;
+}
 
-	blockMapPtr = (unsigned char*)blockMapPtrNew;
-	fanVelXPtr = (float*)fanVelXPtrNew;
-	fanVelYPtr = (float*)fanVelYPtrNew;
+void bson_error_handler(const char *err)
+{
+	throw ParseException(ParseException::Corrupt, "BSON error when parsing save");
+}
+
+void GameSave::CheckBsonFieldUser(bson_iterator iter, const char *field, unsigned char **data, unsigned int *fieldLen)
+{
+	if (!strcmp(bson_iterator_key(&iter), field))
+	{
+		if (bson_iterator_type(&iter)==BSON_BINDATA && ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER && (*fieldLen = bson_iterator_bin_len(&iter)) > 0)
+		{
+			*data = (unsigned char*)bson_iterator_bin_data(&iter);
+		}
+		else
+		{
+			fprintf(stderr, "Invalid datatype for %s: %d[%d] %d[%d] %d[%d]\n", field, bson_iterator_type(&iter), bson_iterator_type(&iter)==BSON_BINDATA, (unsigned char)bson_iterator_bin_type(&iter), ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER, bson_iterator_bin_len(&iter), bson_iterator_bin_len(&iter)>0);
+		}
+	}
+}
+
+void GameSave::CheckBsonFieldBool(bson_iterator iter, const char *field, bool *flag)
+{
+	if (!strcmp(bson_iterator_key(&iter), field))
+	{
+		if (bson_iterator_type(&iter) == BSON_BOOL)
+		{
+			*flag = bson_iterator_bool(&iter);
+		}
+		else
+		{
+			fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
+		}
+	}
+}
+
+void GameSave::CheckBsonFieldInt(bson_iterator iter, const char *field, int *setting)
+{
+	if (!strcmp(bson_iterator_key(&iter), field))
+	{
+		if (bson_iterator_type(&iter) == BSON_INT)
+		{
+			*setting = bson_iterator_int(&iter);
+		}
+		else
+		{
+			fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
+		}
+	}
 }
 
 void GameSave::readOPS(char * data, int dataLength)
 {
-	unsigned char * inputData = (unsigned char*)data, *bsonData = NULL, *partsData = NULL, *partsPosData = NULL, *fanData = NULL, *wallData = NULL, *soapLinkData = NULL;
+	unsigned char *inputData = (unsigned char*)data, *bsonData = NULL, *partsData = NULL, *partsPosData = NULL, *fanData = NULL, *wallData = NULL, *soapLinkData = NULL;
+	unsigned char *pressData = NULL, *vxData = NULL, *vyData = NULL, *ambientData = NULL;
 	unsigned int inputDataLen = dataLength, bsonDataLen = 0, partsDataLen, partsPosDataLen, fanDataLen, wallDataLen, soapLinkDataLen;
+	unsigned int pressDataLen, vxDataLen, vyDataLen, ambientDataLen;
 	unsigned partsCount = 0, *partsSimIndex = NULL;
 	int *freeIndices = NULL;
 	unsigned int blockX, blockY, blockW, blockH, fullX, fullY, fullW, fullH;
@@ -500,44 +506,62 @@ void GameSave::readOPS(char * data, int dataLength)
 	if (BZ2_bzBuffToBuffDecompress((char*)bsonData, &bsonDataLen, (char*)(inputData+12), inputDataLen-12, 0, 0))
 		throw ParseException(ParseException::Corrupt, "Unable to decompress");
 
-	bson_init_data(&b, (char*)bsonData);
+	set_bson_err_handler(bson_error_handler);
+	bson_init_data_size(&b, (char*)bsonData, bsonDataLen);
 	bson_iterator_init(&iter, &b);
 
 	std::vector<sign> tempSigns;
 
-	while(bson_iterator_next(&iter))
+	while (bson_iterator_next(&iter))
 	{
-		if(strcmp(bson_iterator_key(&iter), "signs")==0)
+		CheckBsonFieldUser(iter, "parts", &partsData, &partsDataLen);
+		CheckBsonFieldUser(iter, "partsPos", &partsPosData, &partsPosDataLen);
+		CheckBsonFieldUser(iter, "wallMap", &wallData, &wallDataLen);
+		CheckBsonFieldUser(iter, "pressMap", &pressData, &pressDataLen);
+		CheckBsonFieldUser(iter, "vxMap", &vxData, &vxDataLen);
+		CheckBsonFieldUser(iter, "vyMap", &vyData, &vyDataLen);
+		CheckBsonFieldUser(iter, "ambientMap", &ambientData, &ambientDataLen);
+		CheckBsonFieldUser(iter, "fanMap", &fanData, &fanDataLen);
+		CheckBsonFieldUser(iter, "soapLinks", &soapLinkData, &soapLinkDataLen);
+		CheckBsonFieldBool(iter, "legacyEnable", &legacyEnable);
+		CheckBsonFieldBool(iter, "gravityEnable", &gravityEnable);
+		CheckBsonFieldBool(iter, "aheat_enable", &aheatEnable);
+		CheckBsonFieldBool(iter, "waterEEnabled", &waterEEnabled);
+		CheckBsonFieldBool(iter, "paused", &paused);
+		CheckBsonFieldInt(iter, "gravityMode", &gravityMode);
+		CheckBsonFieldInt(iter, "airMode", &airMode);
+		CheckBsonFieldInt(iter, "edgeMode", &edgeMode);
+		if (!strcmp(bson_iterator_key(&iter), "signs"))
 		{
-			if(bson_iterator_type(&iter)==BSON_ARRAY)
+			if (bson_iterator_type(&iter)==BSON_ARRAY)
 			{
 				bson_iterator subiter;
 				bson_iterator_subiterator(&iter, &subiter);
-				while(bson_iterator_next(&subiter))
+				while (bson_iterator_next(&subiter))
 				{
-					if(strcmp(bson_iterator_key(&subiter), "sign")==0)
+					if (!strcmp(bson_iterator_key(&subiter), "sign"))
 					{
-						if(bson_iterator_type(&subiter)==BSON_OBJECT)
+						if (bson_iterator_type(&subiter) == BSON_OBJECT)
 						{
 							bson_iterator signiter;
 							bson_iterator_subiterator(&subiter, &signiter);
 
 							sign tempSign("", 0, 0, sign::Left);
-							while(bson_iterator_next(&signiter))
+							while (bson_iterator_next(&signiter))
 							{
-								if(strcmp(bson_iterator_key(&signiter), "text")==0 && bson_iterator_type(&signiter)==BSON_STRING)
+								if (!strcmp(bson_iterator_key(&signiter), "text") && bson_iterator_type(&signiter) == BSON_STRING)
 								{
 									tempSign.text = format::CleanString(bson_iterator_string(&signiter), true, true, true).substr(0, 45);
 								}
-								else if(strcmp(bson_iterator_key(&signiter), "justification")==0 && bson_iterator_type(&signiter)==BSON_INT)
+								else if (!strcmp(bson_iterator_key(&signiter), "justification") && bson_iterator_type(&signiter) == BSON_INT)
 								{
 									tempSign.ju = (sign::Justification)bson_iterator_int(&signiter);
 								}
-								else if(strcmp(bson_iterator_key(&signiter), "x")==0 && bson_iterator_type(&signiter)==BSON_INT)
+								else if (!strcmp(bson_iterator_key(&signiter), "x") && bson_iterator_type(&signiter) == BSON_INT)
 								{
 									tempSign.x = bson_iterator_int(&signiter)+fullX;
 								}
-								else if(strcmp(bson_iterator_key(&signiter), "y")==0 && bson_iterator_type(&signiter)==BSON_INT)
+								else if (!strcmp(bson_iterator_key(&signiter), "y") && bson_iterator_type(&signiter) == BSON_INT)
 								{
 									tempSign.y = bson_iterator_int(&signiter)+fullY;
 								}
@@ -560,159 +584,16 @@ void GameSave::readOPS(char * data, int dataLength)
 				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
 			}
 		}
-		else if(strcmp(bson_iterator_key(&iter), "parts")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BINDATA && ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER && (partsDataLen = bson_iterator_bin_len(&iter)) > 0)
-			{
-				partsData = (unsigned char*)bson_iterator_bin_data(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Invalid datatype of particle data: %d[%d] %d[%d] %d[%d]\n", bson_iterator_type(&iter), bson_iterator_type(&iter)==BSON_BINDATA, (unsigned char)bson_iterator_bin_type(&iter), ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER, bson_iterator_bin_len(&iter), bson_iterator_bin_len(&iter)>0);
-			}
-		}
-		if(strcmp(bson_iterator_key(&iter), "partsPos")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BINDATA && ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER && (partsPosDataLen = bson_iterator_bin_len(&iter)) > 0)
-			{
-				partsPosData = (unsigned char*)bson_iterator_bin_data(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Invalid datatype of particle position data: %d[%d] %d[%d] %d[%d]\n", bson_iterator_type(&iter), bson_iterator_type(&iter)==BSON_BINDATA, (unsigned char)bson_iterator_bin_type(&iter), ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER, bson_iterator_bin_len(&iter), bson_iterator_bin_len(&iter)>0);
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "wallMap")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BINDATA && ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER && (wallDataLen = bson_iterator_bin_len(&iter)) > 0)
-			{
-				wallData = (unsigned char*)bson_iterator_bin_data(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Invalid datatype of wall data: %d[%d] %d[%d] %d[%d]\n", bson_iterator_type(&iter), bson_iterator_type(&iter)==BSON_BINDATA, (unsigned char)bson_iterator_bin_type(&iter), ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER, bson_iterator_bin_len(&iter), bson_iterator_bin_len(&iter)>0);
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "fanMap")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BINDATA && ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER && (fanDataLen = bson_iterator_bin_len(&iter)) > 0)
-			{
-				fanData = (unsigned char*)bson_iterator_bin_data(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Invalid datatype of fan data: %d[%d] %d[%d] %d[%d]\n", bson_iterator_type(&iter), bson_iterator_type(&iter)==BSON_BINDATA, (unsigned char)bson_iterator_bin_type(&iter), ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER, bson_iterator_bin_len(&iter), bson_iterator_bin_len(&iter)>0);
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "soapLinks")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BINDATA && ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER && (soapLinkDataLen = bson_iterator_bin_len(&iter)) > 0)
-			{
-				soapLinkData = (unsigned char *)bson_iterator_bin_data(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Invalid datatype of soap data: %d[%d] %d[%d] %d[%d]\n", bson_iterator_type(&iter), bson_iterator_type(&iter)==BSON_BINDATA, (unsigned char)bson_iterator_bin_type(&iter), ((unsigned char)bson_iterator_bin_type(&iter))==BSON_BIN_USER, bson_iterator_bin_len(&iter), bson_iterator_bin_len(&iter)>0);
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "legacyEnable")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BOOL)
-			{
-				legacyEnable = bson_iterator_bool(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "gravityEnable")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BOOL)
-			{
-				gravityEnable = bson_iterator_bool(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
-			}
-		}
-		else if(!strcmp(bson_iterator_key(&iter), "aheat_enable"))
-		{
-			if(bson_iterator_type(&iter)==BSON_BOOL)
-			{
-				aheatEnable = bson_iterator_bool(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "waterEEnabled")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BOOL)
-			{
-				waterEEnabled = bson_iterator_bool(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "paused")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_BOOL)
-			{
-				paused = bson_iterator_bool(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "gravityMode")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_INT)
-			{
-				gravityMode = bson_iterator_int(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "airMode")==0)
-		{
-			if(bson_iterator_type(&iter)==BSON_INT)
-			{
-				airMode = bson_iterator_int(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
-			}
-		}
-		else if (!strcmp(bson_iterator_key(&iter), "edgeMode"))
-		{
-			if(bson_iterator_type(&iter)==BSON_INT)
-			{
-				edgeMode = bson_iterator_int(&iter);
-			}
-			else
-			{
-				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
-			}
-		}
-		else if(strcmp(bson_iterator_key(&iter), "palette")==0)
+		else if (!strcmp(bson_iterator_key(&iter), "palette"))
 		{
 			palette.clear();
-			if(bson_iterator_type(&iter)==BSON_ARRAY)
+			if (bson_iterator_type(&iter) == BSON_ARRAY)
 			{
 				bson_iterator subiter;
 				bson_iterator_subiterator(&iter, &subiter);
-				while(bson_iterator_next(&subiter))
+				while (bson_iterator_next(&subiter))
 				{
-					if(bson_iterator_type(&subiter)==BSON_INT)
+					if (bson_iterator_type(&subiter) == BSON_INT)
 					{
 						std::string id = std::string(bson_iterator_key(&subiter));
 						int num = bson_iterator_int(&subiter);
@@ -740,7 +621,11 @@ void GameSave::readOPS(char * data, int dataLength)
 							fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
 					}
 				}
+#ifdef SNAPSHOT
+				if (major > FUTURE_SAVE_VERSION || (major == FUTURE_SAVE_VERSION && minor > FUTURE_MINOR_VERSION))
+#else
 				if (major > SAVE_VERSION || (major == SAVE_VERSION && minor > MINOR_VERSION))
+#endif
 				{
 					std::stringstream errorMessage;
 					errorMessage << "Save from a newer version: Requires version " << major << "." << minor;
@@ -752,6 +637,22 @@ void GameSave::readOPS(char * data, int dataLength)
 				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
 			}
 		}
+#ifndef RENDERER
+		else if (!strcmp(bson_iterator_key(&iter), "authors"))
+		{
+			if (bson_iterator_type(&iter) == BSON_OBJECT)
+			{
+				// we need to clear authors because the save may be read multiple times in the stamp browser (loading and rendering twice)
+				// seems inefficient ...
+				authors.clear();
+				ConvertBsonToJson(&iter, &authors);
+			}
+			else
+			{
+				fprintf(stderr, "Wrong type for %s\n", bson_iterator_key(&iter));
+			}
+		}
+#endif
 	}
 
 	//Read wall and fan data
@@ -817,6 +718,90 @@ void GameSave::readOPS(char * data, int dataLength)
 					blockMap[y][x] = 0;
 			}
 		}
+	}
+
+	//Read pressure data
+	if (pressData)
+	{
+		unsigned int j = 0;
+		unsigned char i, i2;
+		if (blockW * blockH > pressDataLen)
+		{
+			fprintf(stderr, "Not enough pressure data\n");
+			goto fail;
+		}
+		for (unsigned int x = 0; x < blockW; x++)
+		{
+			for (unsigned int y = 0; y < blockH; y++)
+			{
+				i = pressData[j++];
+				i2 = pressData[j++];
+				pressure[blockY+y][blockX+x] = ((i+(i2<<8))/128.0f)-256;
+			}
+		}
+	}
+
+	//Read vx data
+	if (vxData)
+	{
+		unsigned int j = 0;
+		unsigned char i, i2;
+		if (blockW * blockH > vxDataLen)
+		{
+			fprintf(stderr, "Not enough vx data\n");
+			goto fail;
+		}
+		for (unsigned int x = 0; x < blockW; x++)
+		{
+			for (unsigned int y = 0; y < blockH; y++)
+			{
+				i = vxData[j++];
+				i2 = vxData[j++];
+				velocityX[blockY+y][blockX+x] = ((i+(i2<<8))/128.0f)-256;
+			}
+		}
+	}
+
+	//Read vy data
+	if (vyData)
+	{
+		unsigned int j = 0;
+		unsigned char i, i2;
+		if (blockW * blockH > vyDataLen)
+		{
+			fprintf(stderr, "Not enough vy data\n");
+			goto fail;
+		}
+		for (unsigned int x = 0; x < blockW; x++)
+		{
+			for (unsigned int y = 0; y < blockH; y++)
+			{
+				i = vyData[j++];
+				i2 = vyData[j++];
+				velocityY[blockY+y][blockX+x] = ((i+(i2<<8))/128.0f)-256;
+			}
+		}
+	}
+
+	//Read ambient data
+	if (ambientData)
+	{
+		unsigned int i = 0, tempTemp;
+		if (blockW * blockH > ambientDataLen)
+		{
+			fprintf(stderr, "Not enough ambient data\n");
+			goto fail;
+		}
+		for (unsigned int x = 0; x < blockW; x++)
+		{
+			for (unsigned int y = 0; y < blockH; y++)
+			{
+				tempTemp = ambientData[i++];
+				tempTemp |= (((unsigned)ambientData[i++]) << 8);
+				ambientHeat[blockY+y][blockX+x] = tempTemp;
+			}
+		}
+		hasAmbientHeat = true;
 	}
 
 	//Read particle data
@@ -1844,10 +1829,12 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 {
 	//Particle *particles = sim->parts;
 	unsigned char *partsData = NULL, *partsPosData = NULL, *fanData = NULL, *wallData = NULL, *finalData = NULL, *outputData = NULL, *soapLinkData = NULL;
+	unsigned char *pressData = NULL, *vxData = NULL, *vyData = NULL, *ambientData = NULL;
 	unsigned *partsPosLink = NULL, *partsPosFirstMap = NULL, *partsPosCount = NULL, *partsPosLastMap = NULL;
 	unsigned partsCount = 0, *partsSaveIndex = NULL;
 	unsigned *elementCount = new unsigned[PT_NUM];
-	unsigned int partsDataLen, partsPosDataLen, fanDataLen, wallDataLen, finalDataLen, outputDataLen, soapLinkDataLen;
+	unsigned int partsDataLen, partsPosDataLen, fanDataLen, wallDataLen,finalDataLen, outputDataLen, soapLinkDataLen;
+	unsigned int pressDataLen = 0, vxDataLen = 0, vyDataLen = 0, ambientDataLen = 0;
 	int blockX, blockY, blockW, blockH, fullX, fullY, fullW, fullH;
 	int x, y, i, wallDataFound = 0;
 	int posCount, signsCount;
@@ -1878,11 +1865,39 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 	wallDataLen = blockW*blockH;
 	fanData = (unsigned char*)malloc((blockW*blockH)*2);
 	fanDataLen = 0;
+	pressData = (unsigned char*)malloc((blockW*blockH)*2);
+	vxData = (unsigned char*)malloc((blockW*blockH)*2);
+	vyData = (unsigned char*)malloc((blockW*blockH)*2);
+	ambientData = (unsigned char*)malloc((blockW*blockH)*2);
+	if (!wallData || !fanData || !pressData || !vxData || !vyData || !ambientData)
+	{
+		puts("Save Error, out of memory\n");
+		outputData = NULL;
+		goto fin;
+	}
 	for(x = blockX; x < blockX+blockW; x++)
 	{
 		for(y = blockY; y < blockY+blockH; y++)
 		{
 			wallData[(y-blockY)*blockW+(x-blockX)] = blockMap[y][x];
+
+			//save pressure and x/y velocity grids
+			float pres = std::max(-255.0f,std::min(255.0f,pressure[y][x]))+256.0f;
+			float velX = std::max(-255.0f,std::min(255.0f,velocityX[y][x]))+256.0f;
+			float velY = std::max(-255.0f,std::min(255.0f,velocityY[y][x]))+256.0f;
+			pressData[pressDataLen++] = (unsigned char)((int)(pres*128)&0xFF);
+			pressData[pressDataLen++] = (unsigned char)((int)(pres*128)>>8);
+
+			vxData[vxDataLen++] = (unsigned char)((int)(velX*128)&0xFF);
+			vxData[vxDataLen++] = (unsigned char)((int)(velX*128)>>8);
+
+			vyData[vyDataLen++] = (unsigned char)((int)(velY*128)&0xFF);
+			vyData[vyDataLen++] = (unsigned char)((int)(velY*128)>>8);
+
+			int tempTemp = (int)(ambientHeat[y][x]+0.5f);
+			ambientData[ambientDataLen++] = tempTemp;
+			ambientData[ambientDataLen++] = tempTemp >> 8;
+
 			if(blockMap[y][x] && !wallDataFound)
 				wallDataFound = 1;
 			if(blockMap[y][x]==WL_FAN)
@@ -2123,6 +2138,17 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 				{
 					RESTRICTVERSION(91, 5);
 				}
+				if (particles[i].type == PT_HEAC || particles[i].type == PT_SAWD || particles[i].type == PT_POLO
+						|| particles[i].type == PT_RFRG || particles[i].type == PT_RFGL || particles[i].type == PT_LSNS)
+				{
+					RESTRICTVERSION(92, 0);
+					fromNewerVersion = true;
+				}
+				else if ((particles[i].type == PT_FRAY || particles[i].type == PT_INVIS) && particles[i].tmp)
+				{
+					RESTRICTVERSION(92, 0);
+					fromNewerVersion = true;
+				}
 
 				//Get the pmap entry for the next particle in the same position
 				i = partsPosLink[i];
@@ -2206,17 +2232,25 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 	//bson_append_int(&b, "leftSelectedElement", sl);
 	//bson_append_int(&b, "rightSelectedElement", sr);
 	//bson_append_int(&b, "activeMenu", active_menu);
-	if(partsData)
+	if (partsData)
 		bson_append_binary(&b, "parts", BSON_BIN_USER, (const char *)partsData, partsDataLen);
-	if(partsPosData)
+	if (partsPosData)
 		bson_append_binary(&b, "partsPos", BSON_BIN_USER, (const char *)partsPosData, partsPosDataLen);
-	if(wallData)
+	if (wallData)
 		bson_append_binary(&b, "wallMap", BSON_BIN_USER, (const char *)wallData, wallDataLen);
-	if(fanData)
+	if (fanData)
 		bson_append_binary(&b, "fanMap", BSON_BIN_USER, (const char *)fanData, fanDataLen);
-	if(soapLinkData)
+	if (pressData)
+		bson_append_binary(&b, "pressMap", (char)BSON_BIN_USER, (const char*)pressData, pressDataLen);
+	if (vxData)
+		bson_append_binary(&b, "vxMap", (char)BSON_BIN_USER, (const char*)vxData, vxDataLen);
+	if (vyData)
+		bson_append_binary(&b, "vyMap", (char)BSON_BIN_USER, (const char*)vyData, vyDataLen);
+	if (ambientData && this->aheatEnable)
+		bson_append_binary(&b, "ambientMap", (char)BSON_BIN_USER, (const char*)ambientData, ambientDataLen);
+	if (soapLinkData)
 		bson_append_binary(&b, "soapLinks", BSON_BIN_USER, (const char *)soapLinkData, soapLinkDataLen);
-	if(partsData && palette.size())
+	if (partsData && palette.size())
 	{
 		bson_append_start_array(&b, "palette");
 		for(std::vector<PaletteItem>::iterator iter = palette.begin(), end = palette.end(); iter != end; ++iter)
@@ -2250,10 +2284,14 @@ char * GameSave::serialiseOPS(unsigned int & dataLength)
 		}
 		bson_append_finish_array(&b);
 	}
-	bson_finish(&b);
-#ifdef DEBUG
-	bson_print(&b);
-#endif
+	if (authors.size())
+	{
+		bson_append_start_object(&b, "authors");
+		ConvertJsonToBson(&b, authors);
+		bson_append_finish_object(&b);
+	}
+	if (bson_finish(&b) == BSON_ERROR)
+		goto fin;
 
 	finalData = (unsigned char *)bson_data(&b);
 	finalDataLen = bson_size(&b);
@@ -2291,6 +2329,10 @@ fin:
 	bson_destroy(&b);
 	free(partsData);
 	free(wallData);
+	free(pressData);
+	free(vxData);
+	free(vyData);
+	free(ambientData);
 	free(fanData);
 	delete[] elementCount;
 	free(partsSaveIndex);
@@ -2304,43 +2346,148 @@ fin:
 	return (char*)outputData;
 }
 
+void GameSave::ConvertBsonToJson(bson_iterator *iter, Json::Value *j)
+{
+	bson_iterator subiter;
+	bson_iterator_subiterator(iter, &subiter);
+	while (bson_iterator_next(&subiter))
+	{
+		std::string key = bson_iterator_key(&subiter);
+		if (bson_iterator_type(&subiter) == BSON_STRING)
+			(*j)[key] = bson_iterator_string(&subiter);
+		else if (bson_iterator_type(&subiter) == BSON_BOOL)
+			(*j)[key] = bson_iterator_bool(&subiter);
+		else if (bson_iterator_type(&subiter) == BSON_INT)
+			(*j)[key] = bson_iterator_int(&subiter);
+		else if (bson_iterator_type(&subiter) == BSON_LONG)
+			(*j)[key] = (Json::Value::Int64)bson_iterator_long(&subiter);
+		else if (bson_iterator_type(&subiter) == BSON_ARRAY)
+		{
+			bson_iterator arrayiter;
+			bson_iterator_subiterator(&subiter, &arrayiter);
+			while (bson_iterator_next(&arrayiter))
+			{
+				if (bson_iterator_type(&arrayiter) == BSON_OBJECT && !strcmp(bson_iterator_key(&arrayiter), "part"))
+				{
+					Json::Value tempPart;
+					ConvertBsonToJson(&arrayiter, &tempPart);
+					(*j)["links"].append(tempPart);
+				}
+				else if (bson_iterator_type(&arrayiter) == BSON_INT && !strcmp(bson_iterator_key(&arrayiter), "saveID"))
+				{
+					(*j)["links"].append(bson_iterator_int(&arrayiter));
+				}
+			}
+		}
+	}
+}
+
+std::set<int> GetNestedSaveIDs(Json::Value j)
+{
+	Json::Value::Members members = j.getMemberNames();
+	std::set<int> saveIDs = std::set<int>();
+	for (Json::Value::Members::iterator iter = members.begin(), end = members.end(); iter != end; ++iter)
+	{
+		std::string member = *iter;
+		if (member == "id" && j[member].isInt())
+			saveIDs.insert(j[member].asInt());
+		else if (j[member].isArray())
+		{
+			for (Json::Value::ArrayIndex i = 0; i < j[member].size(); i++)
+			{
+				// only supports objects and ints here because that is all we need
+				if (j[member][i].isInt())
+				{
+					saveIDs.insert(j[member][i].asInt());
+					continue;
+				}
+				if (!j[member][i].isObject())
+					continue;
+				std::set<int> nestedSaveIDs = GetNestedSaveIDs(j[member][i]);
+				saveIDs.insert(nestedSaveIDs.begin(), nestedSaveIDs.end());
+			}
+		}
+	}
+	return saveIDs;
+}
+
+// converts a json object to bson
+void GameSave::ConvertJsonToBson(bson *b, Json::Value j, int depth)
+{
+	Json::Value::Members members = j.getMemberNames();
+	for (Json::Value::Members::iterator iter = members.begin(), end = members.end(); iter != end; ++iter)
+	{
+		std::string member = *iter;
+		if (j[member].isString())
+			bson_append_string(b, member.c_str(), j[member].asCString());
+		else if (j[member].isBool())
+			bson_append_bool(b, member.c_str(), j[member].asBool());
+		else if (j[member].isInt() || j[member].isUInt())
+			bson_append_int(b, member.c_str(), j[member].asInt());
+		else if (j[member].isInt64() || j[member].isUInt64())
+			bson_append_long(b, member.c_str(), j[member].asInt64());
+		else if (j[member].isArray())
+		{
+			bson_append_start_array(b, member.c_str());
+			std::set<int> saveIDs = std::set<int>();
+			for (Json::Value::ArrayIndex i = 0; i < j[member].size(); i++)
+			{
+				// only supports objects and ints here because that is all we need
+				if (j[member][i].isInt())
+				{
+					saveIDs.insert(j[member][i].asInt());
+					continue;
+				}
+				if (!j[member][i].isObject())
+					continue;
+				if (depth > 4)
+				{
+					std::set<int> nestedSaveIDs = GetNestedSaveIDs(j[member][i]);
+					saveIDs.insert(nestedSaveIDs.begin(), nestedSaveIDs.end());
+				}
+				else
+				{
+					bson_append_start_object(b, "part");
+					ConvertJsonToBson(b, j[member][i], depth+1);
+					bson_append_finish_object(b);
+				}
+			}
+			for (std::set<int>::iterator iter = saveIDs.begin(), end = saveIDs.end(); iter != end; ++iter)
+			{
+				bson_append_int(b, "saveID", *iter);
+			}
+			bson_append_finish_array(b);
+		}
+	}
+}
+
+// deallocates a pointer to a 2D array and sets it to NULL
+template <typename T>
+void GameSave::Deallocate2DArray(T ***array, int blockHeight)
+{
+	if (*array)
+	{
+		for (int y = 0; y < blockHeight; y++)
+			delete[] (*array)[y];
+		delete[] (*array);
+		*array = NULL;
+	}
+}
+
 void GameSave::dealloc()
 {
-	if(particles)
+	if (particles)
 	{
 		delete[] particles;
 		particles = NULL;
 	}
-	if(blockMap)
-	{
-		delete[] blockMap;
-		blockMap = NULL;
-	}
-	if(blockMapPtr)
-	{
-		delete[] blockMapPtr;
-		blockMapPtr = NULL;
-	}
-	if(fanVelX)
-	{
-		delete[] fanVelX;
-		fanVelX = NULL;
-	}
-	if(fanVelXPtr)
-	{
-		delete[] fanVelXPtr;
-		fanVelXPtr = NULL;
-	}
-	if(fanVelY)
-	{
-		delete[] fanVelY;
-		fanVelY = NULL;
-	}
-	if(fanVelYPtr)
-	{
-		delete[] fanVelYPtr;
-		fanVelYPtr = NULL;
-	}
+	Deallocate2DArray<unsigned char>(&blockMap, blockHeight);
+	Deallocate2DArray<float>(&fanVelX, blockHeight);
+	Deallocate2DArray<float>(&fanVelY, blockHeight);
+	Deallocate2DArray<float>(&pressure, blockHeight);
+	Deallocate2DArray<float>(&velocityX, blockHeight);
+	Deallocate2DArray<float>(&velocityY, blockHeight);
+	Deallocate2DArray<float>(&ambientHeat, blockHeight);
 }
 
 GameSave::~GameSave()

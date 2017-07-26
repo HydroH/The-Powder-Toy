@@ -14,6 +14,7 @@ namespace ui
 
 class Task;
 class Thumbnail;
+class VideoBuffer;
 class ServerSaveActivity: public WindowActivity, public RequestListener, public TaskListener
 {
 public:
@@ -37,6 +38,7 @@ public:
 	virtual void OnTick(float dt);
 	virtual ~ServerSaveActivity();
 protected:
+	void AddAuthorInfo();
 	virtual void NotifyDone(Task * task);
 	VideoBuffer * thumbnail;
 	SaveInfo save;

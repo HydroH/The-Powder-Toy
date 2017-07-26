@@ -32,6 +32,7 @@ PreviewController::PreviewController(int saveID, int saveDate, bool instant, Con
 	Client::Ref().AddListener(this);
 
 	this->callback = callback;
+	(void)saveDate; //pretend this is used
 }
 
 PreviewController::PreviewController(int saveID, bool instant, ControllerCallback * callback):
@@ -55,6 +56,7 @@ PreviewController::PreviewController(int saveID, bool instant, ControllerCallbac
 	Client::Ref().AddListener(this);
 
 	this->callback = callback;
+	(void)saveDate; //pretend this is used
 }
 
 void PreviewController::Update()
@@ -98,7 +100,7 @@ bool PreviewController::SubmitComment(std::string comment)
 void PreviewController::ShowLogin()
 {
 	loginWindow = new LoginController();
-	ui::Engine::Ref().ShowWindow(loginWindow->GetView());
+	loginWindow->GetView()->MakeActiveWindow();
 }
 
 void PreviewController::NotifyAuthUserChanged(Client * sender)
@@ -179,20 +181,15 @@ bool PreviewController::PrevCommentPage()
 
 void PreviewController::Exit()
 {
-	if(ui::Engine::Ref().GetWindow() == previewView)
-	{
-		ui::Engine::Ref().CloseWindow();
-	}
+	previewView->CloseActiveWindow();
 	HasExited = true;
 	if(callback)
 		callback->ControllerExit();
 }
 
-PreviewController::~PreviewController() {
-	if(ui::Engine::Ref().GetWindow() == previewView)
-	{
-		ui::Engine::Ref().CloseWindow();
-	}
+PreviewController::~PreviewController()
+{
+	previewView->CloseActiveWindow();
 	Client::Ref().RemoveListener(this);
 	delete previewModel;
 	delete previewView;

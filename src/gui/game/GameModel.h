@@ -20,6 +20,7 @@ using namespace std;
 
 class GameView;
 class GameController;
+class SaveFile;
 class Simulation;
 class Renderer;
 
@@ -65,6 +66,9 @@ private:
 	User currentUser;
 	float toolStrength;
 	std::deque<Snapshot*> history;
+	Snapshot *redoHistory;
+	unsigned int historyPosition;
+	unsigned int undoHistoryLimit;
 
 	size_t activeColourPreset;
 	std::vector<ui::Colour> colourPresets;
@@ -129,7 +133,13 @@ public:
 	void BuildQuickOptionMenu(GameController * controller);
 
 	std::deque<Snapshot*> GetHistory();
+	unsigned int GetHistoryPosition();
 	void SetHistory(std::deque<Snapshot*> newHistory);
+	void SetHistoryPosition(unsigned int newHistoryPosition);
+	Snapshot * GetRedoHistory();
+	void SetRedoHistory(Snapshot * redo);
+	unsigned int GetUndoHistoryLimit();
+	void SetUndoHistoryLimit(unsigned int undoHistoryLimit_);
 
 	void UpdateQuickOptions();
 

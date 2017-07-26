@@ -1,5 +1,6 @@
 #include "LoginView.h"
 
+#include "graphics/Graphics.h"
 #include "gui/interface/Button.h"
 #include "gui/interface/Label.h"
 #include "gui/interface/Textbox.h"
@@ -87,13 +88,13 @@ void LoginView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, boo
 
 void LoginView::OnTryExit(ExitMethod method)
 {
-	ui::Engine::Ref().CloseWindow();
+	CloseActiveWindow();
 }
 
 void LoginView::NotifyStatusChanged(LoginModel * sender)
 {
 	if (infoLabel->Visible)
-		targetSize.Y -= infoLabel->Size.Y+2;
+		targetSize.Y = 87;
 	infoLabel->SetText(sender->GetStatusText());
 	infoLabel->AutoHeight();
 	if (sender->GetStatusText().length())
@@ -134,7 +135,7 @@ void LoginView::OnTick(float dt)
 
 void LoginView::OnDraw()
 {
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	g->clearrect(Position.X-2, Position.Y-2, Size.X+3, Size.Y+3);
 	g->drawrect(Position.X, Position.Y, Size.X, Size.Y, 255, 255, 255, 255);
 }

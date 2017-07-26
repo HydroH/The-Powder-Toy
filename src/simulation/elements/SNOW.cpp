@@ -23,6 +23,7 @@ Element_SNOW::Element_SNOW()
 	Explosive = 0;
 	Meltable = 0;
 	Hardness = 20;
+	PhotonReflectWavelengths = 0x03FFFFFF;
 
 	Weight = 50;
 
@@ -30,7 +31,7 @@ Element_SNOW::Element_SNOW()
 	HeatConduct = 46;
 	Description = "Light particles. Created when ICE breaks under pressure.";
 
-	Properties = TYPE_PART|PROP_LIFE_DEC|PROP_NEUTPASS;
+	Properties = TYPE_PART|PROP_NEUTPASS;
 
 	LowPressure = IPL;
 	LowPressureTransition = NT;

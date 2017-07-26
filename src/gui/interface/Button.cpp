@@ -1,7 +1,7 @@
 #include <iostream>
 #include "gui/interface/Button.h"
+#include "gui/interface/Window.h"
 #include "graphics/Graphics.h"
-#include "Engine.h"
 #include "Misc.h"
 
 namespace ui {
@@ -16,10 +16,10 @@ Button::Button(Point position, Point size, std::string buttonText, std::string t
 	toggle(false),
 	actionCallback(NULL)
 {
-	TextPosition();
+	TextPosition(ButtonText);
 }
 
-void Button::TextPosition()
+void Button::TextPosition(std::string ButtonText)
 {
 	buttonDisplayText = ButtonText;
 	if(buttonDisplayText.length())
@@ -38,13 +38,13 @@ void Button::TextPosition()
 void Button::SetIcon(Icon icon)
 {
 	Appearance.icon = icon;
-	TextPosition();
+	TextPosition(ButtonText);
 }
 
 void Button::SetText(std::string buttonText)
 {
 	ButtonText = buttonText;
-	TextPosition();
+	TextPosition(ButtonText);
 }
 
 void Button::SetTogglable(bool togglable)
@@ -72,10 +72,10 @@ void Button::Draw(const Point& screenPos)
 {
 	if(!drawn)
 	{
-		TextPosition();
+		TextPosition(ButtonText);
 		drawn = true;
 	}
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	Point Position = screenPos;
 	ui::Colour bgColour(0, 0, 0);
 

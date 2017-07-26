@@ -3,6 +3,7 @@
 #include "Format.h"
 #include "client/Client.h"
 #include "client/GameSave.h"
+#include "common/tpt-minmax.h"
 #include "gui/dialogues/ErrorMessage.h"
 #include "PreviewModelException.h"
 
@@ -124,7 +125,7 @@ int PreviewModel::GetCommentsPageNum()
 
 int PreviewModel::GetCommentsPageCount()
 {
-	return max(1, (int)(ceil(commentsTotal/20.0f)));
+	return std::max(1, (int)(ceil(commentsTotal/20.0f)));
 }
 
 bool PreviewModel::GetCommentsLoaded()
@@ -212,7 +213,8 @@ bool PreviewModel::ParseSaveInfo(char * saveInfoResponse)
 		std::string tempUsername = objDocument["Username"].asString();
 		std::string tempName = objDocument["Name"].asString();
 		std::string tempDescription = objDocument["Description"].asString();
-		int tempDate = objDocument["Date"].asInt();
+		int tempCreatedDate = objDocument["DateCreated"].asInt();
+		int tempUpdatedDate = objDocument["Date"].asInt();
 		bool tempPublished = objDocument["Published"].asBool();
 		bool tempFavourite = objDocument["Favourite"].asBool();
 		int tempComments = objDocument["Comments"].asInt();
@@ -224,13 +226,27 @@ bool PreviewModel::ParseSaveInfo(char * saveInfoResponse)
 		for (Json::UInt j = 0; j < tagsArray.size(); j++)
 			tempTags.push_back(tagsArray[j].asString());
 
-		saveInfo = new SaveInfo(tempID, tempDate, tempScoreUp, tempScoreDown,
-		                        tempMyScore, tempUsername, tempName, tempDescription,
-		                        tempPublished, tempTags);
+		saveInfo = new SaveInfo(tempID, tempCreatedDate, tempUpdatedDate, tempScoreUp,
+		                        tempScoreDown, tempMyScore, tempUsername, tempName,
+		                        tempDescription, tempPublished, tempTags);
 		saveInfo->Comments = tempComments;
 		saveInfo->Favourite = tempFavourite;
 		saveInfo->Views = tempViews;
 		saveInfo->Version = tempVersion;
+
+		// This is a workaround for a bug on the TPT server where the wrong 404 save is returned
+		// Redownload the .cps file for a fixed version of the 404 save
+		if (tempID == 404 && this->saveID != 404)
+		{
+			if (saveDataDownload)
+				saveDataDownload->Cancel();
+			delete saveData;
+			saveData = NULL;
+			std::stringstream urlStream;
+			urlStream << "http://" << STATICSERVER << "/2157797.cps";
+			saveDataDownload = new Download(urlStream.str());
+			saveDataDownload->Start();
+		}
 		return true;
 	}
 	catch (std::exception &e)
@@ -255,7 +271,7 @@ bool PreviewModel::ParseComments(char *commentsResponse)
 			int userID = format::StringToNumber<int>(commentsArray[j]["UserID"].asString());
 			std::string username = commentsArray[j]["Username"].asString();
 			std::string formattedUsername = commentsArray[j]["FormattedUsername"].asString();
-			if (formattedUsername == "jacobot")
+			if (formattedUsername == "jacobot" || formattedUsername == "Mrprocom")
 				formattedUsername = "\bt" + formattedUsername;
 			std::string comment = commentsArray[j]["Text"].asString();
 			saveComments->push_back(new SaveComment(userID, username, formattedUsername, comment));
