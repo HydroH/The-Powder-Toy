@@ -49,6 +49,7 @@ Makefile.me
 *.lastbuildstate
 *.unsuccessfulbuild
 *.pdb
+*.db
 *.sublime-*
 *.project
 *.cproject
@@ -67,6 +68,5 @@ config.log
 *.VC.opendb
 site_scons/site_tools/mfprogram/*.pyc
 site_scons/site_tools/gch/*.pyc
-others*
 
 screenshot_*

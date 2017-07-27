@@ -6,6 +6,8 @@
 #include "Config.h"
 #include "Misc.h"
 
+#include "bson/BSON.h"
+#include "json/json.h"
 #include "simulation/Sign.h"
 #include "simulation/Particle.h"
 
@@ -33,6 +35,7 @@ public:
 	
 	int blockWidth, blockHeight;
 	bool fromNewerVersion;
+	bool hasAmbientHeat;
 
 	//Simulation data
 	//int ** particleMap;
@@ -41,6 +44,10 @@ public:
 	unsigned char ** blockMap;
 	float ** fanVelX;
 	float ** fanVelY;
+	float ** pressure;
+	float ** velocityX;
+	float ** velocityY;
+	float ** ambientHeat;
 	
 	//Simulation Options
 	bool waterEEnabled;
@@ -58,7 +65,10 @@ public:
 	//Element palette
 	typedef std::pair<std::string, int> PaletteItem;
 	std::vector<PaletteItem> palette;
-	
+
+	// author information
+	Json::Value authors;
+
 	GameSave();
 	GameSave(GameSave & save);
 	GameSave(int width, int height);
@@ -94,18 +104,23 @@ public:
 private:
 	bool expanded;
 	bool hasOriginalData;
-	float * fanVelXPtr;
-	float * fanVelYPtr;
-	unsigned char * blockMapPtr;
 
 	std::vector<char> originalData;
 
+	void InitData();
+	void InitVars();
+	void CheckBsonFieldUser(bson_iterator iter, const char *field, unsigned char **data, unsigned int *fieldLen);
+	void CheckBsonFieldBool(bson_iterator iter, const char *field, bool *flag);
+	void CheckBsonFieldInt(bson_iterator iter, const char *field, int *setting);
+	template <typename T> T ** Allocate2DArray(int blockWidth, int blockHeight, T defaultVal);
+	template <typename T> void Deallocate2DArray(T ***array, int blockHeight);
 	void dealloc();
 	void read(char * data, int dataSize);
 	void readOPS(char * data, int dataLength);
 	void readPSv(char * data, int dataLength);
 	char * serialiseOPS(unsigned int & dataSize);
-	//serialisePSv();
+	void ConvertJsonToBson(bson *b, Json::Value j, int depth = 0);
+	void ConvertBsonToJson(bson_iterator *b, Json::Value *j);
 };
 
 #endif

@@ -31,7 +31,7 @@ Element_CRAY::Element_CRAY()
 	HeatConduct = 0;
 	Description = TEXT_ELEM_CRAY_DESC;
 
-	Properties = TYPE_SOLID|PROP_LIFE_DEC;
+	Properties = TYPE_SOLID;
 
 	LowPressure = IPL;
 	LowPressureTransition = NT;
@@ -68,8 +68,7 @@ int Element_CRAY::update(UPDATE_FUNC_ARGS)
 					}
 				}
 	}
-	// only fire when life is 0, but nothing sets the life right now
-	else if (parts[i].life==0)
+	else
 	{
 		for (int rx =-1; rx <= 1; rx++)
 			for (int ry = -1; ry <= 1; ry++)
@@ -99,6 +98,8 @@ int Element_CRAY::update(UPDATE_FUNC_ARGS)
 									if (colored)
 										parts[nr].dcolour = colored;
 									parts[nr].temp = parts[i].temp;
+									if (parts[i].life>0)
+										parts[nr].life = parts[i].life;
 									if(!--partsRemaining)
 										docontinue = 0;
 								}

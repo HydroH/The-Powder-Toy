@@ -1,6 +1,7 @@
 #include <sstream>
 #include <vector>
 #include <cmath>
+#include <algorithm>
 #include "PreviewView.h"
 #include "gui/dialogues/TextPrompt.h"
 #include "simulation/SaveRenderer.h"
@@ -46,6 +47,7 @@ class PreviewView::AutoCommentSizeAction: public ui::TextboxAction
 public:
 	AutoCommentSizeAction(PreviewView * v): v(v) {}
 	virtual void TextChangedCallback(ui::Textbox * sender) {
+		v->CheckComment();
 		v->commentBoxAutoHeight();
 	}
 };
@@ -69,12 +71,15 @@ PreviewView::PreviewView():
 	savePreview(NULL),
 	submitCommentButton(NULL),
 	addCommentBox(NULL),
+	commentWarningLabel(NULL),
+	userIsAuthor(false),
 	doOpen(false),
 	doError(false),
 	doErrorMessage(""),
 	showAvatars(true),
 	prevPage(false),
-	commentBoxHeight(20)
+	commentBoxHeight(20),
+	commentHelpText(false)
 {
 	class FavAction: public ui::ButtonAction
 	{
@@ -201,6 +206,15 @@ PreviewView::PreviewView():
 
 	commentsPanel = new ui::ScrollPanel(ui::Point((XRES/2)+1, 1), ui::Point((Size.X-(XRES/2))-2, Size.Y-commentBoxHeight));
 	AddComponent(commentsPanel);
+
+	swearWords.insert("fuck");
+	swearWords.insert("shit ");
+	swearWords.insert("asshole");
+	swearWords.insert("dick");
+	swearWords.insert("cunt");
+	swearWords.insert(" nigger");
+	swearWords.insert("faggot");
+	swearWords.insert("dumbass");
 }
 
 void PreviewView::AttachController(PreviewController * controller)
@@ -226,7 +240,7 @@ void PreviewView::commentBoxAutoHeight()
 	if(!addCommentBox)
 		return;
 	int textWidth = Graphics::textwidth(addCommentBox->GetText().c_str());
-	if(textWidth+15 > Size.X-(XRES/2)-48)
+	if (commentHelpText || textWidth+15 > Size.X-(XRES/2)-48)
 	{
 		addCommentBox->Appearance.VerticalAlign = ui::Appearance::AlignTop;
 
@@ -240,6 +254,11 @@ void PreviewView::commentBoxAutoHeight()
 		commentBoxPositionY = Size.Y-(newSize+21);
 		commentBoxSizeX = Size.X-(XRES/2)-8;
 		commentBoxSizeY = newSize;
+
+		if (commentWarningLabel && commentHelpText && !commentWarningLabel->Visible && addCommentBox->Position.Y+addCommentBox->Size.Y < Size.Y-14)
+		{
+			commentWarningLabel->Visible = true;
+		}
 	}
 	else
 	{
@@ -249,15 +268,69 @@ void PreviewView::commentBoxAutoHeight()
 		commentBoxPositionX = (XRES/2)+4;
 		commentBoxPositionY = Size.Y-19;
 		commentBoxSizeX = Size.X-(XRES/2)-48;
-		commentBoxSizeY = 16;
+		commentBoxSizeY = 17;
+		
+		if (commentWarningLabel && commentWarningLabel->Visible)
+		{
+			commentWarningLabel->Visible = false;
+		}
 	}
-	commentsPanel->Size.Y = Size.Y-commentBoxHeight;
+}
+
+bool PreviewView::CheckSwearing(std::string text)
+{
+	for (std::set<std::string>::iterator iter = swearWords.begin(), end = swearWords.end(); iter != end; iter++)
+	{
+		if (text.find(*iter) != text.npos)
+			return true;
+	}
+	return false;
+}
+
+void PreviewView::CheckComment()
+{
+	if (!commentWarningLabel)
+		return;
+	std::string text = addCommentBox->GetText();
+	std::transform(text.begin(), text.end(), text.begin(), ::tolower);
+	if (!userIsAuthor && (text.find("stolen") != text.npos || text.find("copied") != text.npos))
+	{
+		if (!commentHelpText)
+		{
+			if (rand()%2)
+				commentWarningLabel->SetText("Stolen? Report the save instead");
+			else
+				commentWarningLabel->SetText("Please report stolen saves");
+			commentHelpText = true;
+		}
+	}
+	else if (userIsAuthor && text.find("vote") != text.npos)
+	{
+		commentWarningLabel->SetText("Do not ask for votes");
+		commentHelpText = true;
+	}
+	else if (CheckSwearing(text))
+	{
+		if (!commentHelpText)
+		{
+			if (rand()%2)
+				commentWarningLabel->SetText("Please do not swear");
+			else
+				commentWarningLabel->SetText("Bad language may be deleted");
+			commentHelpText = true;
+		}
+	}
+	else
+	{
+		commentHelpText = false;
+		commentWarningLabel->Visible = false;
+	}
 }
 
 void PreviewView::DoDraw()
 {
 	Window::DoDraw();
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	for (size_t i = 0; i < commentTextComponents.size(); i++)
 	{
 		int linePos = commentTextComponents[i]->Position.Y+commentsPanel->ViewportPosition.Y+commentTextComponents[i]->Size.Y+4;
@@ -281,7 +354,7 @@ void PreviewView::DoDraw()
 
 void PreviewView::OnDraw()
 {
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 
 	//Window Background+Outline
 	g->clearrect(Position.X-2, Position.Y-2, Size.X+4, Size.Y+4);
@@ -366,6 +439,7 @@ void PreviewView::OnTick(float dt)
 			addCommentBox->Size.Y += ydiff;
 			addCommentBox->Invalidate();
 		}
+		commentsPanel->Size.Y = addCommentBox->Position.Y-1;
 	}
 
 	c->Update();
@@ -424,14 +498,24 @@ void PreviewView::NotifySaveChanged(PreviewModel * sender)
 		votesUp = save->votesUp;
 		votesDown = save->votesDown;
 		saveNameLabel->SetText(save->name);
-		if(showAvatars) {
+		std::string dateType;
+		if (save->updatedDate == save->createdDate)
+			dateType = "Created:";
+		else
+			dateType = "Updated:";
+		if (showAvatars)
+		{
 			avatarButton->SetUsername(save->userName);
-			authorDateLabel->SetText(L"\bw" + format::StringToWString(save->userName) + TEXT_GUI_SAVE_PRE_SAVE_INFO_DATE + format::StringToWString(format::UnixtimeToDateMini(save->date)));
+			authorDateLabel->SetText(L"\bw" + format::StringToWString(save->userName) + " \bg" + dateType + " \bw" + format::StringToWString(format::UnixtimeToDateMini(save->date)));
 		}
 		else
 		{
-			authorDateLabel->SetText(TEXT_GUI_SAVE_PRE_SAVE_INFO_AUTHOR + format::StringToWString(save->userName) + TEXT_GUI_SAVE_PRE_SAVE_INFO_DATE + format::StringToWString(format::UnixtimeToDateMini(save->date)));
+			authorDateLabel->SetText(TEXT_GUI_SAVE_PRE_SAVE_INFO_AUTHOR + format::StringToWString(save->userName) + " \bg" + dateType + " \bw" + format::StringToWString(format::UnixtimeToDateMini(save->updatedDate)));
 		}
+		if (Client::Ref().GetAuthUser().ID && save->userName == Client::Ref().GetAuthUser().Username)
+			userIsAuthor = true;
+		else
+			userIsAuthor = false;
 		viewsLabel->SetText(TEXT_GUI_SAVE_PRE_SAVE_INFO_VIEW + format::StringToWString(format::NumberToString<int>(save->Views)));
 		saveDescriptionLabel->SetText(save->Description);
 		if(save->Favourite)
@@ -532,6 +616,12 @@ void PreviewView::NotifyCommentBoxEnabledChanged(PreviewModel * sender)
 		submitCommentButton->SetActionCallback(new SubmitCommentAction(this));
 		//submitCommentButton->Enabled = false;
 		AddComponent(submitCommentButton);
+		
+		commentWarningLabel = new ui::Label(ui::Point((XRES/2)+4, Size.Y-19), ui::Point(Size.X-(XRES/2)-48, 16), "If you see this it is a bug");
+		commentWarningLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
+		commentWarningLabel->SetTextColour(ui::Colour(255, 0, 0));
+		commentWarningLabel->Visible = false;
+		AddComponent(commentWarningLabel);
 	}
 	else
 	{

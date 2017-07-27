@@ -77,9 +77,7 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 {
 	class EditAvatarAction: public ui::ButtonAction
 	{
-		ProfileActivity * a;
 	public:
-		EditAvatarAction(ProfileActivity * a) : a(a) {  }
 		void ActionCallback(ui::Button * sender_)
 		{
 			Platform::OpenURI("http://" SERVER "/Profile/Avatar.html");
@@ -113,7 +111,7 @@ void ProfileActivity::setUserInfo(UserInfo newInfo)
 	if (editable)
 	{
 		ui::Button * editAvatar = new ui::Button(ui::Point(Size.X - (40 + 16 + 75), currentY), ui::Point(75, 15), TEXT_GUI_PROFILE_BTN_AVATAR);
-		editAvatar->SetActionCallback(new EditAvatarAction(this));
+		editAvatar->SetActionCallback(new EditAvatarAction());
 		scrollPanel->AddChild(editAvatar);
 	}
 	currentY += 23;
@@ -266,7 +264,7 @@ void ProfileActivity::OnTick(float dt)
 
 void ProfileActivity::OnDraw()
 {
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	g->clearrect(Position.X-2, Position.Y-2, Size.X+3, Size.Y+3);
 	g->drawrect(Position.X, Position.Y, Size.X, Size.Y, 255, 255, 255, 255);
 }

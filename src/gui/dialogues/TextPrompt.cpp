@@ -2,6 +2,7 @@
 #include "TextPrompt.h"
 #include "gui/interface/Label.h"
 #include "gui/interface/Button.h"
+#include "gui/interface/Engine.h"
 #include "gui/Style.h"
 #include "PowderToy.h"
 #include "Lang.h"
@@ -14,7 +15,7 @@ public:
 	CloseAction(TextPrompt * prompt_, TextPrompt::DialogueResult result_) { prompt = prompt_; result = result_; }
 	void ActionCallback(ui::Button * sender)
 	{
-		ui::Engine::Ref().CloseWindow();
+		prompt->CloseActiveWindow();
 		if(prompt->callback)
 			prompt->callback->TextCallback(result, prompt->textField->GetText());
 		prompt->SelfDestruct(); //TODO: Fix component disposal
@@ -130,7 +131,7 @@ TextPrompt::TextPrompt(std::wstring title, std::wstring message, std::wstring te
 	AddComponent(okayButton);
 	SetOkayButton(okayButton);
 
-	ui::Engine::Ref().ShowWindow(this);
+	MakeActiveWindow();
 }
 
 std::string TextPrompt::Blocking(std::string title, std::string message, std::string text, std::string placeholder, bool multiline)
@@ -227,7 +228,7 @@ std::wstring TextPrompt::WBlocking(std::wstring title, std::wstring message, std
 
 void TextPrompt::OnDraw()
 {
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 
 	g->clearrect(Position.X-2, Position.Y-2, Size.X+3, Size.Y+3);
 	g->drawrect(Position.X, Position.Y, Size.X, Size.Y, 200, 200, 200, 255);

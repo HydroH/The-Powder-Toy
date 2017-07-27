@@ -1,6 +1,7 @@
 #include "gui/Style.h"
 #include "InformationMessage.h"
 #include "gui/interface/Button.h"
+#include "gui/interface/Engine.h"
 #include "gui/interface/Label.h"
 #include "gui/interface/ScrollPanel.h"
 #include "Lang.h"
@@ -59,7 +60,7 @@ InformationMessage::InformationMessage(std::string title, std::string message, b
 		DismissAction(InformationMessage * message_) { message = message_; }
 		void ActionCallback(ui::Button * sender)
 		{
-			ui::Engine::Ref().CloseWindow();
+			message->CloseActiveWindow();
 			message->SelfDestruct(); //TODO: Fix component disposal
 		}
 	};
@@ -73,7 +74,7 @@ InformationMessage::InformationMessage(std::string title, std::string message, b
 	SetOkayButton(okayButton);
 	SetCancelButton(okayButton);
 	
-	ui::Engine::Ref().ShowWindow(this);
+	MakeActiveWindow();
 }
 
 InformationMessage::InformationMessage(std::wstring title, std::wstring message, bool large):
@@ -149,7 +150,7 @@ InformationMessage::InformationMessage(std::wstring title, std::wstring message,
 
 void InformationMessage::OnDraw()
 {
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 
 	g->clearrect(Position.X-2, Position.Y-2, Size.X+3, Size.Y+3);
 	g->drawrect(Position.X, Position.Y, Size.X, Size.Y, 200, 200, 200, 255);

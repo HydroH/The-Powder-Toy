@@ -91,10 +91,7 @@ void SearchController::Update()
 void SearchController::Exit()
 {
 	InstantOpen(false);
-	if(ui::Engine::Ref().GetWindow() == searchView)
-	{
-		ui::Engine::Ref().CloseWindow();
-	}
+	searchView->CloseActiveWindow();
 	if(callback)
 		callback->ControllerExit();
 	//HasExited = true;
@@ -103,10 +100,7 @@ void SearchController::Exit()
 SearchController::~SearchController()
 {
 	delete activePreview;
-	if(ui::Engine::Ref().GetWindow() == searchView)
-	{
-		ui::Engine::Ref().CloseWindow();
-	}
+	searchView->CloseActiveWindow();
 	delete searchModel;
 	delete searchView;
 	delete callback;
@@ -211,19 +205,19 @@ void SearchController::InstantOpen(bool instant)
 void SearchController::OpenSave(int saveID)
 {
 	delete activePreview;
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = searchView->GetGraphics();
 	g->fillrect(XRES/3, WINDOWH-20, XRES/3, 20, 0, 0, 0, 150); //dim the "Page X of Y" a little to make the CopyTextButton more noticeable
 	activePreview = new PreviewController(saveID, instantOpen, new OpenCallback(this));
-	ui::Engine::Ref().ShowWindow(activePreview->GetView());
+	activePreview->GetView()->MakeActiveWindow();
 }
 
 void SearchController::OpenSave(int saveID, int saveDate)
 {
 	delete activePreview;
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = searchView->GetGraphics();
 	g->fillrect(XRES/3, WINDOWH-20, XRES/3, 20, 0, 0, 0, 150); //dim the "Page X of Y" a little to make the CopyTextButton more noticeable
 	activePreview = new PreviewController(saveID, saveDate, instantOpen, new OpenCallback(this));
-	ui::Engine::Ref().ShowWindow(activePreview->GetView());
+	activePreview->GetView()->MakeActiveWindow();
 }
 
 void SearchController::ClearSelection()
@@ -413,7 +407,7 @@ void SearchController::FavouriteSelected()
 				if (Client::Ref().FavouriteSave(saves[i], false)!=RequestOkay)
 				{
 					std::wstringstream saveIDF;
-					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG2 + Client::Ref().GetWLastError();
+					saveIDF << "\boFailed to unfavourite [" << saves[i] << "]: " + Client::Ref().GetLastError();
 					notifyError(saveIDF.str());
 					return false;
 				}

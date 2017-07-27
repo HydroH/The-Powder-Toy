@@ -24,6 +24,7 @@ Element_DUST::Element_DUST()
 	Explosive = 0;
 	Meltable = 0;
 	Hardness = 30;
+	PhotonReflectWavelengths = 0x3FFFFFC0;
 
 	Weight = 85;
 
@@ -31,7 +32,7 @@ Element_DUST::Element_DUST()
 	HeatConduct = 70;
 	Description = TEXT_ELEM_DUST_DESC;
 
-	Properties = TYPE_PART|PROP_LIFE_DEC|PROP_LIFE_KILL_DEC;
+	Properties = TYPE_PART;
 
 	LowPressure = IPL;
 	LowPressureTransition = NT;

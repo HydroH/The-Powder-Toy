@@ -20,7 +20,7 @@ int TPTScriptInterface::Command(std::string command)
 	lastError = "";
 	std::deque<std::string> words;
 	std::deque<AnyType> commandWords;
-	int retCode;
+	int retCode = -1;
 
 	//Split command into words, put them on the stack
 	char * rawCommand;
@@ -80,48 +80,53 @@ ValueType TPTScriptInterface::testType(std::string word)
 		return TypeFunction;
 	else if (word == "quit")
 		return TypeFunction;
+
 	//Basic type
-			for (i = 0; i < word.length(); i++)
-			{
-				if (!(rawWord[i] >= '0' && rawWord[i] <= '9') && !(rawWord[i] == '-' && !i))
-				{
-					if (rawWord[i] == '.' && rawWord[i+1])
-						goto parseFloat;
-					else if (rawWord[i] == ',' && rawWord[i+1] >= '0' && rawWord[i+1] <= '9')
-						goto parsePoint;
-					else if ((rawWord[i] == '#' || (i && rawWord[i-1] == '0' && rawWord[i] == 'x')) &&
-						((rawWord[i+1] >= '0' && rawWord[i+1] <= '9')
-						|| (rawWord[i+1] >= 'a' && rawWord[i+1] <= 'f')
-						|| (rawWord[i+1] >= 'A' && rawWord[i+1] <= 'F')))
-						goto parseNumberHex;
-					else
-						goto parseString;
-				}
-			}
-			return TypeNumber;
-	parseFloat:
-			for (i++; i < word.length(); i++)
-				if (!((rawWord[i] >= '0' && rawWord[i] <= '9') || (rawWord[i] >= 'a' && rawWord[i] <= 'f') || (rawWord[i] >= 'A' && rawWord[i] <= 'F')))
-				{
-					goto parseString;
-				}
-			return TypeFloat;
-	parseNumberHex:
-			for (i++; i < word.length(); i++)
-				if (!((rawWord[i] >= '0' && rawWord[i] <= '9') || (rawWord[i] >= 'a' && rawWord[i] <= 'f') || (rawWord[i] >= 'A' && rawWord[i] <= 'F')))
-				{
-					goto parseString;
-				}
-			return TypeNumber;
-	parsePoint:
-			for (i++; i < word.length(); i++)
-				if (!(rawWord[i] >= '0' && rawWord[i] <= '9'))
-				{
-					goto parseString;
-				}
-			return TypePoint;
-	parseString:
-			return TypeString;
+	for (i = 0; i < word.length(); i++)
+	{
+		if (!(rawWord[i] >= '0' && rawWord[i] <= '9') && !(rawWord[i] == '-' && !i))
+		{
+			if (rawWord[i] == '.' && rawWord[i+1])
+				goto parseFloat;
+			else if (rawWord[i] == ',' && rawWord[i+1] >= '0' && rawWord[i+1] <= '9')
+				goto parsePoint;
+			else if ((rawWord[i] == '#' || (i && rawWord[i-1] == '0' && rawWord[i] == 'x')) &&
+				((rawWord[i+1] >= '0' && rawWord[i+1] <= '9')
+				|| (rawWord[i+1] >= 'a' && rawWord[i+1] <= 'f')
+				|| (rawWord[i+1] >= 'A' && rawWord[i+1] <= 'F')))
+				goto parseNumberHex;
+			else
+				goto parseString;
+		}
+	}
+	return TypeNumber;
+
+parseFloat:
+	for (i++; i < word.length(); i++)
+		if (!((rawWord[i] >= '0' && rawWord[i] <= '9')))
+		{
+			goto parseString;
+		}
+	return TypeFloat;
+
+parseNumberHex:
+	for (i++; i < word.length(); i++)
+		if (!((rawWord[i] >= '0' && rawWord[i] <= '9') || (rawWord[i] >= 'a' && rawWord[i] <= 'f') || (rawWord[i] >= 'A' && rawWord[i] <= 'F')))
+		{
+			goto parseString;
+		}
+	return TypeNumber;
+
+parsePoint:
+	for (i++; i < word.length(); i++)
+		if (!(rawWord[i] >= '0' && rawWord[i] <= '9'))
+		{
+			goto parseString;
+		}
+	return TypePoint;
+
+parseString:
+	return TypeString;
 }
 
 int TPTScriptInterface::parseNumber(char * stringData)
@@ -267,8 +272,8 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 		throw GeneralException(TEXT_EXCEPT_GENERAL_PROP);
 
 	//Selector
-	int newValue;
-	float newValuef;
+	int newValue = 0;
+	float newValuef = 0.0f;
 	if (value.GetType() == TypeNumber)
 	{
 		newValuef = newValue = ((NumberType)value).Value();
@@ -291,7 +296,7 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 		}
 		else
 		{
-			newValue = GetParticleType(((StringType)value).Value());
+			newValue = m->GetSimulation()->GetParticleType(((StringType)value).Value());
 			if (newValue < 0 || newValue >= PT_NUM)
 			{
 				// TODO: add element CAKE to invalidate this
@@ -377,11 +382,11 @@ AnyType TPTScriptInterface::tptS_set(std::deque<std::string> * words)
 	}
 	else if(selector.GetType() == TypeString || selector.GetType() == TypeNumber)
 	{
-		int type;
+		int type = 0;
 		if (selector.GetType() == TypeNumber)
 			type = ((NumberType)selector).Value();
 		else if (selector.GetType() == TypeString)
-			type = GetParticleType(((StringType)selector).Value());
+			type = m->GetSimulation()->GetParticleType(((StringType)selector).Value());
 
 		if (type<0 || type>=PT_NUM)
 			throw GeneralException(TEXT_EXCEPT_GENERAL_PART_TYPE);
@@ -441,7 +446,7 @@ AnyType TPTScriptInterface::tptS_create(std::deque<std::string> * words)
 	if(createType.GetType() == TypeNumber)
 		type = ((NumberType)createType).Value();
 	else if(createType.GetType() == TypeString)
-		type = GetParticleType(((StringType)createType).Value());
+		type = m->GetSimulation()->GetParticleType(((StringType)createType).Value());
 	else
 		throw GeneralException(TEXT_EXCEPT_GENERAL_TYPE);
 

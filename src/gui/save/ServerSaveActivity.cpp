@@ -1,4 +1,5 @@
 #include "ServerSaveActivity.h"
+#include "graphics/Graphics.h"
 #include "gui/interface/Label.h"
 #include "gui/interface/Textbox.h"
 #include "gui/interface/Button.h"
@@ -201,7 +202,9 @@ ServerSaveActivity::ServerSaveActivity(SaveInfo save, bool saveNow, ServerSaveAc
 	titleLabel->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(titleLabel);
 
-	saveUploadTask = new SaveUploadTask(save);
+	AddAuthorInfo();
+
+	saveUploadTask = new SaveUploadTask(this->save);
 	saveUploadTask->AddTaskListener(this);
 	saveUploadTask->Start();
 }
@@ -257,6 +260,20 @@ void ServerSaveActivity::Save()
 	}
 }
 
+void ServerSaveActivity::AddAuthorInfo()
+{
+	Json::Value serverSaveInfo;
+	serverSaveInfo["type"] = "save";
+	serverSaveInfo["id"] = save.GetID();
+	serverSaveInfo["username"] = Client::Ref().GetAuthUser().Username;
+	serverSaveInfo["title"] = save.GetName();
+	serverSaveInfo["description"] = save.GetDescription();
+	serverSaveInfo["published"] = (int)save.GetPublished();
+	serverSaveInfo["date"] = (Json::Value::UInt64)time(NULL);
+	Client::Ref().SaveAuthorInfo(&serverSaveInfo);
+	save.GetGameSave()->authors = serverSaveInfo;
+}
+
 void ServerSaveActivity::saveUpload()
 {
 	save.SetName(nameField->GetText());
@@ -265,6 +282,7 @@ void ServerSaveActivity::saveUpload()
 	save.SetUserName(Client::Ref().GetAuthUser().Username);
 	save.SetID(0);
 	save.GetGameSave()->paused = pausedCheckbox->GetChecked();
+	AddAuthorInfo();
 
 	if(Client::Ref().UploadSave(save) != RequestOkay)
 	{
@@ -311,7 +329,7 @@ void ServerSaveActivity::OnTick(float dt)
 
 void ServerSaveActivity::OnDraw()
 {
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	g->draw_rgba_image(save_to_server_image, -10, 0, 0.7f);
 	g->clearrect(Position.X-2, Position.Y-2, Size.X+3, Size.Y+3);
 	g->drawrect(Position.X, Position.Y, Size.X, Size.Y, 255, 255, 255, 255);

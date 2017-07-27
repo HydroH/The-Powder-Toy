@@ -4,6 +4,7 @@
 #include "Config.h"
 #include "Platform.h"
 #include "Format.h"
+#include "graphics/Graphics.h"
 #include "gui/interface/Point.h"
 #include "gui/interface/Textbox.h"
 #include "gui/interface/Keys.h"
@@ -261,10 +262,7 @@ void Textbox::pasteIntoSelection()
 
 	if (limit != std::wstring::npos)
 	{
-		if(limit-backingText.length() >= 0)
-			newText = newText.substr(0, limit-backingText.length());
-		else
-			newText = L"";
+		newText = newText.substr(0, limit-backingText.length());
 	}
 	if (!multiline && Graphics::textwidth((wchar_t*)std::wstring(backingText+newText).c_str()) > regionWidth)
 	{
@@ -420,7 +418,12 @@ void Textbox::OnVKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 			else if (backingText.length() && cursor < (int)backingText.length())
 			{
 				if (ctrl)
-					backingText.erase(cursor, backingText.length()-cursor);
+				{
+					size_t stopChar;
+					stopChar = backingText.find_first_not_of(" .,!?\n", cursor);
+					stopChar = backingText.find_first_of(" .,!?\n", stopChar);
+					backingText.erase(cursor, stopChar-cursor);
+				}
 				else
 					backingText.erase(cursor, 1);
 				changed = true;
@@ -442,8 +445,14 @@ void Textbox::OnVKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 			{
 				if (ctrl)
 				{
-					backingText.erase(0, cursor);
-					cursor = 0;
+					size_t stopChar;
+					stopChar = backingText.substr(0, cursor).find_last_not_of(" .,!?\n");
+					if (stopChar == backingText.npos)
+						stopChar = -1;
+					else
+						stopChar = backingText.substr(0, stopChar).find_last_of(" .,!?\n");
+					backingText.erase(stopChar+1, cursor-(stopChar+1));
+					cursor = stopChar+1;
 				}
 				else
 				{
@@ -583,7 +592,7 @@ void Textbox::Draw(const Point& screenPos)
 {
 	Label::Draw(screenPos);
 
-	Graphics * g = Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	if(IsFocused())
 	{
 		if(border) g->drawrect(screenPos.X, screenPos.Y, Size.X, Size.Y, 255, 255, 255, 255);
@@ -745,7 +754,7 @@ void Textbox::Draw(const Point& screenPos)
 		TextPosition();
 		drawn = true;
 	}
-	Graphics * g = Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	if(IsFocused())
 	{
 		if(border) g->drawrect(screenPos.X, screenPos.Y, Size.X, Size.Y, 255, 255, 255, 255);
