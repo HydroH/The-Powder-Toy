@@ -1,5 +1,6 @@
 The Powder Toy - July 2017
 ==========================
+Originally forked from https://github.com/ThePowderToy/The-Powder-Toy
 
 Get the latest version here: http://powdertoy.co.uk/Download.html
 
