@@ -1,4 +1,5 @@
 #include "simulation/Elements.h"
+#include "Lang.h"
 //#TPT-Directive ElementClass Element_RFRG PT_RFRG 183
 Element_RFRG::Element_RFRG()
 {
@@ -28,7 +29,7 @@ Element_RFRG::Element_RFRG()
 
 	Temperature = R_TEMP + 273.15f;
 	HeatConduct = 3;
-	Description = "Refrigerant. Heats up and liquifies under pressure.";
+	Description = TEXT_ELEM_RFRG_DESC;
 
 	Properties = TYPE_GAS|PROP_DEADLY;
 

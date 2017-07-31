@@ -17,7 +17,7 @@ Button::Button(Point position, Point size, std::string buttonText, std::wstring 
 	toggle(false),
 	actionCallback(NULL)
 {
-	TextPosition();
+	TextPosition(ButtonText);
 }
 
 Button::Button(Point position, Point size, std::wstring buttonText, std::wstring toolTip):
@@ -33,7 +33,7 @@ Button::Button(Point position, Point size, std::wstring buttonText, std::wstring
 	TextPosition(ButtonText);
 }
 
-void Button::TextPosition(std::string ButtonText)
+void Button::TextPosition(std::wstring ButtonText)
 {
 	buttonDisplayText = ButtonText;
 	if(buttonDisplayText.length())
@@ -58,7 +58,7 @@ void Button::SetIcon(Icon icon)
 void Button::SetText(std::string buttonText)
 {
 	ButtonText = format::StringToWString(buttonText);
-	TextPosition();
+	TextPosition(ButtonText);
 }
 
 void Button::SetText(std::wstring buttonText)

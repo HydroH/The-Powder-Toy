@@ -420,8 +420,8 @@ void Textbox::OnVKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 				if (ctrl)
 				{
 					size_t stopChar;
-					stopChar = backingText.find_first_not_of(" .,!?\n", cursor);
-					stopChar = backingText.find_first_of(" .,!?\n", stopChar);
+					stopChar = backingText.find_first_not_of(L" .,!?\n", cursor);
+					stopChar = backingText.find_first_of(L" .,!?\n", stopChar);
 					backingText.erase(cursor, stopChar-cursor);
 				}
 				else
@@ -446,11 +446,11 @@ void Textbox::OnVKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 				if (ctrl)
 				{
 					size_t stopChar;
-					stopChar = backingText.substr(0, cursor).find_last_not_of(" .,!?\n");
+					stopChar = backingText.substr(0, cursor).find_last_not_of(L" .,!?\n");
 					if (stopChar == backingText.npos)
 						stopChar = -1;
 					else
-						stopChar = backingText.substr(0, stopChar).find_last_of(" .,!?\n");
+						stopChar = backingText.substr(0, stopChar).find_last_of(L" .,!?\n");
 					backingText.erase(stopChar+1, cursor-(stopChar+1));
 					cursor = stopChar+1;
 				}

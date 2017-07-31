@@ -1,4 +1,5 @@
 #include "simulation/Elements.h"
+#include "Lang.h"
 //#TPT-Directive ElementClass Element_SAWD PT_SAWD 181
 Element_SAWD::Element_SAWD()
 {
@@ -28,7 +29,7 @@ Element_SAWD::Element_SAWD()
 
 	Temperature = R_TEMP+273.15f;
 	HeatConduct = 70;
-	Description = "Sawdust. Floats on water.";
+	Description = TEXT_ELEM_SAWD_DESC;
 
 	Properties = TYPE_PART | PROP_NEUTPASS;
 

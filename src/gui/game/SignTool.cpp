@@ -122,7 +122,7 @@ SignWindow::SignWindow(SignTool * tool_, Simulation * sim_, int signID_, ui::Poi
 	AddComponent(okayButton);
 	SetOkayButton(okayButton);
 	
-	ui::Label * tempLabel = new ui::Label(ui::Point(8, 48), ui::Point(40, 15), "Justify:");
+	ui::Label * tempLabel = new ui::Label(ui::Point(8, 48), ui::Point(40, 15), TEXT_GUI_SIGN_TOOL_LABEL_POINTER);
 	okayButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	okayButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);

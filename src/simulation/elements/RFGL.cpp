@@ -1,4 +1,5 @@
 #include "simulation/Elements.h"
+#include "Lang.h"
 //#TPT-Directive ElementClass Element_RFGL PT_RFGL 184
 Element_RFGL::Element_RFGL()
 {
@@ -28,7 +29,7 @@ Element_RFGL::Element_RFGL()
 
 	Temperature = R_TEMP + 273.15f;
 	HeatConduct = 3;
-	Description = "Liquid refrigerant.";
+	Description = TEXT_ELEM_RFGL_DESC;
 
 	Properties = TYPE_LIQUID|PROP_DEADLY;
 

@@ -836,7 +836,7 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 					std::string stableCNStage = stableVersion["CN-Stage"].asString();
 					std::string stableFile = stableVersion["File"].asString();
 					std::string stableChangelog = stableVersion["Changelog"].asString();
-					if (stableCNMajor > CN_SAVE_VERSION || (stableCNMinor > CN_MINOR_VERSION && stableCNMajor == CN_SAVE_VERSION) || stableCNBuild > CN_BUILD_NUM)
+					if (stableCNBuild > CN_BUILD_NUM)
 					{
 						updateAvailable = true;
 						updateInfo = UpdateInfo(stableMajor, stableMinor, stableBuild, stableCNMajor, stableCNMinor, stableCNBuild, stableCNStage, stableFile, stableChangelog, UpdateInfo::Stable);
@@ -855,7 +855,7 @@ bool Client::CheckUpdate(void *updateRequest, bool checkSession)
 						std::string betaCNStage = betaVersion["CN-Stage"].asString();
 						std::string betaFile = betaVersion["File"].asString();
 						std::string betaChangelog = betaVersion["Changelog"].asString();
-						if (betaCNMajor > CN_SAVE_VERSION || (betaCNMinor > CN_MINOR_VERSION && betaCNMajor == CN_SAVE_VERSION) || betaCNBuild > CN_BUILD_NUM)
+						if (betaCNBuild > CN_BUILD_NUM)
 						{
 							updateAvailable = true;
 							updateInfo = UpdateInfo(betaMajor, betaMinor, betaBuild, betaCNMajor, betaCNMinor, betaCNBuild, betaCNStage, betaFile, betaChangelog, UpdateInfo::Beta);
@@ -1027,13 +1027,13 @@ RequestStatus Client::UploadSave(SaveInfo & save)
 
 		if (!gameData)
 		{
-			lastError = TEXT_ERR_MSG_SAVE_UPLOAD;
+			lastError = TEXT_ERR_MSG_SAVE_SERIAL;
 			return RequestFailure;
 		}
 #ifdef SNAPSHOT
 		else if (save.gameSave->fromNewerVersion && save.GetPublished())
 		{
-			lastError = "Cannot publish save";
+			lastError = TEXT_ERR_MSG_SAVE_PUBLISH;
 			return RequestFailure;
 		}
 #endif

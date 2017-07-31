@@ -102,7 +102,7 @@ public:
 			return;
 		SetToolTip(x, y);
 	}
-	virtual void TextPosition(std::string ButtonText)
+	virtual void TextPosition(std::wstring ButtonText)
 	{
 		ui::Button::TextPosition(ButtonText);
 		textPosition.X += 3;
@@ -1524,7 +1524,7 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 		     || Client::Ref().GetAuthUser().Username == "Mrprocom") && ctrl)
 		{
 			std::string authorString = Client::Ref().GetAuthorInfo().toStyledString();
-			new InformationMessage("Save authorship info", authorString, true);
+			new InformationMessage(TEXT_GAME_CONTROL_SAVE_AUTHOR, format::StringToWString(authorString), true);
 		}
 		break;
 	case 'r':
@@ -2344,7 +2344,7 @@ void GameView::OnDraw()
 				else if (type == PT_FILT)
 				{
 					sampleInfo << c->WElementResolve(type, ctype);
-					const wchar_t* filtModes[] = {TEXT_GUI_HUD_FILT_MODE1, TEXT_GUI_HUD_FILT_MODE2, TEXT_GUI_HUD_FILT_MODE3, TEXT_GUI_HUD_FILT_MODE4, TEXT_GUI_HUD_FILT_MODE5, TEXT_GUI_HUD_FILT_MODE6, TEXT_GUI_HUD_FILT_MODE7, TEXT_GUI_HUD_FILT_MODE8, TEXT_GUI_HUD_FILT_MODE9, TEXT_GUI_HUD_FILT_MODE10, "variable red shift", "variable blue shift"};
+					const wchar_t* filtModes[] = {TEXT_GUI_HUD_FILT_MODE1, TEXT_GUI_HUD_FILT_MODE2, TEXT_GUI_HUD_FILT_MODE3, TEXT_GUI_HUD_FILT_MODE4, TEXT_GUI_HUD_FILT_MODE5, TEXT_GUI_HUD_FILT_MODE6, TEXT_GUI_HUD_FILT_MODE7, TEXT_GUI_HUD_FILT_MODE8, TEXT_GUI_HUD_FILT_MODE9, TEXT_GUI_HUD_FILT_MODE10, TEXT_GUI_HUD_FILT_MODE11, TEXT_GUI_HUD_FILT_MODE12};
 					if (sample.particle.tmp>=0 && sample.particle.tmp<=11)
 						sampleInfo << L" (" << filtModes[sample.particle.tmp] << L")";
 					else

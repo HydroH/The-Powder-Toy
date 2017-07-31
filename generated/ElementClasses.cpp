@@ -183,5 +183,11 @@ std::vector<Element> GetElements()
 	elements.push_back(Element_GRVT());
 	elements.push_back(Element_DRAY());
 	elements.push_back(Element_CRMC());
+	elements.push_back(Element_HEAC());
+	elements.push_back(Element_SAWD());
+	elements.push_back(Element_POLO());
+	elements.push_back(Element_RFRG());
+	elements.push_back(Element_RFGL());
+	elements.push_back(Element_LSNS());
 	return elements;
 }

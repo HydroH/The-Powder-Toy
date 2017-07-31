@@ -1,4 +1,5 @@
 #include "simulation/Elements.h"
+#include "Lang.h"
 //#TPT-Directive ElementClass Element_POLO PT_POLO 182
 Element_POLO::Element_POLO()
 {
@@ -29,7 +30,7 @@ Element_POLO::Element_POLO()
 
 	Temperature = 388.15f; 
 	HeatConduct = 251;
-	Description = "Polonium, highly radioactive. Decays into NEUT and heats up.";
+	Description = TEXT_ELEM_POLO_DESC;
 
 	Properties = TYPE_PART|PROP_NEUTPASS|PROP_RADIOACTIVE|PROP_LIFE_DEC|PROP_DEADLY;
 

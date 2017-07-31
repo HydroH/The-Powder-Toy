@@ -122,9 +122,9 @@ void LocalSaveActivity::saveWrite(std::string finalFilename)
 	gameSave->authors = localSaveInfo;
 	std::vector<char> saveData = gameSave->Serialise();
 	if (saveData.size() == 0)
-		new ErrorMessage("Error", "Unable to serialize game data.");
+		new ErrorMessage(TEXT_GUI_SAVE_LOCAL_WRITE_ERR_TITLE, TEXT_GUI_SAVE_LOCAL_WRITE_ERR_SERIAL_MSG);
 	else if (Client::Ref().WriteFile(gameSave->Serialise(), finalFilename))
-		new ErrorMessage(TEXT_GUI_SAVE_LOCAL_WRITE_ERR_TITLE, TEXT_GUI_SAVE_LOCAL_WRITE_ERR_MSG);
+		new ErrorMessage(TEXT_GUI_SAVE_LOCAL_WRITE_ERR_TITLE, TEXT_GUI_SAVE_LOCAL_WRITE_ERR_WRITE_MSG);
 	else
 	{
 		callback->FileSaved(&save);

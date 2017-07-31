@@ -132,7 +132,7 @@ void PropertyWindow::SetProperty()
 #ifdef DEBUG
 							std::cout << "Got type from particle name" << std::endl;
 #endif
-								new ErrorMessage("Could not set property", "Invalid particle type");
+								new ErrorMessage(TEXT_GUI_PROP_ERR_TITLE, TEXT_GUI_PROP_TYPE_ERR_MSG);
 						}
 						else
 						{
@@ -144,7 +144,7 @@ void PropertyWindow::SetProperty()
 						
 					if (properties[property->GetOption().second].Name == "type" && (v < 0 || v >= PT_NUM || !sim->elements[v].Enabled))
 					{
-						new ErrorMessage("Could not set property", "Invalid particle type");
+						new ErrorMessage(TEXT_GUI_PROP_ERR_TITLE, TEXT_GUI_PROP_TYPE_ERR_MSG);
 						return;
 					}
 						

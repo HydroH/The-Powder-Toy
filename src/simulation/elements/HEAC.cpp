@@ -2,6 +2,7 @@
 #include <functional>
 #include "simulation/Elements.h"
 #include "simulation/Air.h"
+#include "Lang.h"
 //#TPT-Directive ElementClass Element_HEAC PT_HEAC 180
 Element_HEAC::Element_HEAC()
 {
@@ -31,7 +32,7 @@ Element_HEAC::Element_HEAC()
 
 	Temperature = R_TEMP+273.15f;
 	HeatConduct = 251;
-	Description = "Rapid heat conductor.";
+	Description = TEXT_ELEM_HEAC_DESC;
 
 	Properties = TYPE_SOLID;
 

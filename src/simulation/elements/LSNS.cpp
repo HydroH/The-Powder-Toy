@@ -1,4 +1,5 @@
 #include "simulation/Elements.h"
+#include "Lang.h"
 //#TPT-Directive ElementClass Element_LSNS PT_LSNS 185
 Element_LSNS::Element_LSNS()
 {
@@ -28,7 +29,7 @@ Element_LSNS::Element_LSNS()
 
  	Temperature = 4.0f + 273.15f;
  	HeatConduct = 0;
- 	Description = "Life sensor, creates a spark when there's a nearby particle with a life higher than its temperature.";
+ 	Description = TEXT_ELEM_LSNS_DESC;
 
  	Properties = TYPE_SOLID;
 

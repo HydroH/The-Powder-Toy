@@ -625,7 +625,7 @@ int LuaScriptInterface::simulation_signNewIndex(lua_State *l)
 	if (!key.compare("text"))
 	{
 		const char *temp = luaL_checkstring(l, 3);
-		std::string cleaned = format::StringToWString(format::CleanString(temp, false, true, true).substr(0, 45));
+		std::wstring cleaned = format::StringToWString(format::CleanString(temp, false, true, true).substr(0, 45));
 		if (!cleaned.empty())
 			luacon_sim->signs[id].text = cleaned;
 		else

@@ -298,15 +298,15 @@ void PreviewView::CheckComment()
 		if (!commentHelpText)
 		{
 			if (rand()%2)
-				commentWarningLabel->SetText("Stolen? Report the save instead");
+				commentWarningLabel->SetText(TEXT_GUI_SAVE_PRE_COMMENT_CHECK_STOLEN1);
 			else
-				commentWarningLabel->SetText("Please report stolen saves");
+				commentWarningLabel->SetText(TEXT_GUI_SAVE_PRE_COMMENT_CHECK_STOLEN2);
 			commentHelpText = true;
 		}
 	}
 	else if (userIsAuthor && text.find("vote") != text.npos)
 	{
-		commentWarningLabel->SetText("Do not ask for votes");
+		commentWarningLabel->SetText(TEXT_GUI_SAVE_PRE_COMMENT_CHECK_VOTE);
 		commentHelpText = true;
 	}
 	else if (CheckSwearing(text))
@@ -314,9 +314,9 @@ void PreviewView::CheckComment()
 		if (!commentHelpText)
 		{
 			if (rand()%2)
-				commentWarningLabel->SetText("Please do not swear");
+				commentWarningLabel->SetText(TEXT_GUI_SAVE_PRE_COMMENT_CHECK_SWEAR1);
 			else
-				commentWarningLabel->SetText("Bad language may be deleted");
+				commentWarningLabel->SetText(TEXT_GUI_SAVE_PRE_COMMENT_CHECK_SWEAR2);
 			commentHelpText = true;
 		}
 	}
@@ -506,11 +506,11 @@ void PreviewView::NotifySaveChanged(PreviewModel * sender)
 		if (showAvatars)
 		{
 			avatarButton->SetUsername(save->userName);
-			authorDateLabel->SetText(L"\bw" + format::StringToWString(save->userName) + " \bg" + dateType + " \bw" + format::StringToWString(format::UnixtimeToDateMini(save->date)));
+			authorDateLabel->SetText(L"\bw" + format::StringToWString(save->userName) + L" \bg" + format::StringToWString(dateType) + L" \bw" + format::StringToWString(format::UnixtimeToDateMini(save->updatedDate)));
 		}
 		else
 		{
-			authorDateLabel->SetText(TEXT_GUI_SAVE_PRE_SAVE_INFO_AUTHOR + format::StringToWString(save->userName) + " \bg" + dateType + " \bw" + format::StringToWString(format::UnixtimeToDateMini(save->updatedDate)));
+			authorDateLabel->SetText(TEXT_GUI_SAVE_PRE_SAVE_INFO_AUTHOR + format::StringToWString(save->userName) + L" \bg" + format::StringToWString(dateType) + L" \bw" + format::StringToWString(format::UnixtimeToDateMini(save->updatedDate)));
 		}
 		if (Client::Ref().GetAuthUser().ID && save->userName == Client::Ref().GetAuthUser().Username)
 			userIsAuthor = true;
@@ -617,7 +617,7 @@ void PreviewView::NotifyCommentBoxEnabledChanged(PreviewModel * sender)
 		//submitCommentButton->Enabled = false;
 		AddComponent(submitCommentButton);
 		
-		commentWarningLabel = new ui::Label(ui::Point((XRES/2)+4, Size.Y-19), ui::Point(Size.X-(XRES/2)-48, 16), "If you see this it is a bug");
+		commentWarningLabel = new ui::Label(ui::Point((XRES/2)+4, Size.Y-19), ui::Point(Size.X-(XRES/2)-48, 16), TEXT_GUI_SAVE_PRE_COMMENT_LABEL_BUG);
 		commentWarningLabel->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 		commentWarningLabel->SetTextColour(ui::Colour(255, 0, 0));
 		commentWarningLabel->Visible = false;

@@ -12,7 +12,7 @@ void LoginModel::Login(string username, string password)
 {
 	if (username.find('@') != username.npos)
 	{
-		statusText = "Use your Powder Toy account to log in, not your email. If you don't have a Powder Toy account, you can create one at https://powdertoy.co.uk/Register.html";
+		statusText = TEXT_GUI_LOGIN_STATUS_EMAIL;
 		loginStatus = false;
 		notifyStatusChanged();
 		return;
