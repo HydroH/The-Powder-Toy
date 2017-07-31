@@ -233,9 +233,9 @@ def findLibs(env, conf):
 	#Windows specific libs
 	if platform == "Windows":
 		if msvc:
-			libChecks = ['shell32', 'wsock32', 'user32', 'Advapi32', 'ws2_32']
+			libChecks = ['shell32', 'wsock32', 'user32', 'Advapi32']
 			if GetOption('static'):
-				libChecks += ['libcmt', 'dxguid']
+				libChecks += ['msvcrt', 'dxguid']
 			for i in libChecks:
 				if not conf.CheckLib(i):
 					FatalError("Error: some windows libraries not found or not installed, make sure your compiler is set up correctly")
@@ -406,14 +406,15 @@ if not msvc:
 
 #Add platform specific flags and defines
 if platform == "Windows":
-	env.Append(CPPDEFINES=["WIN", "_WIN32_WINNT=0x0501", "_USING_V110_SDK71_"])
+	env.Append(CPPDEFINES=["WIN", "_WIN32_WINNT=0x0501"])
 	if msvc:
-		env.Append(CCFLAGS=['/Gm', '/Zi', '/EHsc', '/FS', '/GS']) #enable minimal rebuild, ?, enable exceptions, allow -j to work in debug builds, enable security check
-		env.Append(LINKFLAGS=['/SUBSYSTEM:WINDOWS,"5.01"', '/OPT:REF', '/OPT:ICF'])
+		env.Append(CCFLAGS=['/Gm', '/Zi', '/EHsc']) #enable minimal rebuild, enable exceptions
+		env.Append(LINKFLAGS=['/SUBSYSTEM:WINDOWS', '/OPT:REF', '/OPT:ICF'])
 		if GetOption('static'):
-			env.Append(LINKFLAGS=['/NODEFAULTLIB:msvcrt.lib', '/LTCG'])
-		elif not GetOption('debugging'):
-			env.Append(LINKFLAGS=['/NODEFAULTLIB:msvcrtd.lib'])
+			env.Append(CCFLAGS=['/GL']) #whole program optimization (linker may freeze indefinitely without this)
+			env.Append(LINKFLAGS=['/NODEFAULTLIB:LIBCMT.lib', '/LTCG'])
+		else:
+			env.Append(LINKFLAGS=['/NODEFAULTLIB:msvcrt.lib'])
 	else:
 		env.Append(LINKFLAGS=['-mwindows'])
 elif platform == "Linux":
@@ -463,7 +464,7 @@ if GetOption('debugging'):
 		env.Append(CPPDEFINES=['DEBUG'])
 elif GetOption('release'):
 	if msvc:
-		env.Append(CCFLAGS=['/O2', '/Oy-', '/fp:fast'])
+		env.Append(CCFLAGS=['/O2', '/fp:fast'])
 		if GetOption('static'):
 			env.Append(CCFLAGS=['/MT'])
 		else:
@@ -474,14 +475,9 @@ elif GetOption('release'):
 			env.Append(CCFLAGS=['-funsafe-loop-optimizations'])
 
 if GetOption('static'):
-	if not msvc:
-		env.Append(CCFLAGS=['-static-libgcc', '-static-libstdc++'])
-		env.Append(LINKFLAGS=['-static-libgcc', '-static-libstdc++'])
 	if platform == "Windows":
 		env.Append(CPPDEFINES=['PTW32_STATIC_LIB'])
-		if msvc:
-			env.Append(CPPDEFINES=['ZLIB_WINAPI'])
-		else:
+		if not msvc:
 			env.Append(LINKFLAGS=['-Wl,-Bstatic'])
 
 
@@ -537,14 +533,13 @@ sources = Glob("src/*.cpp") + Glob("src/*/*.cpp") + Glob("src/*/*/*.cpp") + Glob
 if not GetOption('nolua') and not GetOption('renderer'):
 	sources += Glob("src/lua/socket/*.c") + Glob("src/lua/LuaCompat.c")
 
-if platform == "Windows":
+if platform == "Windows" and not msvc:
 	sources += env.RES('resources/powder-res.rc')
-	if not msvc:
-		sources = filter(lambda source: not 'src\\simulation\\Gravity.cpp' in str(source), sources)
-		sources = filter(lambda source: not 'src/simulation/Gravity.cpp' in str(source), sources)
-		envCopy = env.Clone()
-		envCopy.Append(CCFLAGS='-mstackrealign')
-		sources += envCopy.Object('src/simulation/Gravity.cpp')
+	sources = filter(lambda source: not 'src\\simulation\\Gravity.cpp' in str(source), sources)
+	sources = filter(lambda source: not 'src/simulation/Gravity.cpp' in str(source), sources)
+	envCopy = env.Clone()
+	envCopy.Append(CCFLAGS='-mstackrealign')
+	sources += envCopy.Object('src/simulation/Gravity.cpp')
 elif platform == "Darwin":
 	sources += ["src/SDLMain.m"]
 

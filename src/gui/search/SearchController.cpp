@@ -407,7 +407,7 @@ void SearchController::FavouriteSelected()
 				if (Client::Ref().FavouriteSave(saves[i], false)!=RequestOkay)
 				{
 					std::wstringstream saveIDF;
-					saveIDF << "\boFailed to unfavourite [" << saves[i] << "]: " + Client::Ref().GetLastError();
+					saveIDF << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG1 << saves[i] << TEXT_GUI_SAVE_BROWSE_ERR_UNFAV_MSG2 + Client::Ref().GetWLastError();
 					notifyError(saveIDF.str());
 					return false;
 				}
