@@ -113,7 +113,6 @@ public:
 	int pretty_powder;
 	int sandcolour;
 	int sandcolour_frame;
-	int DEFAULT_PT_NUM;
 
 	int Load(GameSave * save);
 	int Load(int x, int y, GameSave * save);
@@ -160,6 +159,7 @@ public:
 	void create_arc(int sx, int sy, int dx, int dy, int midpoints, int variance, int type, int flags);
 	void UpdateParticles(int start, int end);
 	void SimulateGoL();
+	void RecalcFreeParticles();
 	void CheckStacking();
 	void BeforeSim();
 	void AfterSim();

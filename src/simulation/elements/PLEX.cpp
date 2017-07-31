@@ -24,6 +24,7 @@ Element_PLEX::Element_PLEX()
 	Explosive = 2;
 	Meltable = 50;
 	Hardness = 1;
+	PhotonReflectWavelengths = 0x1F00003E;
 
 	Weight = 100;
 

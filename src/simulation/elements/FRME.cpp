@@ -31,7 +31,7 @@ Element_FRME::Element_FRME()
 	HeatConduct = 0;
 	Description = TEXT_ELEM_FRME_DESC;
 
-	Properties = TYPE_SOLID|PROP_LIFE_DEC;
+	Properties = TYPE_SOLID;
 
 	LowPressure = IPL;
 	LowPressureTransition = NT;

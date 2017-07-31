@@ -15,6 +15,7 @@
 #include "gui/search/Thumbnail.h"
 #include "simulation/SaveRenderer.h"
 #include "simulation/SimulationData.h"
+#include "gui/dialogues/InformationMessage.h"
 #include "gui/dialogues/ConfirmPrompt.h"
 #include "client/SaveFile.h"
 #include "Format.h"
@@ -101,9 +102,9 @@ public:
 			return;
 		SetToolTip(x, y);
 	}
-	virtual void TextPosition()
+	virtual void TextPosition(std::wstring ButtonText)
 	{
-		ui::Button::TextPosition();
+		ui::Button::TextPosition(ButtonText);
 		textPosition.X += 3;
 	}
 	void SetToolTips(std::wstring newToolTip1, std::wstring newToolTip2)
@@ -138,7 +139,7 @@ public:
 	void Draw(const ui::Point& screenPos)
 	{
 		ui::Button::Draw(screenPos);
-		Graphics * g = ui::Engine::Ref().g;
+		Graphics * g = GetGraphics();
 		drawn = true;
 
 		if(showSplit)
@@ -202,8 +203,7 @@ GameView::GameView():
 	selectPoint2(0, 0),
 	currentMouse(0, 0),
 	mousePosition(0, 0),
-	placeSaveThumb(NULL),
-	lastOffset(0)
+	placeSaveThumb(NULL)
 {
 
 	int currentX = 1;
@@ -334,7 +334,7 @@ GameView::GameView():
 	tagSimulationButton = new ui::Button(ui::Point(currentX, Size.Y-16), ui::Point(227, 15), TEXT_GUI_MAIN_BTN_TAG_TEXT, TEXT_GUI_MAIN_BTN_TAG_TIP);
 	tagSimulationButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	tagSimulationButton->SetIcon(IconTag);
-	currentX+=252;
+	//currentX+=252;
 	tagSimulationButton->SetActionCallback(new TagSimulationAction(this));
 	AddComponent(tagSimulationButton);
 
@@ -735,7 +735,6 @@ void GameView::NotifyLastToolChanged(GameModel * sender)
 
 void GameView::NotifyToolListChanged(GameModel * sender)
 {
-	int currentX = WINDOWW-56;
 	for (size_t i = 0; i < menuButtons.size(); i++)
 	{
 		if (((MenuAction*)menuButtons[i]->GetActionCallback())->menuID==sender->GetActiveMenu())
@@ -754,6 +753,7 @@ void GameView::NotifyToolListChanged(GameModel * sender)
 	}
 	toolButtons.clear();
 	vector<Tool*> toolList = sender->GetToolList();
+	int currentX = 0;
 	for (size_t i = 0; i < toolList.size(); i++)
 	{
 		VideoBuffer * tempTexture = toolList[i]->GetTexture(26, 14);
@@ -802,10 +802,7 @@ void GameView::NotifyToolListChanged(GameModel * sender)
 	if (sender->GetActiveMenu() != SC_DECO)
 		lastMenu = sender->GetActiveMenu();
 
-	// don't reset scroll back to 0
-	int origOffset = lastOffset;
-	lastOffset = 0;
-	setToolButtonOffset(origOffset);
+	updateToolButtonScroll();
 }
 
 void GameView::NotifyColourSelectorVisibilityChanged(GameModel * sender)
@@ -1017,7 +1014,7 @@ void GameView::NotifySaveChanged(GameModel * sender)
 		upVoteButton->Appearance.BackgroundDisabled = (ui::Colour(0, 0, 0));
 		upVoteButton->Appearance.BorderDisabled = ui::Colour(100, 100, 100);
 		downVoteButton->Enabled = false;
-		upVoteButton->Appearance.BackgroundDisabled = (ui::Colour(0, 0, 0));
+		downVoteButton->Appearance.BackgroundDisabled = (ui::Colour(0, 0, 0));
 		downVoteButton->Appearance.BorderDisabled = ui::Colour(100, 100, 100);
 		tagSimulationButton->Enabled = false;
 		tagSimulationButton->SetText(TEXT_GUI_MAIN_BTN_TAG_TEXT);
@@ -1040,7 +1037,6 @@ void GameView::NotifySaveChanged(GameModel * sender)
 	}
 	saveSimulationButton->Enabled = (saveSimulationButtonEnabled || ctrlBehaviour);
 	SetSaveButtonTooltips();
-	c->HistorySnapshot();
 }
 
 void GameView::NotifyBrushChanged(GameModel * sender)
@@ -1077,20 +1073,58 @@ void GameView::record()
 	}
 }
 
-void GameView::setToolButtonOffset(int offset)
+void GameView::updateToolButtonScroll()
 {
-	int offset_ = offset;
-	offset = offset-lastOffset;
-	lastOffset = offset_;
-
-	for(vector<ToolButton*>::iterator iter = toolButtons.begin(), end = toolButtons.end(); iter!=end; ++iter)
+	if(toolButtons.size())
 	{
-		ToolButton * button = *iter;
-		button->Position.X -= offset;
-		if (button->Position.X+button->Size.X <= 0 || (button->Position.X+button->Size.X) > XRES-2)
-			button->Visible = false;
+		int x = currentMouse.X, y = currentMouse.Y;
+		int newInitialX = WINDOWW-56;
+		int totalWidth = (toolButtons[0]->Size.X+1)*toolButtons.size();
+		int scrollSize = (int)(((float)(XRES-BARSIZE))/((float)totalWidth) * ((float)XRES-BARSIZE));
+		if (scrollSize>XRES-1)
+			scrollSize = XRES-1;
+		if(totalWidth > XRES-15)
+		{
+			int mouseX = x;
+			if(mouseX > XRES)
+				mouseX = XRES;
+			//if (mouseX < 15) //makes scrolling a little nicer at edges but apparently if you put hundreds of elements in a menu it makes the end not show ...
+			//	mouseX = 15;
+
+			scrollBar->Position.X = (int)(((float)mouseX/((float)XRES))*(float)(XRES-scrollSize));
+
+			float overflow = totalWidth-(XRES-BARSIZE), mouseLocation = float(XRES-3)/float((XRES-2)-mouseX); //mouseLocation adjusted slightly in case you have 200 elements in one menu
+
+			newInitialX += overflow/mouseLocation;
+		}
 		else
-			button->Visible = true;
+		{
+			scrollBar->Position.X = 1;
+		}
+		scrollBar->Size.X=scrollSize;
+		int offsetDelta = toolButtons[0]->Position.X - newInitialX;
+		for(vector<ToolButton*>::iterator iter = toolButtons.begin(), end = toolButtons.end(); iter!=end; ++iter)
+		{
+			ToolButton * button = *iter;
+			button->Position.X -= offsetDelta;
+			if (button->Position.X+button->Size.X <= 0 || (button->Position.X+button->Size.X) > XRES-2)
+				button->Visible = false;
+			else
+				button->Visible = true;
+		}
+
+		//Ensure that mouseLeave events are make their way to the buttons should they move from underneath the mouse pointer
+		if(toolButtons[0]->Position.Y < y && toolButtons[0]->Position.Y+toolButtons[0]->Size.Y > y)
+		{
+			for(vector<ToolButton*>::iterator iter = toolButtons.begin(), end = toolButtons.end(); iter!=end; ++iter)
+			{
+				ToolButton * button = *iter;
+				if(button->Position.X < x && button->Position.X+button->Size.X > x)
+					button->OnMouseEnter(x, y);
+				else
+					button->OnMouseLeave(x, y);
+			}
+		}
 	}
 }
 
@@ -1138,6 +1172,8 @@ void GameView::OnMouseMove(int x, int y, int dx, int dy)
 		c->SetActiveMenu(delayedActiveMenu);
 		delayedActiveMenu = -1;
 	}
+
+	updateToolButtonScroll();
 }
 
 void GameView::OnMouseDown(int x, int y, unsigned button)
@@ -1454,7 +1490,10 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 			break;
 		if (ctrl && !isMouseDown)
 		{
-			c->HistoryRestore();
+			if (shift)
+				c->HistoryForward();
+			else
+				c->HistoryRestore();
 		}
 		else
 		{
@@ -1478,6 +1517,15 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 		break;
 	case SDLK_F5:
 		c->ReloadSim();
+		break;
+	case 'a':
+		if ((Client::Ref().GetAuthUser().UserElevation == User::ElevationModerator
+		     || Client::Ref().GetAuthUser().UserElevation == User::ElevationAdmin
+		     || Client::Ref().GetAuthUser().Username == "Mrprocom") && ctrl)
+		{
+			std::string authorString = Client::Ref().GetAuthorInfo().toStyledString();
+			new InformationMessage(TEXT_GAME_CONTROL_SAVE_AUTHOR, format::StringToWString(authorString), true);
+		}
 		break;
 	case 'r':
 		if (ctrl)
@@ -1539,7 +1587,14 @@ void GameView::OnKeyPress(int key, Uint16 character, bool shift, bool ctrl, bool
 			}
 		break;
 	case 'y':
-		c->SwitchAir();
+		if (ctrl)
+		{
+			c->HistoryForward();
+		}
+		else
+		{
+			c->SwitchAir();
+		}
 		break;
 	case SDLK_ESCAPE:
 	case 'q':
@@ -1790,45 +1845,6 @@ void GameView::DoMouseMove(int x, int y, int dx, int dy)
 {
 	if(c->MouseMove(x, y, dx, dy))
 		Window::DoMouseMove(x, y, dx, dy);
-
-	if(toolButtons.size())
-	{
-		int totalWidth = (toolButtons[0]->Size.X+1)*toolButtons.size();
-		int scrollSize = (int)(((float)(XRES-BARSIZE))/((float)totalWidth) * ((float)XRES-BARSIZE));
-		if (scrollSize>XRES-1)
-			scrollSize = XRES-1;
-		if(totalWidth > XRES-15)
-		{
-			int mouseX = x;
-			if(mouseX > XRES)
-				mouseX = XRES;
-			//if (mouseX < 15) //makes scrolling a little nicer at edges but apparently if you put hundreds of elements in a menu it makes the end not show ...
-			//	mouseX = 15;
-
-			scrollBar->Position.X = (int)(((float)mouseX/((float)XRES))*(float)(XRES-scrollSize));
-
-			float overflow = totalWidth-(XRES-BARSIZE), mouseLocation = float(XRES-3)/float(mouseX-(XRES-2)); //mouseLocation adjusted slightly in case you have 200 elements in one menu
-			setToolButtonOffset(overflow/mouseLocation);
-
-			//Ensure that mouseLeave events are make their way to the buttons should they move from underneath the mouse pointer
-			if(toolButtons[0]->Position.Y < y && toolButtons[0]->Position.Y+toolButtons[0]->Size.Y > y)
-			{
-				for(vector<ToolButton*>::iterator iter = toolButtons.begin(), end = toolButtons.end(); iter!=end; ++iter)
-				{
-					ToolButton * button = *iter;
-					if(button->Position.X < x && button->Position.X+button->Size.X > x)
-						button->OnMouseEnter(x, y);
-					else
-						button->OnMouseLeave(x, y);
-				}
-			}
-		}
-		else
-		{
-			scrollBar->Position.X = 1;
-		}
-		scrollBar->Size.X=scrollSize;
-	}
 }
 
 void GameView::DoMouseDown(int x, int y, unsigned button)
@@ -1885,10 +1901,9 @@ void GameView::NotifyNotificationsChanged(GameModel * sender)
 {
 	class NotificationButtonAction : public ui::ButtonAction
 	{
-		GameView * v;
 		Notification * notification;
 	public:
-		NotificationButtonAction(GameView * v, Notification * notification) : v(v), notification(notification) { }
+		NotificationButtonAction(Notification * notification) : notification(notification) { }
 		void ActionCallback(ui::Button * sender)
 		{
 			notification->Action();
@@ -1925,7 +1940,7 @@ void GameView::NotifyNotificationsChanged(GameModel * sender)
 	{
 		int width = (Graphics::textwidth((*iter)->Message.c_str()))+8;
 		ui::Button * tempButton = new ui::Button(ui::Point(XRES-width-22, currentY), ui::Point(width, 15), (*iter)->Message);
-		tempButton->SetActionCallback(new NotificationButtonAction(this, *iter));
+		tempButton->SetActionCallback(new NotificationButtonAction(*iter));
 		tempButton->Appearance.BorderInactive = style::Colour::WarningTitle;
 		tempButton->Appearance.TextInactive = style::Colour::WarningTitle;
 		tempButton->Appearance.BorderHover = ui::Colour(255, 175, 0);
@@ -2113,7 +2128,7 @@ void GameView::SetSaveButtonTooltips()
 
 void GameView::OnDraw()
 {
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	if (ren)
 	{
 		ren->clearScreen(1.0f);
@@ -2315,7 +2330,7 @@ void GameView::OnDraw()
 			if (type == PT_PIPE || type == PT_PPIP)
 				ctype = sample.particle.tmp&0xFF;
 
-			if (type == PT_PHOT || type == PT_BIZR || type == PT_BIZRG || type == PT_BIZRS || type == PT_FILT || type == PT_BRAY)
+			if (type == PT_PHOT || type == PT_BIZR || type == PT_BIZRG || type == PT_BIZRS || type == PT_FILT || type == PT_BRAY || type == PT_C5)
 				wavelengthGfx = (ctype&0x3FFFFFFF);
 
 			if (showDebug)
@@ -2329,8 +2344,8 @@ void GameView::OnDraw()
 				else if (type == PT_FILT)
 				{
 					sampleInfo << c->WElementResolve(type, ctype);
-					const wchar_t* filtModes[] = {TEXT_GUI_HUD_FILT_MODE1, TEXT_GUI_HUD_FILT_MODE2, TEXT_GUI_HUD_FILT_MODE3, TEXT_GUI_HUD_FILT_MODE4, TEXT_GUI_HUD_FILT_MODE5, TEXT_GUI_HUD_FILT_MODE6, TEXT_GUI_HUD_FILT_MODE7, TEXT_GUI_HUD_FILT_MODE8, TEXT_GUI_HUD_FILT_MODE9, TEXT_GUI_HUD_FILT_MODE10};
-					if (sample.particle.tmp>=0 && sample.particle.tmp<=9)
+					const wchar_t* filtModes[] = {TEXT_GUI_HUD_FILT_MODE1, TEXT_GUI_HUD_FILT_MODE2, TEXT_GUI_HUD_FILT_MODE3, TEXT_GUI_HUD_FILT_MODE4, TEXT_GUI_HUD_FILT_MODE5, TEXT_GUI_HUD_FILT_MODE6, TEXT_GUI_HUD_FILT_MODE7, TEXT_GUI_HUD_FILT_MODE8, TEXT_GUI_HUD_FILT_MODE9, TEXT_GUI_HUD_FILT_MODE10, TEXT_GUI_HUD_FILT_MODE11, TEXT_GUI_HUD_FILT_MODE12};
+					if (sample.particle.tmp>=0 && sample.particle.tmp<=11)
 						sampleInfo << L" (" << filtModes[sample.particle.tmp] << L")";
 					else
 						sampleInfo << TEXT_GUI_HUD_FILT_MODEDK;
@@ -2353,7 +2368,7 @@ void GameView::OnDraw()
 				sampleInfo << TEXT_GUI_HUD_TMP << sample.particle.tmp;
 
 				// only elements that use .tmp2 show it in the debug HUD
-				if (type == PT_CRAY || type == PT_DRAY || type == PT_EXOT || type == PT_LIGH || type == PT_SOAP || type == PT_TRON || type == PT_VIBR || type == PT_VIRS || type == PT_WARP || type == PT_LCRY || type == PT_CBNW || type == PT_TSNS || type == PT_DTEC || type == PT_PSTN)
+				if (type == PT_CRAY || type == PT_DRAY || type == PT_EXOT || type == PT_LIGH || type == PT_SOAP || type == PT_TRON || type == PT_VIBR || type == PT_VIRS || type == PT_WARP || type == PT_LCRY || type == PT_CBNW || type == PT_TSNS || type == PT_DTEC || type == PT_LSNS || type == PT_PSTN)
 					sampleInfo << TEXT_GUI_HUD_TMP2 << sample.particle.tmp2;
 
 				sampleInfo << TEXT_GUI_HUD_PRESS << std::fixed << sample.AirPressure;
@@ -2464,9 +2479,9 @@ void GameView::OnDraw()
 			fpsInfo << TEXT_GUI_HUD_REPLACE;
 		if (c->GetReplaceModeFlags()&SPECIFIC_DELETE)
 			fpsInfo << TEXT_GUI_HUD_SPECDEL;
-		if (ren->GetGridSize())
+		if (ren && ren->GetGridSize())
 			fpsInfo << TEXT_GUI_HUD_GRID << ren->GetGridSize() << L"]";
-		if (ren->findingElement)
+		if (ren && ren->findingElement)
 			fpsInfo <<TEXT_GUI_HUD_FIND;
 
 		int textWidth = Graphics::textwidth((wchar_t*)fpsInfo.str().c_str());
@@ -2501,6 +2516,10 @@ void GameView::OnDraw()
 		g->fillrect(0, 0, WINDOWW, WINDOWH, 0, 0, 0, introText>51?102:introText*2);
 		g->drawtext(16, 20, (wchar_t*)introTextMessage.c_str(), 255, 255, 255, introText>51?255:introText*5);
 	}
+
+	// Clear menu areas, to ensure particle graphics don't overlap
+	memset(g->vid+((XRES+BARSIZE)*YRES), 0, (PIXELSIZE*(XRES+BARSIZE))*MENUSIZE);
+	g->clearrect(XRES, 1, BARSIZE, YRES-1);
 }
 
 ui::Point GameView::lineSnapCoords(ui::Point point1, ui::Point point2)

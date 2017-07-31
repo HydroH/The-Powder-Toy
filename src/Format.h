@@ -27,7 +27,6 @@ namespace format
 	std::string UnixtimeToDate(time_t unixtime, std::string dateFomat = "%d %b %Y");
 	std::string UnixtimeToDateMini(time_t unixtime);
 	std::string CleanString(std::string dirtyString, bool ascii, bool color, bool newlines, bool numeric = false);
-	std::string CleanString(const char * dirtyData, bool ascii, bool color, bool newlines, bool numeric = false);
 	std::string WStringToString(std::wstring wcs);
 	std::string WStringToString(const wchar_t * wcs);
 	std::wstring StringToWString(std::string str);

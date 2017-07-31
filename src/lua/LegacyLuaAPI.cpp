@@ -70,6 +70,8 @@ int luacon_partwrite(lua_State* l)
 
 	if (i < 0 || i >= NPART)
 		return luaL_error(l, "Out of range");
+	if (!luacon_sim->parts[i].type)
+		return luaL_error(l, "Dead particle");
 	if (offset == -1)
 		return luaL_error(l, "Invalid property");
 
@@ -92,11 +94,8 @@ int luacon_partwrite(lua_State* l)
 int luacon_partsread(lua_State* l)
 {
 	int i = luaL_optinteger(l, 2, 0);
-
-	if (i<0 || i>=NPART)
-	{
+	if (i < 0 || i >= NPART)
 		return luaL_error(l, "array index out of bounds");
-	}
 
 	lua_rawgeti(l, LUA_REGISTRYINDEX, tptPart);
 	cIndex = i;
@@ -281,6 +280,12 @@ int luacon_element_getproperty(const char * key, int * format, unsigned int * mo
 		offset = offsetof(Element, Hardness);
 		*format = 0;
 	}
+	// Not sure if this should be enabled
+	// Also, needs a new format type for unsigned ints
+	/*else if (!strcmp(key, "photonreflectwavelengths")) {
+		offset = offsetof(Element, PhotonReflectWavelengths);
+		*format = ;
+	}*/
 	else if (!strcmp(key, "menu")) {
 		offset = offsetof(Element, MenuVisible);
 		*format = 0;
@@ -415,7 +420,7 @@ int luacon_elementwrite(lua_State* l)
 			//Convert to upper case
 			for (size_t j = 0; j < strlen(tempstring); j++)
 				tempstring[j] = toupper(tempstring[j]);
-			if(luacon_ci->GetParticleType(tempstring) != -1)
+			if(luacon_sim->GetParticleType(tempstring) != -1)
 			{
 				free(tempstring);
 				return luaL_error(l, "Name in use");
@@ -666,7 +671,7 @@ int luatpt_getelement(lua_State *l)
 	{
 		luaL_checktype(l, 1, LUA_TSTRING);
 		const char* name = luaL_optstring(l, 1, "");
-		if ((t = luacon_ci->GetParticleType(name))==-1)
+		if ((t = luacon_sim->GetParticleType(name))==-1)
 			return luaL_error(l, "Unrecognised element '%s'", name);
 		lua_pushinteger(l, t);
 	}
@@ -854,7 +859,7 @@ int luatpt_create(lua_State* l)
 				return luaL_error(l, "Unrecognised element number '%d'", t);
 		} else {
 			const char* name = luaL_optstring(l, 3, "dust");
-			if ((t = luacon_ci->GetParticleType(std::string(name))) == -1)
+			if ((t = luacon_sim->GetParticleType(std::string(name))) == -1)
 				return luaL_error(l,"Unrecognised element '%s'", name);
 		}
 		retid = luacon_sim->create_part(-1, x, y, t);
@@ -1067,7 +1072,7 @@ int luatpt_set_property(lua_State* l)
 		if(!lua_isnumber(l, acount) && lua_isstring(l, acount))
 		{
 			name = luaL_optstring(l, acount, "none");
-			if ((partsel = luacon_ci->GetParticleType(std::string(name))) == -1)
+			if ((partsel = luacon_sim->GetParticleType(std::string(name))) == -1)
 				return luaL_error(l, "Unrecognised element '%s'", name);
 		}
 	}
@@ -1084,7 +1089,7 @@ int luatpt_set_property(lua_State* l)
 	else
 	{
 		name = luaL_checklstring(l, 2, NULL);
-		if ((t = luacon_ci->GetParticleType(std::string(name)))==-1)
+		if ((t = luacon_sim->GetParticleType(std::string(name)))==-1)
 			return luaL_error(l, "Unrecognised element '%s'", name);
 	}
 	if (!lua_isnumber(l, 3) || acount >= 6)

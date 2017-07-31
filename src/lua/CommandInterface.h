@@ -18,7 +18,6 @@ public:
 	enum FormatType { FormatInt, FormatString, FormatChar, FormatFloat, FormatElement };
 	CommandInterface(GameController * c, GameModel * m);
 	int GetPropertyOffset(std::string key, FormatType & format);
-	int GetParticleType(std::string type);
 	void Log(LogType type, std::string message);
 	void Log(LogType type, std::wstring message);
 	//void AttachGameModel(GameModel * m);

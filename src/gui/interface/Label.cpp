@@ -5,7 +5,9 @@
 #include "Label.h"
 #include "Keys.h"
 #include "Mouse.h"
+#include "PowderToy.h"
 #include "ContextMenu.h"
+#include "graphics/Graphics.h"
 #include "Lang.h"
 
 using namespace ui;
@@ -438,7 +440,7 @@ void Label::Draw(const Point& screenPos)
 			TextPosition(text);
 		drawn = true;
 	}
-	Graphics * g = Engine::Ref().g;
+	Graphics * g = GetGraphics();
 
 	std::wstring cDisplayText = displayText;
 

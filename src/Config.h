@@ -12,15 +12,15 @@
 
 //VersionInfoStart
 #ifndef SAVE_VERSION
-#define SAVE_VERSION 91
+#define SAVE_VERSION 92
 #endif
 
 #ifndef MINOR_VERSION
-#define MINOR_VERSION 5
+#define MINOR_VERSION 0
 #endif
 
 #ifndef BUILD_NUM
-#define BUILD_NUM 330
+#define BUILD_NUM 331
 #endif
 
 #ifndef SNAPSHOT_ID
@@ -31,11 +31,11 @@
 #endif
 
 #ifndef CN_MINOR_VERSION
-#define CN_MINOR_VERSION 8
+#define CN_MINOR_VERSION 9
 #endif
 
 #ifndef CN_BUILD_NUM
-#define CN_BUILD_NUM 21
+#define CN_BUILD_NUM 22
 #endif
 
 #ifndef CN_STAGE
@@ -49,6 +49,11 @@
 // See jacob1 to get a mod ID
 #ifndef MOD_ID
 #define MOD_ID 0
+#endif
+
+#ifdef SNAPSHOT
+#define FUTURE_SAVE_VERSION 92
+#define FUTURE_MINOR_VERSION 0
 #endif
 //VersionInfoEnd
 
@@ -193,8 +198,6 @@
 
 #if defined(_MSC_VER)
 #define TPT_INLINE _inline
-#elif defined(__llvm__)
-#define TPT_INLINE
 #else
 #define TPT_INLINE inline
 #endif

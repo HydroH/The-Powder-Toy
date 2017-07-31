@@ -39,7 +39,7 @@ std::string sign::getText(Simulation *sim)
 			float aheat = 0.0f;
 			if (x>=0 && x<XRES && y>=0 && y<YRES)
 				aheat = sim->hv[y/CELL][x/CELL];
-			swprintf(buff, TEXT_GUI_SIGN_AHEAT, aheat);
+			swprintf(buff, TEXT_GUI_SIGN_AHEAT, aheat-273.15);
 		}
 		else if (!wcscmp(signText,L"{t}"))
 		{

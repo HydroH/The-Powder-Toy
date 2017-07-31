@@ -1,4 +1,4 @@
- #ifndef GAMECONTROLLER_H
+#ifndef GAMECONTROLLER_H
 #define GAMECONTROLLER_H
 
 #include <queue>
@@ -73,6 +73,7 @@ public:
 
 	void HistoryRestore();
 	void HistorySnapshot();
+	void HistoryForward();
 
 	void AdjustGridSize(int direction);
 	void InvertAirSim();

@@ -10,6 +10,13 @@ LoginModel::LoginModel():
 
 void LoginModel::Login(string username, string password)
 {
+	if (username.find('@') != username.npos)
+	{
+		statusText = TEXT_GUI_LOGIN_STATUS_EMAIL;
+		loginStatus = false;
+		notifyStatusChanged();
+		return;
+	}
 	statusText = TEXT_GUI_LOGIN_STATUS_LOGGING;
 	loginStatus = false;
 	notifyStatusChanged();
@@ -22,9 +29,6 @@ void LoginModel::Login(string username, string password)
 		break;
 	case LoginError:
 		statusText = Client::Ref().GetWLastError();
-		size_t banStart = statusText.find(L". Ban expire in"); //TODO: temporary, remove this when the ban message is fixed
-		if (banStart != statusText.npos)
-			statusText.replace(banStart, 15, TEXT_GUI_LOGIN_STATUS_BAN);
 		break;
 	}
 	notifyStatusChanged();

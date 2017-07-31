@@ -39,7 +39,7 @@ public:
 		OkayAction(SignWindow * prompt_) { prompt = prompt_; }
 		void ActionCallback(ui::Button * sender)
 		{
-			ui::Engine::Ref().CloseWindow();		
+			prompt->CloseActiveWindow();	
 			if(prompt->signID==-1 && prompt->textField->GetText().length())
 			{
 				prompt->sim->signs.push_back(sign(prompt->textField->GetWText(), prompt->signPosition.X, prompt->signPosition.Y, (sign::Justification)prompt->justification->GetOption().second));
@@ -58,7 +58,7 @@ public:
 		DeleteAction(SignWindow * prompt_) { prompt = prompt_; }
 		void ActionCallback(ui::Button * sender)
 		{
-			ui::Engine::Ref().CloseWindow();
+			prompt->CloseActiveWindow();
 			if(prompt->signID!=-1)
 			{
 				prompt->sim->signs.erase(prompt->sim->signs.begin()+prompt->signID);
@@ -122,7 +122,7 @@ SignWindow::SignWindow(SignTool * tool_, Simulation * sim_, int signID_, ui::Poi
 	AddComponent(okayButton);
 	SetOkayButton(okayButton);
 	
-	ui::Label * tempLabel = new ui::Label(ui::Point(8, 48), ui::Point(40, 15), TEXT_GUI_SIGN_TOOL_LABEL_JUSTIFY);
+	ui::Label * tempLabel = new ui::Label(ui::Point(8, 48), ui::Point(40, 15), TEXT_GUI_SIGN_TOOL_LABEL_POINTER);
 	okayButton->Appearance.HorizontalAlign = ui::Appearance::AlignLeft;
 	okayButton->Appearance.VerticalAlign = ui::Appearance::AlignMiddle;
 	AddComponent(tempLabel);
@@ -167,12 +167,12 @@ SignWindow::SignWindow(SignTool * tool_, Simulation * sim_, int signID_, ui::Poi
 		AddComponent(deleteButton);
 	}
 
-	ui::Engine::Ref().ShowWindow(this);
+	MakeActiveWindow();
 }
 
 void SignWindow::OnTryExit(ui::Window::ExitMethod method)
 {
-	ui::Engine::Ref().CloseWindow();
+	CloseActiveWindow();
 	SelfDestruct();
 }
 
@@ -183,7 +183,7 @@ void SignWindow::DoDraw()
 		sign & currentSign = *iter;
 		int x, y, w, h, dx, dy;
 		wchar_t type = 0;
-		Graphics * g = ui::Engine::Ref().g;
+		Graphics * g = GetGraphics();
 		std::wstring text = currentSign.getWText(sim);
 		sign::splitsign(currentSign.text.c_str(), &type);
 		currentSign.pos(text, x, y, w, h);
@@ -252,7 +252,7 @@ void SignWindow::DoMouseDown(int x, int y, unsigned button)
 
 void SignWindow::OnDraw()
 {
-	Graphics * g = ui::Engine::Ref().g;
+	Graphics * g = GetGraphics();
 	
 	g->clearrect(Position.X-2, Position.Y-2, Size.X+3, Size.Y+3);
 	g->drawrect(Position.X, Position.Y, Size.X, Size.Y, 200, 200, 200, 255);

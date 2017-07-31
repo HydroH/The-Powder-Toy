@@ -15,7 +15,7 @@ ParticleDebug::ParticleDebug(unsigned int id, Simulation * sim, GameModel * mode
 void ParticleDebug::Debug(int mode, int x, int y)
 {
 	int debug_currentParticle = sim->debug_currentParticle;
-	int i;
+	int i = 0;
 	std::stringstream logmessage;
 
 	if (mode == 0)
@@ -32,7 +32,7 @@ void ParticleDebug::Debug(int mode, int x, int y)
 	}
 	else if (mode == 1)
 	{
-		if (x < 0 || x >= XRES || y < 0 || y >= YRES || !(i = (sim->pmap[y][x]>>8)) || i < debug_currentParticle)
+		if (x < 0 || x >= XRES || y < 0 || y >= YRES || !sim->pmap[y][x] || (i = (sim->pmap[y][x]>>8)) < debug_currentParticle)
 		{
 			i = NPART;
 			logmessage << "Updated particles from #" << debug_currentParticle << " to end, updated sim";
@@ -62,6 +62,7 @@ bool ParticleDebug::KeyPress(int key, Uint16 character, bool shift, bool ctrl, b
 {
 	if (key == 'f')
 	{
+		model->SetPaused(1);
 		if (alt)
 		{
 			Debug(0, 0, 0);
@@ -96,7 +97,6 @@ bool ParticleDebug::KeyPress(int key, Uint16 character, bool shift, bool ctrl, b
 			{
 				model->FrameStep(1);
 			}
-			model->SetPaused(1);
 		}
 		return false;
 	}

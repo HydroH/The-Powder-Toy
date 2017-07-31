@@ -126,11 +126,6 @@ std::string format::CleanString(std::string dirtyString, bool ascii, bool color,
 	return dirtyString;
 }
 
-std::string format::CleanString(const char * dirtyData, bool ascii, bool color, bool newlines, bool numeric)
-{
-	return CleanString(std::string(dirtyData), ascii, color, newlines, numeric);
-}
-
 std::string format::WStringToString(std::wstring wcs)
 {
 	return utf_to_utf<char>(wcs.c_str(), wcs.c_str() + wcs.size());

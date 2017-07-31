@@ -372,6 +372,7 @@
     <ClCompile Include="src\simulation\elements\GRVT.cpp" />
     <ClCompile Include="src\simulation\elements\GUNP.cpp" />
     <ClCompile Include="src\simulation\elements\H2.cpp" />
+    <ClCompile Include="src\simulation\elements\HEAC.cpp" />
     <ClCompile Include="src\simulation\elements\HSWC.cpp" />
     <ClCompile Include="src\simulation\elements\ICEI.cpp" />
     <ClCompile Include="src\simulation\elements\IGNT.cpp" />
@@ -391,6 +392,7 @@
     <ClCompile Include="src\simulation\elements\LOLZ.cpp" />
     <ClCompile Include="src\simulation\elements\LOVE.cpp" />
     <ClCompile Include="src\simulation\elements\LRBD.cpp" />
+    <ClCompile Include="src\simulation\elements\LSNS.cpp" />
     <ClCompile Include="src\simulation\elements\MERC.cpp" />
     <ClCompile Include="src\simulation\elements\METL.cpp" />
     <ClCompile Include="src\simulation\elements\MORT.cpp" />
@@ -414,6 +416,7 @@
     <ClCompile Include="src\simulation\elements\PLNT.cpp" />
     <ClCompile Include="src\simulation\elements\PLSM.cpp" />
     <ClCompile Include="src\simulation\elements\PLUT.cpp" />
+    <ClCompile Include="src\simulation\elements\POLO.cpp" />
     <ClCompile Include="src\simulation\elements\PPIP.cpp" />
     <ClCompile Include="src\simulation\elements\PQRT.cpp" />
     <ClCompile Include="src\simulation\elements\PROT.cpp" />
@@ -429,10 +432,13 @@
     <ClCompile Include="src\simulation\elements\PVOD.cpp" />
     <ClCompile Include="src\simulation\elements\QRTZ.cpp" />
     <ClCompile Include="src\simulation\elements\RBDM.cpp" />
+    <ClCompile Include="src\simulation\elements\RFGL.cpp" />
+    <ClCompile Include="src\simulation\elements\RFRG.cpp" />
     <ClCompile Include="src\simulation\elements\RIME.cpp" />
     <ClCompile Include="src\simulation\elements\RPEL.cpp" />
     <ClCompile Include="src\simulation\elements\SALT.cpp" />
     <ClCompile Include="src\simulation\elements\SAND.cpp" />
+    <ClCompile Include="src\simulation\elements\SAWD.cpp" />
     <ClCompile Include="src\simulation\elements\SHLD1.cpp" />
     <ClCompile Include="src\simulation\elements\SHLD2.cpp" />
     <ClCompile Include="src\simulation\elements\SHLD3.cpp" />
@@ -581,6 +587,7 @@
     <ClInclude Include="src\client\SaveInfo.h" />
     <ClInclude Include="src\client\User.h" />
     <ClInclude Include="src\client\UserInfo.h" />
+    <ClInclude Include="src\common\tpt-minmax.h" />
     <ClInclude Include="src\common\tpt-thread.h" />
     <ClInclude Include="src\Config.h" />
     <ClInclude Include="src\Controller.h" />
@@ -591,7 +598,9 @@
     <ClInclude Include="src\debug\ParticleDebug.h" />
     <ClInclude Include="src\Format.h" />
     <ClInclude Include="src\graphics\Graphics.h" />
+    <ClInclude Include="src\graphics\Icons.h" />
     <ClInclude Include="src\graphics\OpenGLHeaders.h" />
+    <ClInclude Include="src\graphics\Pixel.h" />
     <ClInclude Include="src\graphics\Renderer.h" />
     <ClInclude Include="src\gui\colourpicker\ColourPickerActivity.h" />
     <ClInclude Include="src\gui\console\ConsoleCommand.h" />
